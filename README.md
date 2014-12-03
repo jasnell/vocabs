@@ -1,0 +1,1 @@
+Small Experimental Linked Data Vocabularies inspired by the Social WG work and use cases.

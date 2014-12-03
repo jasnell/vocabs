@@ -1,0 +1,78 @@
+@prefix : <http://www.w3.org/ns/interval#> .
+@prefix r: <http://www.w3.org/ns/interval#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://www.w3.org/ns/interval#> .
+
+<http://www.w3.org/ns/interval#> a owl:Ontology;
+  rdfs:comment "A vocabulary for representing intervals"@en .
+
+:lower a owl:DatatypeProperty, owl:FunctionalProperty ;       
+  rdfs:comment "The lower bound of an interval"@en;
+  rdfs:domain :Interval .
+
+:upper a owl:DatatypeProperty, owl:FunctionalProperty ;
+  rdfs:comment "The upper bound of an interval"@en;
+  rdfs:domain :Interval .
+
+:step a owl:DatatypeProperty, owl:FunctionalProperty ;
+  rdfs:comment "Specifies the significant step between values in the interval."@en;
+  rdfs:domain :Interval .
+
+:Interval a owl:Class ;
+  rdfs:comment "Represents an interval of values with optional upper and lower bounds"@en .
+
+:OpenInterval a owl:Class ;
+  rdfs:comment "An interval open at both ends"@en ;
+  rdfs:subClassOf :Interval .
+
+:ClosedInterval a owl:Class ;
+  rdfs:comment "An interval closed at both ends"@en ;
+  rdfs:subClassOf :Interval .
+
+:OpenClosedInterval a owl:Class ;
+  rdfs:comment "An interval open at the lower bound, closed at the upper "@en ;
+  rdfs:subClassOf :Interval .
+
+:ClosedOpenInterval a owl:Class ;
+  rdfs:comment "An interval open at the upper bound, closed at the lower "@en ;
+  rdfs:subClassOf :Interval.
+
+:LeftOpenInterval a owl:Class ;
+  rdfs:comment "An interval open on the lower bound, with no upper bound"@en ;
+  rdfs:subClassOf :Interval, 
+    [
+      a owl:Restriction ;
+        owl:onProperty :upper ;
+        owl:cardinality "0"^^xsd:nonNegativeInteger .
+    ] .
+
+:LeftClosedInterval a owl:Class ;
+  rdfs:comment "An interval closed on the lower bound, with no upper bound"@en ;
+  rdfs:subClassOf :Interval, 
+    [
+      a owl:Restriction ;
+        owl:onProperty :upper ;
+        owl:cardinality "0"^^xsd:nonNegativeInteger .
+    ] .
+
+:RightOpenInterval a owl:Class ;
+  rdfs:comment "An interval open on the upper bound, with no lower bound"@en ;
+  rdfs:subClassOf :Interval, 
+    [
+      a owl:Restriction ;
+        owl:onProperty :lower ;
+        owl:cardinality "0"^^xsd:nonNegativeInteger .
+    ] .
+
+:RightClosedInterval a owl:Class ;
+  rdfs:comment "An interval closed on the upper bound, with no lower bound"@en ;
+  rdfs:subClassOf :Interval, 
+    [
+      a owl:Restriction ;
+        owl:onProperty :lower ;
+        owl:cardinality "0"^^xsd:nonNegativeInteger .
+    ] .

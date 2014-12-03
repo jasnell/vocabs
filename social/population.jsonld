@@ -1,0 +1,21 @@
+{
+  "@context": {
+    "s": "http://www.w3.org/ns/social#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "s:hasDimension": {
+      "@type": "@id"
+    },
+    "s:hasRelationship": {
+      "@type": "@id"
+    },
+    "s:hasRole": {
+      "@type": "@id"
+    },
+    "s:confidence": {
+      "@type": "xsd:nonNegativeInteger"
+    },
+    "s:distance": {
+      "@type": "xsd:nonNegativeInteger"
+    }
+  }
+}

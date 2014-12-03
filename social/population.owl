@@ -1,0 +1,106 @@
+@prefix : <http://www.w3.org/ns/social#> .
+@prefix s: <http://www.w3.org/ns/social#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://www.w3.org/ns/activitystreams> .
+
+<http://www.w3.org/ns/social#> a owl:Ontology ;
+  rdfs:comment "Social Artifacts"@en ;
+  rdfs:label "Social Artifacts"@en .
+
+:Population a owl:Class ;
+  rdfs:label "Population"@en ;
+  rdfs:subClassOf owl:Class .
+
+:Everyone a :Population ;
+  rdfs:label "Everyone"@en ;
+  rdfs:comment "Represents the subset of a total population that is visible to the context."@en .
+
+:Public a :Population ;
+  rdfs:label "Public"@en ;
+  rdfs:comment "Represents the subset of a total population that is both visible to the context and shares a publicly known or visible relationship with the context"@en .
+
+:Private a :Population ;
+  rdfs:label "Private"@en ;
+  rdfs:comment "Represents the subset of a total population that is both visible to the context and shares a private or publicly invisible relationship with the context"@en .
+
+:Direct a :Population ;
+  rdfs:label "Direct"@en ;
+  rdfs:comment "Represents the subset of a total population that is both visible to the context and directly connected to the context"@en .
+
+:Extended a :Population ;
+  rdfs:label "Extended"@en ;
+  rdfs:comment "Represents the subset of a total population that is both visible to and connected either directly or indirectly to the context"@en .
+
+:Common a :Population ;
+  rdfs:label "Common"@en ;
+  rdfs:comment "Represents the subset of a total population that is both visible to the context and is determined to share common attributes with the context"@en .
+
+:Interested a :Population ;
+  rdfs:label "Interested"@en ;
+  rdfs:comment "Represnts the subset of a total population that is both visible to the context and has an express interest in the context"@en .
+
+:Self a :Population ;
+  rdfs:label "Self"@en ;
+  rdfs:comment "Represents the context resource itself as a member of the total population"@en .
+
+:EveryoneWithRole a :Population ;
+  rdfs:label "EveryoneWithRole"@en ;
+  rdfs:comment "Represents the subset of a total population that is both visible to the context and has been assigned to each of the individual roles identified"@en .
+
+:EveryoneRelated a :Population ;
+  rdfs:label "EveryoneRelated"@en ;
+  rdfs:comment "Represents the subset of a total population that is both visible to the context and fulfills at least one of the individual roles identified"@en .
+
+:hasDimension a owl:ObjectProperty ;
+  rdfs:label "hasDimension"@en ;
+  rdfs:comment "Specifies a dimension used to evaluate common attributes"@en;
+  rdfs:domain :Common ;
+  rdfs:range owl:Thing .
+
+:hasRole a owl:ObjectProperty ;
+  rdfs:label "hasRole"@en ;
+  rdfs:comment "Specifies a role"@en ;
+  rdfs:domain :EveryoneWithRole ;
+  rdfs:range owl:Thing .
+
+:hasRelationship a owl:ObjectProperty ;
+  rdfs:label "hasRelationship"@en ;
+  rdfs:comment "Specifies a type of relationship"@en ;
+  rdfs:domain :EveryoneRelated ;
+  rdfs:range owl:Thing .
+
+:distance a owl:DatatypeProperty ;
+  rdfs:label "distance"@en ;
+  rdfs:comment "Specifies a relative 'degree of separation' from the context"@en ;
+  rdfs:domain [
+    a owl:Class;
+      owl:unionOf ( :Extended :EveryoneRelated ) 
+  ] ;
+  rdfs:range [ 
+    a rdfs:Datatype ;
+    owl:onDatatype xsd:nonNegativeInteger ;
+    owl:withRestrictions ( 
+      [ xsd:minInclusive "0"^^xsd:nonNegativeInteger ]
+      [ xsd:maxInclusive "9"^^xsd:nonNegativeInteger ]
+    )
+  ] .
+
+:confidence a owl:DatatypeProperty ;
+  rdfs:label "confidence"@en ;
+  rdfs:comment "Specifies a relative confidence level"@en ;
+  rdfs:domain [
+    a owl:Class;
+      owl:unionOf ( :Common :Interested ) 
+  ];
+  rdfs:range [ 
+    a rdfs:Datatype ;
+    owl:onDatatype xsd:nonNegativeInteger ;
+    owl:withRestrictions ( 
+      [ xsd:minInclusive "0"^^xsd:nonNegativeInteger ]
+      [ xsd:maxInclusive "100"^^xsd:nonNegativeInteger ]
+    )
+  ] .
