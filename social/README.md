@@ -99,7 +99,7 @@ Or
     "s:confidence": 99
   }
 }
-'''
+```
 
 Which represents: The subset of the population who share common interests along dimensions "http://.../arbitrary1" and "http://.../arbitrary2" with a 99% confidence level.
 
