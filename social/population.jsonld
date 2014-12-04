@@ -16,6 +16,9 @@
     },
     "s:distance": {
       "@type": "xsd:nonNegativeInteger"
+    },
+    "s:member": {
+      "@type": "@id"
     }
   }
 }
