@@ -55,6 +55,28 @@
   rdfs:label "EveryoneRelated"@en ;
   rdfs:comment "Represents the subset of a total population that is both visible to the context and fulfills at least one of the individual roles identified"@en .
 
+:All a :Population ;
+  rdfs:label "All"@en;
+  rdfs:comment "Represents the subset represented by the intersection of multiple subsets (that is, members must belong to all specified subsets"@en .
+
+:Any a :Population ;
+  rdfs:label "Any"@en;
+  rdfs:comment "Represents the subset represented by the union of multiple subsets (that is, members must belong to any of the specified subsets"@en .
+
+:None a :Population ;
+  rdfs:label "None"@en;
+  rdfs:comment "Represents the subset represented by the complement of multiple subsets (that is, members must not belong to any of the specified subsets"@en .
+
+:member a owl:ObjectProperty ;
+  rdfs:label "member"@en;
+  rdfs:domain [
+    a owl:Class ;
+      owl:unionOf (
+        :All :Any :None
+      )
+  ] ;
+  rdfs:range :Population ;
+
 :hasDimension a owl:ObjectProperty ;
   rdfs:label "hasDimension"@en ;
   rdfs:comment "Specifies a dimension used to evaluate common attributes"@en;

@@ -2,15 +2,15 @@ The Social Vocabulary is an evolution of the work I initially worked on here:
 
   http://tools.ietf.org/html/draft-snell-social-urn-01
 
-It is recast as a vocabulary rather than a URN. It is primarily motivated by the need for reliable and consistent audience targets when using the Activity Streams 2.0 audience targeting feature.
+It is recast as a vocabulary rather than a URN. It is primarily motivated by the need for reliable and consistent audience targets when using the Activity Streams 2.0 audience targeting feature. This is purely experimental at this point.
 
 For instance, 
 
+Assuming that "http://www.w3.org/ns/social" points to the JSON-LD context document:
+
 ```json
 {
-  "@context": [
-    "http://asjsonld.mybluemix.net",
-    {
+  "@context": {
     "s": "http://www.w3.org/ns/social#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "s:hasDimension": {
@@ -28,7 +28,15 @@ For instance,
     "s:distance": {
       "@type": "xsd:nonNegativeInteger"
     }
-    }
+  }
+}
+```
+
+```json
+{
+  "@context": [
+    "http://www.w3.org/ns/activitystreams",
+    "http://www.w3.org/ns/social"
   ],
   "@type": "Arrive",
   "actor": "acct:sally@example.org",
@@ -42,16 +50,16 @@ For instance,
 
 The vocabulary defines a top level Population class that is itself a subclass of owl:Class. Then it creates several Population instances:
 
-* Everyone
-* Public
-* Private
-* Direct
-* Extended
-* Common
-* Interested
-* Self
-* EveryoneWithRole
-* EveryoneRelated
+* Everyone (Everyone visible to the context )
+* Public (Subset visible to the context and that have a publicly visible relationship with the context)
+* Private (Subset visible to the context but have publicly invisible relationship with the context)
+* Direct (Subset visible to the context and directly connected to the context)
+* Extended (Subset visisble to the context and directly/indirectly connected to the context)
+* Common (Subset visible to the context and that shares one or more common interests with the context)
+* Interested (Subset visible to the context and that has expressed an interest in the context, e.g. followers)
+* Self (the context itself)
+* EveryoneWithRole (Subset visible to the context and that has been assigned one or more specific roles)
+* EveryoneRelated (Subset visible to the context and that has one or more specific relationships with the context)
 
 Most of these can be used directly without any qualification. For instance:
 
@@ -102,4 +110,104 @@ Or
 ```
 
 Which represents: The subset of the population who share common interests along dimensions "http://.../arbitrary1" and "http://.../arbitrary2" with a 99% confidence level.
+
+Typically, the "context" will be determined implicitly by use. For instance, in an authenticated API request the "context" will be the authenticated user. In other cases tho, we might need to specify the context explicitly. If we're using the proposed AS 2.0 vocabulary, that would be done like:
+
+```json
+{
+  "to": {
+    "@type": "s:Common",
+    "s:hasDimension": [
+      "http://www.example.org/arbitrary1",
+      "http://www.example.org/arbitrary1"
+    ],
+    "s:confidence": 99,
+    "context": {
+      "@type": "Person",
+      "@id": "acct:sally@example.org"
+    }
+  }
+}
+```
+
+Which essentially says, "The subset of the population sharing common interests with Sally along dimensions ..."
+
+Note that these can also be used with the AS2 "scope" property. "scope" differs from the audience targeting properties in that the "scope" simply identifies the total population for whom an object might be relevant while audience targeting is intended more towards driving specific notifications. Implementations can use "scope" more or less as a way of controlling the overall visibility of an object to any particular population.
+
+```json
+{
+  "displayName": "A publicly visible note",
+  "scope": "s:Public"
+}
+```
+
+```
+{
+  "displayName": "A private note",
+  "scope": "s:Private"
+}
+```
+
+The key relationship between "scope" and audience targeting is that "scope" defines the population to which the object is visible while to/bto/cc/bcc define specific subsets within that scoped population to direct targeted notifications or special attention. 
+
+For instance:
+
+```json
+{
+  "displayName": "A public note but only within the context of my employer, notify my direct connections about it.",
+  "scope": {
+    "@type": "s:Public",
+    "context": {
+      "@type": "Organization",
+      "displayName": "IBM"
+    }
+  },
+  "to": "s:Direct"
+}
+```
+
+Not yet certain how common this will be, but we can support n-ary populations... like so:
+
+```json
+{
+  "to": {
+    "@type": "s:All",
+    "member": [
+      "s:Private", "s:Direct"
+    ]
+  }
+}
+```
+
+Which says "to the subset that is both private and directly connected to the context"
+
+Or
+
+```json
+{
+  "to": {
+    "@type": "s:Any",
+    "member": [
+      "s:Private", "s:Direct"
+    ]
+  }
+}
+```
+
+"to the subset that is either private or directly connected to the context"
+
+Or
+
+```json
+{
+  "to": {
+    "@type": "s:None",
+    "member": [
+      "s:Private", "s:Direct"
+    ]
+  }
+}
+```
+
+"to the subset that is not private and not directly connected to the context"
 
