@@ -1,0 +1,305 @@
+@prefix : <http://www.w3.org/ns/ldsec#> .
+@prefix ldsec: <http://www.w3.org/ns/ldsec#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://www.w3.org/ns/ldsec#> .
+
+<http://www.w3.org/ns/ldsec#> a owl:Ontology;
+  rdfs:comment "A signature/encryption vocabulary"@en .
+
+:Verification a owl:Class ;
+  rdfs:comment "Provides cryptographic verification for a subject" .
+
+:verifies a owl:ObjectProperty, owl:FunctionalProperty ;
+  rdfs:comment "The Subject verified by a Verification" ;
+  rdfs:range owl:Thing ;
+  rdfs:domain :Verification;
+  owl:inverseOf :verifiedBy .
+
+:verifiedBy a owl:ObjectProperty, owl:FunctionalProperty ;
+  rdfs:comment "Specifies a Verification that verifies the Subject" ;
+  rdfs:range :Verification ;
+  rdfs:domain owl:Thing;
+  owl:inverseOf :verifies .
+
+:transform a owl:ObjectProperty, owl:FunctionalProperty ;
+  rdfs:comment "Identifies the transformation/c14n algorithm used to prepare the Subject data for verification generation" ;
+  rdfs:range :Algorithm ;
+  rdfs:domain :Verification .
+
+:alg a owl:ObjectProperty, owl:FunctionalProperty ;
+  rdfs:comment "Identifies a cryptographic algorithm used to generate a verification." ;
+  rdfs:range :Algorithm ;
+  rdfs:domain [
+    a owl:Class ;
+      owl:unionOf ( :Verification :Key ) .
+  ] .
+
+:key a owl:ObjectProperty ;
+  rdfs:comment "Identifies one or more keys used to generate the verification." ;
+  rdfs:range [
+    a owl:Class ;
+    owl:unionOf ( owl:Thing :Key :KeySet rdf:List ) .
+  ] ;
+  rdfs:domain :Verification .
+
+:x509 a owl:ObjectProperty ;
+  rdfs:comment "Identifies one or more x.509 Certificates." ;
+  rdfs:range [
+    a owl:Class ;
+      owl:unionOf ( owl:Thing :Thumbprint rdf:List ) .
+  ] ;
+  rdfs:domain [
+    a owl:Class ;
+      owl:unionOf ( :Verification :Key )
+  ] ;
+
+:sig a owl:DatatypeProperty, owl:FunctionalProperty ;
+  rdfs:comment "Specifies the verification signature" ;
+  rdfs:range [ 
+    a owl:Class ;
+      owl:unionOf ( xsd:hexBinary xsd:base64Binary ) .
+  ];
+  rdfs:domain :Verification .
+
+## Thumbprints
+
+:Thumbprint a rdf:Dataype .
+:SHA1Thumbprint a rdf:Dataype ;
+  rdfs:subClassOf :Thumbprint .
+:SHA256Thumbprint a rdf:Datatype ;
+  rdfs:subClassOf :Thumbprint .
+
+## Key
+
+:KeySet a owl:Class ;
+  rdfs:comment "An unordered set of keys" .
+
+:hasKey a owl:ObjectProperty ;
+  rdfs:range :Key,
+  rdfs:domain :KeySet .
+
+:Key a owl:Class ;
+  rdfs:comment "A cryptographic key" .
+
+:PublicKey a owl:Class ;
+  rdfs:comment "A Public Key" ;
+  rdfs:subClassOf :Key .
+
+:PrivateKey a owl:Class ;
+  rdfs:comment "A Private Key" ;
+  rdfs:subClassOf :Key .
+
+:kid a owl:DatatypeProperty, owl:FunctionalProperty ;
+  rdfs:comment "A free-form key identifier. Should we just use rdf:label or prefLabel?" ;
+  rdfs:domain :Key .
+
+:use a owl:ObjectProperty ;
+  rdfs:comment "Identifies the intended usage of a key" ;
+  rdfs:domain :Key ;
+  rdfs:range :Usage .
+
+## A Key Pair
+
+:KeyPair a owl:Class ;
+  rdfs:comment "A cryptographic key pair" .
+
+:hasPublicKey a owl:ObjectProperty, owl:FunctionalProperty ;
+  rdfs:comment "The public key component of a key pair" ;
+  rdfs:range :PublicKey ;
+  rdfs:domain :KeyPair .
+:hasPrivateKey a owl:ObjectProperty, owl:FunctionalProperty ;
+  rdfs:comment "The private key component of a key pair" ;
+  rdfs:range :PrivateKey ;
+  rdfs:domain :KeyPair .
+
+## Eliptic Curve Keys
+
+:ECKey a owl:Class ;
+  rdfs:comment "An Eliptic Curve Key" ;
+  rdfs:subClassOf :Key .
+
+:ECKeyPair a owl:Class ;
+  rdfs:comment "An Eliptic Curve Key Pair" ;
+  rdfs:subClassOf :KeyPair .
+
+:ECPublicKey a owl:Class ;
+  rdfs:comment "An Eliptic Curve Public Key" ;
+  rdfs:subClassOf :ECKey, :PublicKey .
+
+:ECPrivateKey a owl:Class ;
+  rdfs:comment "An Eliptic Curve Private Key" ;
+  rdfs:subClassOf :ECKey, :PrivateKey .
+
+:crv a owl:DatatypeProperty, owl:FunctionalProperty ;
+  rdfs:comment "A Eliptic Curve Identifier" ;
+  rdfs:domain :ECKey .
+
+:x a owl:DatatypeProperty, owl:FunctionalProperty ;
+  rdfs:comment "X-Coordinate" ;
+  rdfs:domain :ECKey .
+
+:y a owl:DatatypeProperty, owl:FunctionalProperty ;
+  rdfs:comment "Y-Coordinate" ;
+  rdfs:domain :ECKey .
+
+:d a owl:DatatypeProperty, owl:FunctionalProperty ;
+  rdfs:comment "D-Parameter" ;
+  rdfs:domain [
+    a owl:Class ;
+      owl:unionOf ( :ECPrivateKey :RSAPrivateKey ) .
+
+## RSA Curves
+
+:RSAKey a owl:Class ;
+  rdfs:comment "An RSA Key" ;
+  rdfs:subClassOf :Key .
+
+:RSAKeyPair a owl:Class ;
+  rdfs:comment "An RSA Key Pair" ;
+  rdfs:subClassOf :KeyPair .
+
+:RSAPublicKey a owl:Class ;
+  rdfs:comment "An RSA Public Key" ;
+  rdfs:subClassOf :RSAKey, :PublicKey .
+
+:RSAPrivateKey a owl:Class ;
+  rdfs:comment "An RSA Private Key" ;
+  rdfs:subClassOf :RSAKey, :PrivateKey .
+
+:n a owl:DatatypeProperty, owl:FunctionalProperty ;
+  rdfs:comment "Modulus" ;
+  rdfs:domain :RSAKey .
+
+:e a owl:DatatypeProperty, owl:FunctionalProperty ;
+  rdfs:comment "Exponent" ;
+  rdfs:domain :RSAKey .
+
+:p a owl:DatatypeProperty, owl:FunctionalProperty ;
+  rdfs:comment "Private Exponent" ;
+  rdfs:domain :RSAPrivateKey .
+
+:q a owl:DatatypeProperty, owl:FunctionalProperty ;
+  rdfs:comment "Second Prime Factor" ;
+  rdfs:domain :RSAPrivateKey .
+
+:dp a owl:DatatypeProperty, owl:FunctionalProperty ;
+  rdfs:comment "First Factor CRT Exponent" ;
+  rdfs:domain :RSAPrivateKey .
+
+:dq a owl:DatatypeProperty, owl:FunctionalProperty ;
+  rdfs:comment "Second Factor CRT Exponent" ;
+  rdfs:domain :RSAPrivateKey .
+
+:qi a owl:DatatypeProperty, owl:FunctionalProperty ;
+  rdfs:comment "First CRT Coefficient" ;
+  rdfs:domain :RSAPrivateKey .
+
+:oth a owl:DatatypeProperty, owl:FunctionalProperty ;
+  rdfs:comment "Other Primes Info" ;
+  rdfs:domain :RSAPrivateKey .
+
+:r a owl:DatatypeProperty, owl:FunctionalProperty ;
+  rdfs:comment "Prime Factor" ;
+  rdfs:domain :RSAPrivateKey .
+
+:t a owl:DatatypeProperty, owl:FunctionalProperty ;
+  rdfs:comment "Factor CRT Coefficient" ;
+  rdfs:domain :RSAPrivateKey .
+
+## Symmetric Keys
+
+:SymmetricKey a owl:Class ;
+  rdfs:subClassOf :Key .
+
+:k a owl:DatatypeProperty, owl:FunctionalProperty ;
+  rdfs:comment "The key data" ;
+  rdfs:domain :SymmetricKey .
+
+## Key Usage and Operations
+
+:Usage a owl:Class ;
+  rdfs:subClassOf owl:Class ;
+  rdfs:comment "Describes how a key is used" .
+:Signature a :Usage ;
+:Sign a :Usage ;
+  rdfs:subClassOf :Signature .
+:Verify a :Usage ;
+  rdfs:subClassOf :Signature .
+
+
+
+
+############# Key Examples #############
+
+<urn:myeckey> a :ECPublicKey ;
+  :crv "P-256" ;
+  :x "MKBCTNIcKUSDii11ySs3526iDZ8AiTo7Tu6KPAqv7D4"^^xsd:base64Binary ;
+  :y "4Etl6SRW2YiLUrN5vfvVHuhp7x8PxltmWWlbbM4IFyM"^^xsd:base64Binary ;
+  :use :Encryption ;
+  :kid "1" .
+
+<urn:myrsakey> a :RSAPublicKey ;
+  :n "0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx
+     4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMs
+     tn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-65YGjQR0_FDW2
+     QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbI
+     SD08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ-G_xBniIqb
+     w0Ls1jF44-csFCur-kEgU8awapJzKnqDKgw"^^xsd:base64Binary ;
+  :e "AQAB"^^xsd:base64Binary ;
+  :alg <http://www.w3.org/2001/04/xmldsig-more#rsa-sha256> ;
+  :kid "2" .
+
+<urn:mykeyset> a :KeySet ;
+  :hasKey <urn:myeckey> ;
+  :hasKey <urn:myrsakey> .
+
+#### Signature Examples
+
+<urn:thing> a owl:Thing ;
+  rdfs:label "Test" ;
+  ldsec:verifiedBy <urn:verification> .
+
+<urn:verification> a :Verification ;
+  :verifies <urn:thing> ;
+  :transform <http://example.org/ld-c14n> ;
+  :alg <http://www.w3.org/2001/04/xmldsig-more#rsa-sha256> ;
+  :key [ 
+    a :RSAKey ;
+      :n "ofgWCuLjybRlzo0tZWJjNiuSfb4p4fAkd_wWJcyQoTbji9k0l8W26mPddxHmfHQp-Vaw-4qPCJrcS2mJPMEzP1Pt0Bm4d4QlL-yRT-SFd2lZS-pCgNMsD1W_YpRPEwOWvG6b32690r2jZ47soMZo9wGzjb_7OMg0LOL-bSf63kpaSHSXndS5z5rexMdbBYUsLA9e-KXBdQOS-UTo7WTBEMa2R2CapHg665xsmtdVMTBQY4uDZlxvb3qCo5ZwKh9kG4LT6_I5IhlJH7aGhyxXFvUK-DWNmoudF8NAco9_h9iaGNj8q2ethFkMLs91kzk2PAcDTW9gb54h4FRWyuXpoQ"^^xsd:base64Binary ;
+      :e "AQAB"^^xsd:base64Binary ;
+      :d "Eq5xpGnNCivDflJsRQBXHx1hdR1k6Ulwe2JZD50LpXyWPEAeP88vLNO97IjlA7_GQ5sLKMgvfTeXZx9SE-7YwVol2NXOoAJe46sui395IW_GO-pWJ1O0BkTGoVEn2bKVRUCgu-GjBVaYLU6f3l9kJfFNS3E0QbVdxzubSu3Mkqzjkn439X0M_V51gfpRLI9JYanrC4D4qAdGcopV_0ZHHzQlBjudU2QvXt4ehNYTCBr6XCLQUShb1juUO1ZdiYoFaFQT5Tw8bGUl_x_jTj3ccPDVZFD9pIuhLhBOneufuBiB4cS98l2SR_RQyGWSeWjnczT0QU91p1DhOVRuOopznQ"^^xsd:base64Binary ;
+      :p "4BzEEOtIpmVdVEZNCqS7baC4crd0pqnRH_5IB3jw3bcxGn6QLvnEtfdUdiYrqBdss1l58BQ3KhooKeQTa9AB0Hw_Py5PJdTJNPY8cQn7ouZ2KKDcmnPGBY5t7yLc1QlQ5xHdwW1VhvKn-nXqhJTBgIPgtldC-KDV5z-y2XDwGUc"^^xsd:base64Binary ;
+      :q "uQPEfgmVtjL0Uyyx88GZFF1fOunH3-7cepKmtH4pxhtCoHqpWmT8YAmZxaewHgHAjLYsp1ZSe7zFYHj7C6ul7TjeLQeZD_YwD66t62wDmpe_HlB-TnBA-njbglfIsRLtXlnDzQkv5dTltRJ11BKBBypeeF6689rjcJIDEz9RWdc"^^xsd:base64Binary ;
+      :dp "BwKfV3Akq5_MFZDFZCnW-wzl-CCo83WoZvnLQwCTeDv8uzluRSnm71I3QCLdhrqE2e9YkxvuxdBfpT_PI7Yz-FOKnu1R6HsJeDCjn12Sk3vmAktV2zb34MCdy7cpdTh_YVr7tss2u6vneTwrA86rZtu5Mbr1C1XsmvkxHQAdYo0"^^xsd:base64Binary ;
+      :dq h_96-mK1R_7glhsum81dZxjTnYynPbZpHziZjeeHcXYsXaaMwkOlODsWa7I9xXDoRwbKgB719rrmI2oKr6N3Do9U0ajaHF-NKJnwgjMd2w9cjz3_-kyNlxAr2v4IKhGNpmM5iIgOS1VZnOZ68m6_pbLBSp3nssTdlqvd0tIiTHU"^^xsd:base64Binary ;
+      :qi "IYd7DHOhrWvxkwPQsRM2tOgrjbcrfvtQJipd-DlcxyVuuM9sQLdgjVk2oy26F0EmpScGLq2MowX7fhd_QJQ3ydy5cY7YIBi87w93IKLEdfnbJtoOPLUW0ITrJReOgo1cq9SbsxYawBgfp_gh6A5603k2-ZQwVK0JKSHuLFkuQ3U"^^xsd:base64Binary .
+  ];
+  :sig "{base64 signature}"^^xsd:base64Binary .
+
+<urn:verification2> a :Verification ;
+  :verifies [
+    a owl:Thing ;
+      rdfs:label "Test"
+  ];
+  :transform <http://example.org/ld-c14n> ;
+  :alg <http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha512> ;
+  :key [
+    a :ECKey ;
+      :crv "P-256" ;
+      :x "f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU"^^xsd:base64Binary ;
+      :y "x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0"^^xsd:base64Binary ;
+      :d "jpsQnnGQmL-YBIffH1136cspYG6-0iY7X1fCE9-E9LI"^^xsd:base64Binary ;
+  ] ;
+  :sig "{base64 signature}"^^xsd:base64Binary .
+
+<urn:verification3> a :Verification ;
+  :verifies [] ;
+  :transform <http://example.org/ld-c14n> ;
+  :alg <http://www...> ;
+  :x509 "{base64-encoded cert}"^^xsd:base64Binary
+  :sig "{base64 signature}"^^xsd:base64Binary .
+
