@@ -46,35 +46,36 @@
   rdfs:comment "Identifies one or more keys used to generate the verification." ;
   rdfs:range [
     a owl:Class ;
-    owl:unionOf ( owl:Thing :JSONEncryptedKey :Key :KeySet ) .
-  ] ;
-  rdfs:domain :Verification .
-
-:x509 a owl:ObjectProperty ;
-  rdfs:comment "Identifies one or more x.509 Certificates." ;
-  rdfs:range [
-    a owl:Class ;
-      owl:unionOf ( owl:Thing :Thumbprint rdf:List ) .
+    owl:unionOf ( owl:Thing :Key :KeySet :EncryptedKey :CipherObject ) .
   ] ;
   rdfs:domain [
     a owl:Class ;
-      owl:unionOf ( :Verification :Key )
+      owl:unionOf ( :Verification :CipherObject ) .
+  ] .
+
+:x509 a owl:DatatypeProperty ;
+  rdfs:comment "Identifies one or more x.509 Certificates." ;
+  rdfs:range [
+    a owl:Class ;
+      owl:unionOf ( rdf:List :Thumbprint xsd:base64Binary xsd:anyURI ) .
+  ] ;
+  rdfs:domain [
+    a owl:Class ;
+      owl:unionOf ( :Verification :Key :CipherObject )
   ] ;
 
 :sig a owl:DatatypeProperty, owl:FunctionalProperty ;
   rdfs:comment "Specifies the verification signature" ;
-  rdfs:range [ 
-    a owl:Class ;
-      owl:unionOf ( xsd:hexBinary xsd:base64Binary ) .
-  ];
+  rdfs:range xsd:base64Binary ;
   rdfs:domain :Verification .
 
 ## Thumbprints
 
-:Thumbprint a rdf:Dataype .
-:SHA1Thumbprint a rdf:Dataype ;
+:Thumbprint a rdfs:Dataype ;
+  owl:onDatatype xsd:base64Binary .
+:SHA1Thumbprint a rdfs:Dataype ;
   rdfs:subClassOf :Thumbprint .
-:SHA256Thumbprint a rdf:Datatype ;
+:SHA256Thumbprint a rdfs:Datatype ;
   rdfs:subClassOf :Thumbprint .
 
 ## Key
@@ -99,7 +100,11 @@
 
 :kid a owl:DatatypeProperty, owl:FunctionalProperty ;
   rdfs:comment "A free-form key identifier. Should we just use rdf:label or prefLabel?" ;
-  rdfs:domain :Key .
+  rdfs:range xsd:string ;
+  rdfs:domain [
+    a owl:Class ;
+      owl:unionOf ( :Key :Verification :CipherObject ) .
+  ] .
 
 :use a owl:ObjectProperty ;
   rdfs:comment "Identifies the intended usage of a key" ;
@@ -127,43 +132,47 @@
   rdfs:range :PrivateKey ;
   rdfs:domain :KeyPair .
 
-## Eliptic Curve Keys
+## Elliptic Curve Keys
 
 :ECKey a owl:Class ;
-  rdfs:comment "An Eliptic Curve Key" ;
+  rdfs:comment "An Elliptic Curve Key" ;
   rdfs:subClassOf :Key .
 
 :ECKeyPair a owl:Class ;
-  rdfs:comment "An Eliptic Curve Key Pair" ;
+  rdfs:comment "An Elliptic Curve Key Pair" ;
   rdfs:subClassOf :KeyPair .
 
 :ECPublicKey a owl:Class ;
-  rdfs:comment "An Eliptic Curve Public Key" ;
+  rdfs:comment "An Elliptic Curve Public Key" ;
   rdfs:subClassOf :ECKey, :PublicKey .
 
 :ECPrivateKey a owl:Class ;
-  rdfs:comment "An Eliptic Curve Private Key" ;
+  rdfs:comment "An Elliptic Curve Private Key" ;
   rdfs:subClassOf :ECKey, :PrivateKey .
 
 :crv a owl:DatatypeProperty, owl:FunctionalProperty ;
-  rdfs:comment "A Eliptic Curve Identifier" ;
-  rdfs:domain :ECKey .
+  rdfs:comment "A Elliptic Curve Identifier" ;
+  rdfs:domain :ECKey ;
+  rdfs:range xsd:base64Binary .
 
 :x a owl:DatatypeProperty, owl:FunctionalProperty ;
   rdfs:comment "X-Coordinate" ;
-  rdfs:domain :ECKey .
+  rdfs:domain :ECKey ;
+  rdfs:range xsd:base64Binary .
 
 :y a owl:DatatypeProperty, owl:FunctionalProperty ;
   rdfs:comment "Y-Coordinate" ;
-  rdfs:domain :ECKey .
+  rdfs:domain :ECKey ;
+  rdfs:range xsd:base64Binary .
 
 :d a owl:DatatypeProperty, owl:FunctionalProperty ;
-  rdfs:comment "D-Parameter" ;
+  rdfs:comment "d-Parameter" ;
   rdfs:domain [
     a owl:Class ;
-      owl:unionOf ( :ECPrivateKey :RSAPrivateKey ) .
+      owl:unionOf ( :ECPrivateKey :RSAPrivateKey ) ;
+  rdfs:range xsd:base64Binary .
 
-## RSA Curves
+## RSA Keys
 
 :RSAKey a owl:Class ;
   rdfs:comment "An RSA Key" ;
@@ -183,43 +192,53 @@
 
 :n a owl:DatatypeProperty, owl:FunctionalProperty ;
   rdfs:comment "Modulus" ;
-  rdfs:domain :RSAKey .
+  rdfs:domain :RSAKey ;
+  rdfs:range xsd:base64Binary .
 
 :e a owl:DatatypeProperty, owl:FunctionalProperty ;
   rdfs:comment "Exponent" ;
-  rdfs:domain :RSAKey .
+  rdfs:domain :RSAKey ;
+  rdfs:range xsd:base64Binary .
 
 :p a owl:DatatypeProperty, owl:FunctionalProperty ;
   rdfs:comment "Private Exponent" ;
-  rdfs:domain :RSAPrivateKey .
+  rdfs:domain :RSAPrivateKey ;
+  rdfs:range xsd:base64Binary .
 
 :q a owl:DatatypeProperty, owl:FunctionalProperty ;
   rdfs:comment "Second Prime Factor" ;
-  rdfs:domain :RSAPrivateKey .
+  rdfs:domain :RSAPrivateKey ;
+  rdfs:range xsd:base64Binary .
 
 :dp a owl:DatatypeProperty, owl:FunctionalProperty ;
   rdfs:comment "First Factor CRT Exponent" ;
-  rdfs:domain :RSAPrivateKey .
+  rdfs:domain :RSAPrivateKey ;
+  rdfs:range xsd:base64Binary .
 
 :dq a owl:DatatypeProperty, owl:FunctionalProperty ;
   rdfs:comment "Second Factor CRT Exponent" ;
-  rdfs:domain :RSAPrivateKey .
+  rdfs:domain :RSAPrivateKey ;
+  rdfs:range xsd:base64Binary .
 
 :qi a owl:DatatypeProperty, owl:FunctionalProperty ;
   rdfs:comment "First CRT Coefficient" ;
-  rdfs:domain :RSAPrivateKey .
+  rdfs:domain :RSAPrivateKey ;
+  rdfs:range xsd:base64Binary .
 
 :oth a owl:DatatypeProperty, owl:FunctionalProperty ;
   rdfs:comment "Other Primes Info" ;
-  rdfs:domain :RSAPrivateKey .
+  rdfs:domain :RSAPrivateKey ;
+  rdfs:range xsd:base64Binary .
 
 :r a owl:DatatypeProperty, owl:FunctionalProperty ;
   rdfs:comment "Prime Factor" ;
-  rdfs:domain :RSAPrivateKey .
+  rdfs:domain :RSAPrivateKey ;
+  rdfs:range xsd:base64Binary .
 
 :t a owl:DatatypeProperty, owl:FunctionalProperty ;
   rdfs:comment "Factor CRT Coefficient" ;
-  rdfs:domain :RSAPrivateKey .
+  rdfs:domain :RSAPrivateKey ;
+  rdfs:range xsd:base64Binary .
 
 ## Symmetric Keys
 
@@ -228,7 +247,8 @@
 
 :k a owl:DatatypeProperty, owl:FunctionalProperty ;
   rdfs:comment "The key data" ;
-  rdfs:domain :SymmetricKey .
+  rdfs:domain :SymmetricKey ;
+  rdfs:range xsd:base64Binary .
 
 ## Key Usage and Operations
 
@@ -262,10 +282,7 @@
 :iv a owl:DatatypeProperty, owl:FunctionalProperty ;
   rdfs:comment "The initialization vector" ;
   rdfs:domain :CipherObject ;
-  rdfs:range [
-    a owl:Class ;
-      owl:unionOf ( xsd:base64Binary xsd:hexBinary ) .
-  ] .
+  rdfs:range xsd:base64Binary .
 
 :mediaType a owl:DatatypeProperty, owl:FunctionalProperty ;
   rdfs:comment "The MIME media type of the encrypted data" ;
@@ -275,8 +292,5 @@
 :value a owl:DatatypeProperty, owl:FunctionalProperty ;
   rdfs:comment "The ciphertext value" ;
   rdfs:domain :CipherObject ;
-  rdfs:range [ 
-    a owl:Class ;
-      owl:unionOf ( xsd:base64Binary xsd:hexBinary ) .
-  ] .
+  rdfs:range xsd:base64Binary .
 

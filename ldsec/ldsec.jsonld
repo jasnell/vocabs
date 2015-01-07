@@ -1,0 +1,99 @@
+{
+  "@context": {
+    "ldsec": "http://www.w3.org/ns/ldsec#",
+    "ldsec:verifies": {
+      "@type": "@id"
+    },
+    "ldsec:verifiedBy": {
+      "@type": "@id"
+    },
+    "ldsec:transform": {
+      "@type": "@id"
+    },
+    "ldsec:alg": {
+      "@type": "@id"
+    },
+    "ldsec:key": {
+      "@type": "@id"
+    },
+    "ldsec:jsonEncryptedKey": {
+      "@id": "ldsec:key",
+      "@type": "ldsec:JSONEncryptedKey"
+    },
+    "ldsec:hasKey": {
+      "@type": "@id"
+    },
+    "ldsec:use": {
+      "@type": "@id"
+    },
+    "ldsec:hasPublicKey": {
+      "@type": "@id"
+    },
+    "ldsec:hasPrivateKey": {
+      "@type": "@id"
+    },
+    "ldsec:zip": {
+      "@type": "@id"
+    },
+    "ldsec:x509list": {
+      "@container": "@list"
+    },
+    "ldsec:x509thumbprint": {
+      "@id": "ldsec:x509",
+      "@type": "ldsec:SHA1Thumbprint"
+    },
+    "ldsec:x509thumbprint256": {
+      "@id": "ldsec:x509",
+      "@type": "ldsec:SHA256Thumbprint"
+    },
+    "ldsec:crv": {
+      "@type": "xsd:base64Binary"
+    },
+    "ldsec:x": {
+      "@type": "xsd:base64Binary"
+    },
+    "ldsec:y": {
+      "@type": "xsd:base64Binary"
+    },
+    "ldsec:d": {
+      "@type": "xsd:base64Binary"
+    },
+    "ldsec:n": {
+      "@type": "xsd:base64Binary"
+    },
+    "ldsec:e": {
+      "@type": "xsd:base64Binary"
+    },
+    "ldsec:p": {
+      "@type": "xsd:base64Binary"
+    },
+    "ldsec:q": {
+      "@type": "xsd:base64Binary"
+    },
+    "ldsec:dp": {
+      "@type": "xsd:base64Binary"
+    },
+    "ldsec:dq": {
+      "@type": "xsd:base64Binary"
+    },
+    "ldsec:r": {
+      "@type": "xsd:base64Binary"
+    },
+    "ldsec:t": {
+      "@type": "xsd:base64Binary"
+    },
+    "ldsec:oth": {
+      "@container": "@list",
+      "@type": "xsd:base64Binary"
+    },
+    "ldsec:k": {
+      "@type": "xsd:base64Binary"
+    },
+    "ldsec:iv": {
+      "@type": "xsd:base64Binary"
+    },
+    "ldsec:value": {
+      "@type": "xsd:base64Binary"
+    }
+  }
+}
