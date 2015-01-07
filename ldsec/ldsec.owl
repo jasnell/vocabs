@@ -10,6 +10,10 @@
 <http://www.w3.org/ns/ldsec#> a owl:Ontology;
   rdfs:comment "A signature/encryption vocabulary"@en .
 
+:JSONWebSignature a rdfs:Datatype ;
+  rdfs:comment "A JSON Web Signature in Compact Form";
+  owl:onDataype xsd:base64Binary .
+
 :Verification a owl:Class ;
   rdfs:comment "Provides cryptographic verification for a subject" .
 
@@ -35,14 +39,14 @@
   rdfs:range :Algorithm ;
   rdfs:domain [
     a owl:Class ;
-      owl:unionOf ( :Verification :Key ) .
+      owl:unionOf ( :Verification :Key :CipherObject ) .
   ] .
 
 :key a owl:ObjectProperty ;
   rdfs:comment "Identifies one or more keys used to generate the verification." ;
   rdfs:range [
     a owl:Class ;
-    owl:unionOf ( owl:Thing :Key :KeySet rdf:List ) .
+    owl:unionOf ( owl:Thing :JSONEncryptedKey :Key :KeySet ) .
   ] ;
   rdfs:domain :Verification .
 
@@ -101,6 +105,13 @@
   rdfs:comment "Identifies the intended usage of a key" ;
   rdfs:domain :Key ;
   rdfs:range :Usage .
+
+## Encrypted Key
+
+:EncryptedKey a rdfs:Datatype .
+:JSONEncryptedKey a rdfs:Datatype ;
+  rdfs:subClassOf :EncryptedKey, :JSONWebEncryption ;
+  rdfs:comment "An Encrypted JSON Web Key" .
 
 ## A Key Pair
 
@@ -231,75 +242,41 @@
   rdfs:subClassOf :Signature .
 
 
+## CipherObject
 
+:JSONWebEncryption a rdfs:Datatype ;
+  rdfs:comment "A JSON Web Encryption in Compact Form" ;
+  owl:onDatatype xsd:base64Binary .
 
-############# Key Examples #############
+:CipherObject a owl:Class ;
+  rdfs:comment "Encrypted Data" .
 
-<urn:myeckey> a :ECPublicKey ;
-  :crv "P-256" ;
-  :x "MKBCTNIcKUSDii11ySs3526iDZ8AiTo7Tu6KPAqv7D4"^^xsd:base64Binary ;
-  :y "4Etl6SRW2YiLUrN5vfvVHuhp7x8PxltmWWlbbM4IFyM"^^xsd:base64Binary ;
-  :use :Encryption ;
-  :kid "1" .
+  ## :alg, :key, :x509, :kid all apply
+  ## :alg is the content encryption algorithm in this case
+  ## the :key might be an encrypted key, but if it is, it'll have it's own details...
 
-<urn:myrsakey> a :RSAPublicKey ;
-  :n "0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx
-     4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMs
-     tn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-65YGjQR0_FDW2
-     QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbI
-     SD08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ-G_xBniIqb
-     w0Ls1jF44-csFCur-kEgU8awapJzKnqDKgw"^^xsd:base64Binary ;
-  :e "AQAB"^^xsd:base64Binary ;
-  :alg <http://www.w3.org/2001/04/xmldsig-more#rsa-sha256> ;
-  :kid "2" .
+:zip a owl:ObjectProperty, owl:FunctionalProperty ;
+  rdfs:comment "The compression algorithm" ;
+  rdfs:domain :CipherObject .
 
-<urn:mykeyset> a :KeySet ;
-  :hasKey <urn:myeckey> ;
-  :hasKey <urn:myrsakey> .
+:iv a owl:DatatypeProperty, owl:FunctionalProperty ;
+  rdfs:comment "The initialization vector" ;
+  rdfs:domain :CipherObject ;
+  rdfs:range [
+    a owl:Class ;
+      owl:unionOf ( xsd:base64Binary xsd:hexBinary ) .
+  ] .
 
-#### Signature Examples
+:mediaType a owl:DatatypeProperty, owl:FunctionalProperty ;
+  rdfs:comment "The MIME media type of the encrypted data" ;
+  rdfs:domain :CipherObject ;
+  rdfs:range xsd:string .
 
-<urn:thing> a owl:Thing ;
-  rdfs:label "Test" ;
-  ldsec:verifiedBy <urn:verification> .
-
-<urn:verification> a :Verification ;
-  :verifies <urn:thing> ;
-  :transform <http://example.org/ld-c14n> ;
-  :alg <http://www.w3.org/2001/04/xmldsig-more#rsa-sha256> ;
-  :key [ 
-    a :RSAKey ;
-      :n "ofgWCuLjybRlzo0tZWJjNiuSfb4p4fAkd_wWJcyQoTbji9k0l8W26mPddxHmfHQp-Vaw-4qPCJrcS2mJPMEzP1Pt0Bm4d4QlL-yRT-SFd2lZS-pCgNMsD1W_YpRPEwOWvG6b32690r2jZ47soMZo9wGzjb_7OMg0LOL-bSf63kpaSHSXndS5z5rexMdbBYUsLA9e-KXBdQOS-UTo7WTBEMa2R2CapHg665xsmtdVMTBQY4uDZlxvb3qCo5ZwKh9kG4LT6_I5IhlJH7aGhyxXFvUK-DWNmoudF8NAco9_h9iaGNj8q2ethFkMLs91kzk2PAcDTW9gb54h4FRWyuXpoQ"^^xsd:base64Binary ;
-      :e "AQAB"^^xsd:base64Binary ;
-      :d "Eq5xpGnNCivDflJsRQBXHx1hdR1k6Ulwe2JZD50LpXyWPEAeP88vLNO97IjlA7_GQ5sLKMgvfTeXZx9SE-7YwVol2NXOoAJe46sui395IW_GO-pWJ1O0BkTGoVEn2bKVRUCgu-GjBVaYLU6f3l9kJfFNS3E0QbVdxzubSu3Mkqzjkn439X0M_V51gfpRLI9JYanrC4D4qAdGcopV_0ZHHzQlBjudU2QvXt4ehNYTCBr6XCLQUShb1juUO1ZdiYoFaFQT5Tw8bGUl_x_jTj3ccPDVZFD9pIuhLhBOneufuBiB4cS98l2SR_RQyGWSeWjnczT0QU91p1DhOVRuOopznQ"^^xsd:base64Binary ;
-      :p "4BzEEOtIpmVdVEZNCqS7baC4crd0pqnRH_5IB3jw3bcxGn6QLvnEtfdUdiYrqBdss1l58BQ3KhooKeQTa9AB0Hw_Py5PJdTJNPY8cQn7ouZ2KKDcmnPGBY5t7yLc1QlQ5xHdwW1VhvKn-nXqhJTBgIPgtldC-KDV5z-y2XDwGUc"^^xsd:base64Binary ;
-      :q "uQPEfgmVtjL0Uyyx88GZFF1fOunH3-7cepKmtH4pxhtCoHqpWmT8YAmZxaewHgHAjLYsp1ZSe7zFYHj7C6ul7TjeLQeZD_YwD66t62wDmpe_HlB-TnBA-njbglfIsRLtXlnDzQkv5dTltRJ11BKBBypeeF6689rjcJIDEz9RWdc"^^xsd:base64Binary ;
-      :dp "BwKfV3Akq5_MFZDFZCnW-wzl-CCo83WoZvnLQwCTeDv8uzluRSnm71I3QCLdhrqE2e9YkxvuxdBfpT_PI7Yz-FOKnu1R6HsJeDCjn12Sk3vmAktV2zb34MCdy7cpdTh_YVr7tss2u6vneTwrA86rZtu5Mbr1C1XsmvkxHQAdYo0"^^xsd:base64Binary ;
-      :dq h_96-mK1R_7glhsum81dZxjTnYynPbZpHziZjeeHcXYsXaaMwkOlODsWa7I9xXDoRwbKgB719rrmI2oKr6N3Do9U0ajaHF-NKJnwgjMd2w9cjz3_-kyNlxAr2v4IKhGNpmM5iIgOS1VZnOZ68m6_pbLBSp3nssTdlqvd0tIiTHU"^^xsd:base64Binary ;
-      :qi "IYd7DHOhrWvxkwPQsRM2tOgrjbcrfvtQJipd-DlcxyVuuM9sQLdgjVk2oy26F0EmpScGLq2MowX7fhd_QJQ3ydy5cY7YIBi87w93IKLEdfnbJtoOPLUW0ITrJReOgo1cq9SbsxYawBgfp_gh6A5603k2-ZQwVK0JKSHuLFkuQ3U"^^xsd:base64Binary .
-  ];
-  :sig "{base64 signature}"^^xsd:base64Binary .
-
-<urn:verification2> a :Verification ;
-  :verifies [
-    a owl:Thing ;
-      rdfs:label "Test"
-  ];
-  :transform <http://example.org/ld-c14n> ;
-  :alg <http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha512> ;
-  :key [
-    a :ECKey ;
-      :crv "P-256" ;
-      :x "f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU"^^xsd:base64Binary ;
-      :y "x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0"^^xsd:base64Binary ;
-      :d "jpsQnnGQmL-YBIffH1136cspYG6-0iY7X1fCE9-E9LI"^^xsd:base64Binary ;
-  ] ;
-  :sig "{base64 signature}"^^xsd:base64Binary .
-
-<urn:verification3> a :Verification ;
-  :verifies [] ;
-  :transform <http://example.org/ld-c14n> ;
-  :alg <http://www...> ;
-  :x509 "{base64-encoded cert}"^^xsd:base64Binary
-  :sig "{base64 signature}"^^xsd:base64Binary .
+:value a owl:DatatypeProperty, owl:FunctionalProperty ;
+  rdfs:comment "The ciphertext value" ;
+  rdfs:domain :CipherObject ;
+  rdfs:range [ 
+    a owl:Class ;
+      owl:unionOf ( xsd:base64Binary xsd:hexBinary ) .
+  ] .
 

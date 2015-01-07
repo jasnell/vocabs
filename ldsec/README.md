@@ -78,3 +78,17 @@ We can represent Keys too
   :hasKey <urn:myeckey> ;
   :hasKey <urn:myrsakey> .
 ```
+
+Encrypted Content also ...
+
+```
+<urn:myencrypteddata> a :CipherObject ;
+  :alg <http://www.w3.org/2001/04/xmlenc#aes256-cbc> ;
+  :key "{the key}"^^:JSONEncryptedKey ;
+  :iv "{the initialization vector}"^^xsd:base64Binary ;
+  :mediaType "text/plain" ;
+  :value "{the encrypted data}"^^xsd:base64Binary .
+```
+
+The primary goal here is to have a Verification and Encryption mechanism that works well with the Linked Data model while still allowing things like JSON Web Encryption, JSON Web Signature and JSON Web Key to work. The JOSE mechanisms work well when transmitting data over the wire, they are not so good when dealing with Linked Data. 
+
