@@ -89,4 +89,40 @@ Or a price range ...
 }
 ```
 
-Still toying around with this and not sure if I like it or not. But it's a start.
+```html
+<div itemscope itemtype="http://www.w3.org/ns/interval#ClosedInterval">
+  <time itemprop="lower" datetime="2015-01-14T12:12:12Z">12:12:12Z on January 14, 2015</time> - 
+  <time itemprop="upper" datetime="2015-01-15T12:12:12Z">12:12:12Z on January 15, 2015</time>
+</div>
+```
+
+```html
+<div vocab="http://www.w3.org/ns/interval#" typeof="ClosedInterval">
+  <time property="lower" datetime="2015-01-14T12:12:12Z">12:12:12Z on January 14, 2015</time> - 
+  <time property="upper" datetime="2015-01-15T12:12:12Z">12:12:12Z on January 15, 2015</time>
+</div>
+```
+The Microformats mapping would be:
+
+* ClosedInterval --> h-interval-closed
+* OpenInterval --> h-interval-open
+* OpenClosedInterval --> h-interval-open-closed
+* ClosedOpenInterval --> h-interval-closed-open
+* LeftOpenInterval --> h-interval-left-open
+* LeftClosedInterval --> h-interval-left-closed
+* RightOpenInterval --> h-interval-right-open
+* RightClosedInterval --> h-interval-right-closed
+
+* lower -->
+** dt-lower
+** p-lower
+* upper -->
+** dt-lower
+** p-lower 
+
+```html
+<div class="h-interval-closed">
+  <time class="dt-lower" datetime="2015-01-14T12:12:12Z">12:12:12Z on January 14, 2015</time> - 
+  <time class="dt-upper" datetime="2015-01-15T12:12:12Z">12:12:12Z on January 15, 2015</time>
+</div>
+```

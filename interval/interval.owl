@@ -76,3 +76,61 @@
         owl:onProperty :lower ;
         owl:cardinality "0"^^xsd:nonNegativeInteger .
     ] .
+
+:EmptyInterval a :Interval ;
+  rdfs:comment "The empty interval" .
+
+:UnboundedInterval a :Interval ;
+  rdfs:comment "An interval that is unbound at either end (contains all possible values)" .
+
+:PositiveIntegers a :LeftOpenRange ;
+  rdfs:comment "Represents all positive integers greater than zero" ;
+  :lower "0"^^xsd:nonNegativeInteger ;
+  :step "1"^^xsd:nonNegativeInteger .
+
+:NonNegativeIntegers a :LeftClosedRange ;
+  rdfs:comment "Represents all non-negative integers greater than or equal to zero" ;
+  :lower "0"^^xsd:nonNegativeInteger ;
+  :step "1"^^xsd:nonNegativeInteger .
+
+:NegativeIntegers a :RightClosedRange ;
+  rdfs:comment "Represents all negative integers" ;
+  :upper "0"^^xsd:nonPositiveInteger ;
+  :step "1"^^xsd:nonNegativeInteger .
+
+:PositiveFloats a :LeftOpenRange ;
+  rdfs:comment "Represents all positive floating point numbers greater than zero" ;
+  :lower "0"^^xsd:float.
+
+:NonNegativeFloats a :LeftClosedRange ;
+  rdfs:comment "Represents all positive floating point numbers greater than or equal to zero" ;
+  :lower "0"^^xsd:float .
+
+:NegativeFloats a :RightClosedRange ;
+  rdfs:comment "Represents all negative floating point numbers" ;
+  :upper "0"^^xsd:float .
+
+:PositiveDoubles a :LeftOpenRange ;
+  rdfs:comment "Represents all positive double precision numbers greater than zero" ;
+  :lower "0"^^xsd:double.
+
+:NonNegativeDoubles a :LeftClosedRange ;
+  rdfs:comment "Represents all positive double precision numbers greater than or equal to zero" ;
+  :lower "0"^^xsd:double .
+
+:NegativeDoubles a :RightClosedRange ;
+  rdfs:comment "Represents all negative double precision numbers" ;
+  :upper "0"^^xsd:double .
+
+:PositiveDecimals a :LeftOpenRange ;
+  rdfs:comment "Represents all positive xsd:decimal numbers greater than zero" ;
+  :lower "0"^^xsd:decimal.
+
+:NonNegativeDecimals a :LeftClosedRange ;
+  rdfs:comment "Represents all positive xsd:decimal numbers greater than or equal to zero" ;
+  :lower "0"^^xsd:decimal .
+
+:NegativeDecimals a :RightClosedRange ;
+  rdfs:comment "Represents all negative xsd:decimal numbers" ;
+  :upper "0"^^xsd:decimal .
+

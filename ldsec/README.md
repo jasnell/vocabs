@@ -150,6 +150,6 @@ The other possibility here, of course, is to declare a JSON-LD context for JSON 
  }
  ```
 
- The challenge here, of course, is with the payload, and the header details. With JWS, the "payload" is base64 encoded within the object itself. JWS would not give us any method of signing an RDF graph unless we snapshot a set of triples at a given point in time, normalized it and embedded it as the payload. Which can be problematic. 
+ The challenge here, of course, is with the payload, and the header details. With JWS, the "payload" is base64 encoded within the object itself. JWS would not give us any method of signing an RDF graph unless we snapshot a set of triples at a given point in time, normalized it and embedded it as the payload. Which can be problematic.
 
  The Secure Messaging (https://web-payments.org/specs/source/secure-messaging/) proposal gives another possible approach. I've still yet to look into that one.

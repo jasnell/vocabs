@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Interval Vocabulary</title>
+  <meta charset="UTF-8" />
+  <script src="http://www.w3.org/Tools/respec/respec-w3c-common" async class="remove"></script>
+  <script class="remove">
+  var respecConfig = {
+    specStatus: "unofficial",
+    edDraftURI: "http://jasnell.github.io/vocabs/interval/interval.html",
+    shortName: "interval",
+    noRecTrack: true,
+    editors: [
+      {
+        name: "James M Snell",
+        url: "http://jasnell.me",
+        company: "IBM",
+        companyUrl: "http://ibm.com"
+      }
+    ],
+    maxTocLevel: 2,
+    //wg: "Social Web Working Group",
+    //wgURI: "http://www.w3.org/Social/WG",
+    //wgPublicList: "public-socialweb",
+    //wgPatentURI: "http://www.w3.org/2004/01/pp-impl/72531/status",
+    otherLinks: [{
+      key: 'Repository',
+      data: [
+        {
+          value: 'Github',
+          href: 'https://github.com/jasnell/vocabs'
+        }, 
+        {
+          value: 'Issues',
+          href: 'https://github.com/jasnell/vocabs/issues'
+        }, 
+        {
+          value: 'Commits',
+          href: 'https://github.com/jasnell/vocabs/commits/master'
+        }
+      ]
+    }]
+  };
+  </script>
+  <style>
+    thead {
+      background: #005A9C;
+      color: white;
+    }
+    thead th {
+      font-weight: normal;
+    }
+    table, td, th { border: 1px solid gray }
+    table { width: 100% ;}
+    td { 
+      vertical-align: top;
+      padding: 5px; 
+    }
+
+.nanotabs > ul li { float:left; list-style:none; }
+.nanotabs > ul li a { display:block; padding:4px 6px; margin-right: 3px; border-left: 1px solid #b9ab2d; border-right: 1px solid #b9ab2d; border-top: 1px solid #b9ab2d; border-collapse: collapse; background:#fcfaee; color:#b9ab2d; font-family: sans-serif;
+ text-decoration:none; }
+.nanotabs > ul li a:hover { background:#FFFCE5; color:#550; }
+.nanotabs > ul li a.selected { background:#555; color:#FFF; }
+  </style>
+</head>
+<body>
+
+  <section id="abstract">
+    <p>
+      This specification details a model for representing Intervals.
+    </p>
+  </section>
+
+  <section id="sotd">
+  </section>
+
+  <section id="introduction">
+    <h2>Introduction</h2>
+
+    <p>
+      This document describes a simple Web vocabulary for representing 
+      ordered sets of values with optional lower and upper boundaries.
+      The concept of an Interval used herein is generally identical to
+      that used in mathematics to represent a totally ordered set of 
+      values that lie between a lower boundary limit and an upper boundary
+      limit. Each Interval MAY be defined such that either or both of the
+      boundary limits are included ("closed") or excluded ("open") from
+      the actual set of values represented.
+    </p>
+
+    <p>
+      For instance, using standard mathematical notation, the range of 
+      non-negative integer values between 0 and 10, including the 0 and 
+      the 10 itself, can be represented as <code>[0,10]</code>, while
+      the a range that excludes those boundaries can be represented as
+      <code>(0,10)</code>. 
+    </p>
+
+    <p>
+      Using the vocabulary defined here, the same value ranges can be 
+      represented within Linked Data applications respectively as:
+    </p>
+
+<pre class="example highlight json">{
+  "@context": "http://ns.jasnell.me/vocabs/interval#",
+  "@type": "ClosedInterval",
+  "lower": 0,
+  "upper": 10
+}</pre>
+
+    <p>and,</p>
+
+<pre class="example highlight json">{
+  "@context": "http://ns.jasnell.me/vocabs/interval#",
+  "@type": "OpenInterval",
+  "lower": 0,
+  "upper": 10
+}</pre>
+
+    <p>
+
+    <p>
+      The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+      "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+      document are to be interpreted as described in [[!RFC2119]].
+    </p>
+
+  </section>
+
+  <section id="examples" class="informative">
+    <h2>Examples</h2>
+
+    <section id="example-1">
+      <h2>Example 1</h2>
+
+  <figure>
+  <figcaption>
+    A simple closed xsd:dateTime interval:
+  </figcaption>
+<div class="nanotabs">
+  <ul>
+    <li><a href="#ex1-jsonld" class="selected">JSON-LD</a></li>
+    <li><a href="#ex1-microdata" class="selected">Microdata</a></li>
+    <li><a href="#ex1-rdfa" class="selected">RDFa</a></li>
+    <li><a href="#ex1-microformats" class="selected">Microformats</a></li>
+    <li><a href="#ex1-turtle" class="selected">Turtle</a></li>
+  </ul>
+  <div id="ex1-jsonld" style="display: block;">
+<pre class="example highlight json">{
+  "@context": "http://ns.jasnell.me/vocabs/interval#",
+  "@type": "ClosedInterval",
+  "lower": {
+    "@value": "2015-01-02T12:34:56Z",
+    "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+  },
+  "upper": {
+    "@value": "2015-01-03T12:34:56Z",
+    "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+  }
+}</pre>
+  </div>
+  <div id="ex1-microdata" style="display: none;">
+<pre class="example highlight html"
+>&lt;div itemscope
+  itemtype="http://ns.jasnell.me/vocabs/interval#ClosedInterval">
+  &lt;time itemprop="lower" 
+    datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time> -
+  &lt;time itemprop="upper"
+    datetime="2015-01-03T12:34:56Z">January 3, 2015 @ 12:34:56Z&lt;/time>
+&lt;/div></pre>
+  </div>
+  <div id="ex1-rdfa" style="display: none;">
+<pre class="example highlight html"
+>&lt;div vocab="http://ns.jasnell.me/vocabs/interval#" typeof="ClosedInterval">
+  &lt;time property="lower" 
+    datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time> -
+  &lt;time property="upper"
+    datetime="2015-01-03T12:34:56Z">January 3, 2015 @ 12:34:56Z&lt;/time>
+&lt;/div></pre>
+  </div>
+  <div id="ex1-microformats" style="display: none;">
+<pre class="example highlight html"
+>&lt;div class="h-interval-closed">
+  &lt;time class="dt-lower" 
+    datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time> -
+  &lt;time class="dt-upper"
+    datetime="2015-01-03T12:34:56Z">January 3, 2015 @ 12:34:56Z&lt;/time>
+&lt;/div></pre>
+  </div>
+  <div id="ex1-turtle" style="display: none;">
+<pre class="example highlight turtle"
+>@prefix i: &lt;http://ns.jasnell.me/vocabs/interval#&gt; .
+
+_:c14n0 a i:ClosedInterval ;
+  i:lower "2015-01-02T12:34:56Z"^^http://www.w3.org/2001/XMLSchema#dateTime ;
+  i:upper "2015-01-03T12:34:56Z"^^http://www.w3.org/2001/XMLSchema#dateTime .</pre>
+  </div>
+</div>
+</figure>
+    </section>
+
+    <section id="example-2">
+      <h2>Example 2</h2>
+
+  <figure>
+  <figcaption>
+    A simple open stepped xsd:Integer interval:
+  </figcaption>
+<div class="nanotabs">
+  <ul>
+    <li><a href="#ex11-jsonld" class="selected">JSON-LD</a></li>
+    <li><a href="#ex11-microdata" class="selected">Microdata</a></li>
+    <li><a href="#ex11-rdfa" class="selected">RDFa</a></li>
+    <li><a href="#ex11-microformats" class="selected">Microformats</a></li>
+    <li><a href="#ex11-turtle" class="selected">Turtle</a></li>
+  </ul>
+  <div id="ex11-jsonld" style="display: block;">
+<pre class="example highlight json">{
+  "@context": "http://ns.jasnell.me/vocabs/interval#",
+  "@type": "OpenInterval",
+  "lower": 0,
+  "upper": 10,
+  "step": 1
+}</pre>
+  </div>
+  <div id="ex11-microdata" style="display: none;">
+<pre class="example highlight html"
+>&lt;input type="range" itemscope
+  itemtype="http://ns.jasnell.me/vocabs/interval#OpenInterval">
+  &lt;var itemprop="lower">0&lt;/var> -
+  &lt;var itemprop="upper">10&lt;/var>,
+  &lt;var itemprop="step">1&lt;/var>
+&lt;/div></pre>
+  </div>
+  <div id="ex11-rdfa" style="display: none;">
+<pre class="example highlight html"
+>&lt;div vocab="http://ns.jasnell.me/vocabs/interval#" typeof="OpenInterval">
+  &lt;var property="lower">0&lt;/var> -
+  &lt;var property="upper">10&lt;/var>,
+  &lt;var property="step">1&lt;/var>
+&lt;/div></pre>
+  </div>
+  <div id="ex11-microformats" style="display: none;">
+<pre class="example highlight html"
+>&lt;div class="h-interval-open">
+  &lt;var class="p-lower">0&lt;/var> -
+  &lt;var class="p-upper">10&lt;/var>,
+  &lt;var class="p-step">1&lt;/var>
+&lt;/div></pre>
+  </div>
+  <div id="ex11-turtle" style="display: none;">
+<pre class="example highlight turtle"
+>@prefix i: &lt;http://ns.jasnell.me/vocabs/interval#&gt; .
+
+_:c14n0 a i:OpenInterval ;
+  i:lower "0"^^http://www.w3.org/2001/XMLSchema#Integer ;
+  i:upper "10"^^http://www.w3.org/2001/XMLSchema#Integer ;
+  i:step "1"^^http://www.w3.org/2001/XMLSchema#nonNegativeInteger .</pre>
+  </div>
+</div>
+</figure>
+    </section>
+
+  </section>
+
+  <section id="classes">
+    <h2>Classes</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Class</th>
+          <th colspan="2" style="width: 40%">Description</th>
+          <th style="width: 40%">Example</th>
+        </tr>
+      </thead>
+
+      <tbody>
+<tbody>
+        <tr>
+          <td rowspan="4" ><dfn>Interval</dfn></td>
+          <td  style="width: 10%">URI:</td>
+          <td ><code>http://ns.jasnell.me/vocabs/interval#Interval</code></td>
+          <td rowspan="4">
+
+<div class="nanotabs">
+  <ul>
+    <li><a href="#ex2-jsonld" class="selected">JSON-LD</a></li>
+    <li><a href="#ex2-microdata" class="selected">Microdata</a></li>
+    <li><a href="#ex2-rdfa" class="selected">RDFa</a></li>
+    <li><a href="#ex2-microformats" class="selected">Microformats</a></li>
+    <li><a href="#ex2-turtle" class="selected">Turtle</a></li>
+  </ul>
+  <div id="ex2-jsonld" style="display: block;">
+<pre class="example highlight json">{
+  "@context": "http://ns.jasnell.me/vocabs/interval#",
+  "@type": "ClosedInterval",
+  "lower": {
+    "@value": "2015-01-02T12:34:56Z",
+    "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+  },
+  "upper": {
+    "@value": "2015-01-03T12:34:56Z",
+    "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+  }
+}</pre>
+  </div>
+  <div id="ex2-microdata" style="display: none;">
+<pre class="example highlight html"
+>&lt;div itemscope
+  itemtype="http://ns.jasnell.me/vocabs/interval#ClosedInterval">
+  &lt;time itemprop="lower" 
+    datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time> -
+  &lt;time itemprop="upper"
+    datetime="2015-01-03T12:34:56Z">January 3, 2015 @ 12:34:56Z&lt;/time>
+&lt;/div></pre>
+  </div>
+  <div id="ex2-rdfa" style="display: none;">
+<pre class="example highlight html"
+>&lt;div vocab="http://ns.jasnell.me/vocabs/interval#" typeof="ClosedInterval">
+  &lt;time property="lower" 
+    datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time> -
+  &lt;time property="upper"
+    datetime="2015-01-03T12:34:56Z">January 3, 2015 @ 12:34:56Z&lt;/time>
+&lt;/div></pre>
+  </div>
+  <div id="ex2-microformats" style="display: none;">
+<pre class="example highlight html"
+>&lt;div class="h-interval-closed">
+  &lt;time class="dt-lower" 
+    datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time> -
+  &lt;time class="dt-upper"
+    datetime="2015-01-03T12:34:56Z">January 3, 2015 @ 12:34:56Z&lt;/time>
+&lt;/div></pre>
+  </div>
+  <div id="ex2-turtle" style="display: none;">
+<pre class="example highlight turtle"
+>@prefix i: &lt;http://ns.jasnell.me/vocabs/interval#&gt; .
+
+_:c14n0 a i:ClosedInterval ;
+  i:lower "2015-01-02T12:34:56Z"^^http://www.w3.org/2001/XMLSchema#dateTime ;
+  i:upper "2015-01-03T12:34:56Z"^^http://www.w3.org/2001/XMLSchema#dateTime .</pre>
+  </div>
+</div>
+
+          </td>
+        </tr>
+        <tr>
+          <td>Microformats Class:</td>
+          <td><code>h-interval</code></td>
+        </tr>
+        <tr>
+          <td>Notes:</td>
+          <td>
+            <p>
+              <p>Represents an interval (or range) of values with optional upper 
+              and lower bounds. The lower or upper bounds may each be "closed"
+              or "open". A "closed" (inclusive) bound indicates that the given
+              value is part of the interval while an "open" (exclusive) bound
+              does not include the value. The <code>Interval</code> class is 
+              considered abstract and is not intended to serve as a base class 
+              for the other more specific Interval subclasses defined by this 
+              specification. It is not intended to be used directly by 
+              implementations.</p>
+
+              <p>The value types of an Interval's <code>upper</code> and
+              <code>lower</code> boundaries MUST be identical and SHOULD be
+              <code><a href="http://www.w3.org/TR/xmlschema-2/#dc-ordered">ordered</a></code>
+              as defined by [[!XMLSCHEMA-2]]. The definition of Intervals that use
+              non-ordered value types is undefined by this specification.
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>Properties:</td>
+          <td>
+            <code><a>upper</a></code> | 
+            <code><a>lower</a></code> |
+            <code><a>step</a></code>
+          </td>
+        </tr>
+      </tbody>
+
+<tbody>
+        <tr>
+          <td rowspan="4" ><dfn>OpenInterval</dfn></td>
+          <td  style="width: 10%">URI:</td>
+          <td ><code>http://ns.jasnell.me/vocabs/interval#OpenInterval</code></td>
+          <td rowspan="4">
+
+<div class="nanotabs">
+  <ul>
+    <li><a href="#ex3-jsonld" class="selected">JSON-LD</a></li>
+    <li><a href="#ex3-microdata" class="selected">Microdata</a></li>
+    <li><a href="#ex3-rdfa" class="selected">RDFa</a></li>
+    <li><a href="#ex3-microformats" class="selected">Microformats</a></li>
+    <li><a href="#ex3-turtle" class="selected">Turtle</a></li>
+  </ul>
+  <div id="ex3-jsonld" style="display: block;">
+<pre class="example highlight json">{
+  "@context": "http://ns.jasnell.me/vocabs/interval#",
+  "@type": "OpenInterval",
+  "lower": {
+    "@value": "2015-01-02T12:34:56Z",
+    "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+  },
+  "upper": {
+    "@value": "2015-01-03T12:34:56Z",
+    "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+  }
+}</pre>
+  </div>
+  <div id="ex3-microdata" style="display: none;">
+<pre class="example highlight html"
+>&lt;div itemscope
+  itemtype="http://ns.jasnell.me/vocabs/interval#OpenInterval">
+  &lt;time itemprop="lower" 
+    datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time> -
+  &lt;time itemprop="upper"
+    datetime="2015-01-03T12:34:56Z">January 3, 2015 @ 12:34:56Z&lt;/time>
+&lt;/div></pre>
+  </div>
+  <div id="ex3-rdfa" style="display: none;">
+<pre class="example highlight html"
+>&lt;div vocab="http://ns.jasnell.me/vocabs/interval#" typeof="OpenInterval">
+  &lt;time property="lower" 
+    datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time> -
+  &lt;time property="upper"
+    datetime="2015-01-03T12:34:56Z">January 3, 2015 @ 12:34:56Z&lt;/time>
+&lt;/div></pre>
+  </div>
+  <div id="ex3-microformats" style="display: none;">
+<pre class="example highlight html"
+>&lt;div class="h-interval-open">
+  &lt;time class="dt-lower" 
+    datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time> -
+  &lt;time class="dt-upper"
+    datetime="2015-01-03T12:34:56Z">January 3, 2015 @ 12:34:56Z&lt;/time>
+&lt;/div></pre>
+  </div>
+  <div id="ex3-turtle" style="display: none;">
+<pre class="example highlight turtle"
+>@prefix i: &lt;http://ns.jasnell.me/vocabs/interval#&gt; .
+
+_:c14n0 a i:OpenInterval ;
+  i:lower "2015-01-02T12:34:56Z"^^http://www.w3.org/2001/XMLSchema#dateTime ;
+  i:upper "2015-01-03T12:34:56Z"^^http://www.w3.org/2001/XMLSchema#dateTime .</pre>
+  </div>
+</div>
+
+          </td>
+        </tr>
+        <tr>
+          <td>Microformats Class:</td>
+          <td><code>h-interval-open</code></td>
+        </tr>
+        <tr>
+          <td>Notes:</td>
+          <td>
+            <p>
+              A subclass of <code><a>Interval</a></code> whose upper and 
+              lower boundaries are "open" (exclusive). That is, the Interval
+              includes all values that are strictly greater than the boundary
+              specified by the <code><a>lower</a></code> property and strictly
+              less than the boundary specified by the <code><a>upper</a></code>
+              property. 
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>Properties:</td>
+          <td>
+            <code><a>upper</a></code> | 
+            <code><a>lower</a></code> |
+            <code><a>step</a></code>
+          </td>
+        </tr>
+      </tbody>
+
+<tbody>
+        <tr>
+          <td rowspan="4" ><dfn>ClosedInterval</dfn></td>
+          <td  style="width: 10%">URI:</td>
+          <td ><code>http://ns.jasnell.me/vocabs/interval#ClosedInterval</code></td>
+          <td rowspan="4">
+
+<div class="nanotabs">
+  <ul>
+    <li><a href="#ex4-jsonld" class="selected">JSON-LD</a></li>
+    <li><a href="#ex4-microdata" class="selected">Microdata</a></li>
+    <li><a href="#ex4-rdfa" class="selected">RDFa</a></li>
+    <li><a href="#ex4-microformats" class="selected">Microformats</a></li>
+    <li><a href="#ex4-turtle" class="selected">Turtle</a></li>
+  </ul>
+  <div id="ex4-jsonld" style="display: block;">
+<pre class="example highlight json">{
+  "@context": "http://ns.jasnell.me/vocabs/interval#",
+  "@type": "ClosedInterval",
+  "lower": {
+    "@value": "2015-01-02T12:34:56Z",
+    "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+  },
+  "upper": {
+    "@value": "2015-01-03T12:34:56Z",
+    "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+  }
+}</pre>
+  </div>
+  <div id="ex4-microdata" style="display: none;">
+<pre class="example highlight html"
+>&lt;div itemscope
+  itemtype="http://ns.jasnell.me/vocabs/interval#ClosedInterval">
+  &lt;time itemprop="lower" 
+    datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time> -
+  &lt;time itemprop="upper"
+    datetime="2015-01-03T12:34:56Z">January 3, 2015 @ 12:34:56Z&lt;/time>
+&lt;/div></pre>
+  </div>
+  <div id="ex4-rdfa" style="display: none;">
+<pre class="example highlight html"
+>&lt;div vocab="http://ns.jasnell.me/vocabs/interval#" typeof="ClosedInterval">
+  &lt;time property="lower" 
+    datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time> -
+  &lt;time property="upper"
+    datetime="2015-01-03T12:34:56Z">January 3, 2015 @ 12:34:56Z&lt;/time>
+&lt;/div></pre>
+  </div>
+  <div id="ex4-microformats" style="display: none;">
+<pre class="example highlight html"
+>&lt;div class="h-interval-closed">
+  &lt;time class="dt-lower" 
+    datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time> -
+  &lt;time class="dt-upper"
+    datetime="2015-01-03T12:34:56Z">January 3, 2015 @ 12:34:56Z&lt;/time>
+&lt;/div></pre>
+  </div>
+  <div id="ex4-turtle" style="display: none;">
+<pre class="example highlight turtle"
+>@prefix i: &lt;http://ns.jasnell.me/vocabs/interval#&gt; .
+
+_:c14n0 a i:ClosedInterval ;
+  i:lower "2015-01-02T12:34:56Z"^^http://www.w3.org/2001/XMLSchema#dateTime ;
+  i:upper "2015-01-03T12:34:56Z"^^http://www.w3.org/2001/XMLSchema#dateTime .</pre>
+  </div>
+</div>
+
+          </td>
+        </tr>
+        <tr>
+          <td>Microformats Class:</td>
+          <td><code>h-interval-closed</code></td>
+        </tr>
+        <tr>
+          <td>Notes:</td>
+          <td>
+            <p>
+              A subclass of <code><a>Interval</a></code> whose upper and 
+              lower boundaries are "closed" (inclusive). That is, the Interval
+              includes all values that are strictly greater than or equal to the boundary
+              specified by the <code><a>lower</a></code> property and strictly
+              less than or equal to the boundary specified by the <code><a>upper</a></code>
+              property. 
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>Properties:</td>
+          <td>
+            <code><a>upper</a></code> | 
+            <code><a>lower</a></code> |
+            <code><a>step</a></code>
+          </td>
+        </tr>
+      </tbody>
+
+<tbody>
+        <tr>
+          <td rowspan="4" ><dfn>OpenClosedInterval</dfn></td>
+          <td  style="width: 10%">URI:</td>
+          <td ><code>http://ns.jasnell.me/vocabs/interval#OpenClosedInterval</code></td>
+          <td rowspan="4">
+
+<div class="nanotabs">
+  <ul>
+    <li><a href="#ex5-jsonld" class="selected">JSON-LD</a></li>
+    <li><a href="#ex5-microdata" class="selected">Microdata</a></li>
+    <li><a href="#ex5-rdfa" class="selected">RDFa</a></li>
+    <li><a href="#ex5-microformats" class="selected">Microformats</a></li>
+    <li><a href="#ex5-turtle" class="selected">Turtle</a></li>
+  </ul>
+  <div id="ex5-jsonld" style="display: block;">
+<pre class="example highlight json">{
+  "@context": "http://ns.jasnell.me/vocabs/interval#",
+  "@type": "OpenClosedInterval",
+  "lower": {
+    "@value": "2015-01-02T12:34:56Z",
+    "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+  },
+  "upper": {
+    "@value": "2015-01-03T12:34:56Z",
+    "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+  }
+}</pre>
+  </div>
+  <div id="ex5-microdata" style="display: none;">
+<pre class="example highlight html"
+>&lt;div itemscope
+  itemtype="http://ns.jasnell.me/vocabs/interval#OpenClosedInterval">
+  &lt;time itemprop="lower" 
+    datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time> -
+  &lt;time itemprop="upper"
+    datetime="2015-01-03T12:34:56Z">January 3, 2015 @ 12:34:56Z&lt;/time>
+&lt;/div></pre>
+  </div>
+  <div id="ex5-rdfa" style="display: none;">
+<pre class="example highlight html"
+>&lt;div vocab="http://ns.jasnell.me/vocabs/interval#" typeof="OpenClosedInterval">
+  &lt;time property="lower" 
+    datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time> -
+  &lt;time property="upper"
+    datetime="2015-01-03T12:34:56Z">January 3, 2015 @ 12:34:56Z&lt;/time>
+&lt;/div></pre>
+  </div>
+  <div id="ex5-microformats" style="display: none;">
+<pre class="example highlight html"
+>&lt;div class="h-interval-open-closed">
+  &lt;time class="dt-lower" 
+    datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time> -
+  &lt;time class="dt-upper"
+    datetime="2015-01-03T12:34:56Z">January 3, 2015 @ 12:34:56Z&lt;/time>
+&lt;/div></pre>
+  </div>
+  <div id="ex5-turtle" style="display: none;">
+<pre class="example highlight turtle"
+>@prefix i: &lt;http://ns.jasnell.me/vocabs/interval#&gt; .
+
+_:c14n0 a i:OpenClosedInterval ;
+  i:lower "2015-01-02T12:34:56Z"^^http://www.w3.org/2001/XMLSchema#dateTime ;
+  i:upper "2015-01-03T12:34:56Z"^^http://www.w3.org/2001/XMLSchema#dateTime .</pre>
+  </div>
+</div>
+
+          </td>
+        </tr>
+        <tr>
+          <td>Microformats Class:</td>
+          <td><code>h-interval-open-closed</code></td>
+        </tr>
+        <tr>
+          <td>Notes:</td>
+          <td>
+            <p>
+              A subclass of <code><a>Interval</a></code> with an "open" lower bound
+              and "closed" upper bound. That is, the Interval
+              includes all values that are strictly greater than the boundary
+              specified by the <code><a>lower</a></code> property and strictly
+              less than or equal to the boundary specified by the <code><a>upper</a></code>
+              property. 
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>Properties:</td>
+          <td>
+            <code><a>upper</a></code> | 
+            <code><a>lower</a></code> |
+            <code><a>step</a></code>
+          </td>
+        </tr>
+      </tbody>
+
+<tbody>
+        <tr>
+          <td rowspan="4" ><dfn>ClosedOpenInterval</dfn></td>
+          <td  style="width: 10%">URI:</td>
+          <td ><code>http://ns.jasnell.me/vocabs/interval#ClosedOpenInterval</code></td>
+          <td rowspan="4">
+
+<div class="nanotabs">
+  <ul>
+    <li><a href="#ex6-jsonld" class="selected">JSON-LD</a></li>
+    <li><a href="#ex6-microdata" class="selected">Microdata</a></li>
+    <li><a href="#ex6-rdfa" class="selected">RDFa</a></li>
+    <li><a href="#ex6-microformats" class="selected">Microformats</a></li>
+    <li><a href="#ex6-turtle" class="selected">Turtle</a></li>
+  </ul>
+  <div id="ex6-jsonld" style="display: block;">
+<pre class="example highlight json">{
+  "@context": "http://ns.jasnell.me/vocabs/interval#",
+  "@type": "ClosedOpenInterval",
+  "lower": {
+    "@value": "2015-01-02T12:34:56Z",
+    "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+  },
+  "upper": {
+    "@value": "2015-01-03T12:34:56Z",
+    "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+  }
+}</pre>
+  </div>
+  <div id="ex6-microdata" style="display: none;">
+<pre class="example highlight html"
+>&lt;div itemscope
+  itemtype="http://ns.jasnell.me/vocabs/interval#ClosedOpenInterval">
+  &lt;time itemprop="lower" 
+    datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time> -
+  &lt;time itemprop="upper"
+    datetime="2015-01-03T12:34:56Z">January 3, 2015 @ 12:34:56Z&lt;/time>
+&lt;/div></pre>
+  </div>
+  <div id="ex6-rdfa" style="display: none;">
+<pre class="example highlight html"
+>&lt;div vocab="http://ns.jasnell.me/vocabs/interval#" typeof="ClosedOpenInterval">
+  &lt;time property="lower" 
+    datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time> -
+  &lt;time property="upper"
+    datetime="2015-01-03T12:34:56Z">January 3, 2015 @ 12:34:56Z&lt;/time>
+&lt;/div></pre>
+  </div>
+  <div id="ex6-microformats" style="display: none;">
+<pre class="example highlight html"
+>&lt;div class="h-interval-closed-open">
+  &lt;time class="dt-lower" 
+    datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time> -
+  &lt;time class="dt-upper"
+    datetime="2015-01-03T12:34:56Z">January 3, 2015 @ 12:34:56Z&lt;/time>
+&lt;/div></pre>
+  </div>
+  <div id="ex6-turtle" style="display: none;">
+<pre class="example highlight turtle"
+>@prefix i: &lt;http://ns.jasnell.me/vocabs/interval#&gt; .
+
+_:c14n0 a i:ClosedOpenInterval ;
+  i:lower "2015-01-02T12:34:56Z"^^http://www.w3.org/2001/XMLSchema#dateTime ;
+  i:upper "2015-01-03T12:34:56Z"^^http://www.w3.org/2001/XMLSchema#dateTime .</pre>
+  </div>
+</div>
+
+          </td>
+        </tr>
+        <tr>
+          <td>Microformats Class:</td>
+          <td><code>h-interval-closed-open</code></td>
+        </tr>
+        <tr>
+          <td>Notes:</td>
+          <td>
+            <p>
+              A subclass of <code><a>Interval</a></code> with a "closed" lower bound
+              and "open" upper bound. That is, the Interval
+              includes all values that are strictly greater than or equal to the boundary
+              specified by the <code><a>lower</a></code> property and strictly
+              less than the boundary specified by the <code><a>upper</a></code>
+              property. 
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>Properties:</td>
+          <td>
+            <code><a>upper</a></code> | 
+            <code><a>lower</a></code> |
+            <code><a>step</a></code>
+          </td>
+        </tr>
+      </tbody>
+
+<tbody>
+        <tr>
+          <td rowspan="4" ><dfn>LeftOpenInterval</dfn></td>
+          <td  style="width: 10%">URI:</td>
+          <td ><code>http://ns.jasnell.me/vocabs/interval#LeftOpenInterval</code></td>
+          <td rowspan="4">
+
+<div class="nanotabs">
+  <ul>
+    <li><a href="#ex7-jsonld" class="selected">JSON-LD</a></li>
+    <li><a href="#ex7-microdata" class="selected">Microdata</a></li>
+    <li><a href="#ex7-rdfa" class="selected">RDFa</a></li>
+    <li><a href="#ex7-microformats" class="selected">Microformats</a></li>
+    <li><a href="#ex7-turtle" class="selected">Turtle</a></li>
+  </ul>
+  <div id="ex7-jsonld" style="display: block;">
+<pre class="example highlight json">{
+  "@context": "http://ns.jasnell.me/vocabs/interval#",
+  "@type": "LeftOpenInterval",
+  "lower": {
+    "@value": "2015-01-02T12:34:56Z",
+    "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+  }
+}</pre>
+  </div>
+  <div id="ex7-microdata" style="display: none;">
+<pre class="example highlight html"
+>&lt;div itemscope
+  itemtype="http://ns.jasnell.me/vocabs/interval#LeftOpenInterval">
+  &lt;time itemprop="lower" 
+    datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time>
+&lt;/div></pre>
+  </div>
+  <div id="ex7-rdfa" style="display: none;">
+<pre class="example highlight html"
+>&lt;div vocab="http://ns.jasnell.me/vocabs/interval#" typeof="LeftOpenInterval">
+  &lt;time property="lower" 
+    datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time>
+&lt;/div></pre>
+  </div>
+  <div id="ex7-microformats" style="display: none;">
+<pre class="example highlight html"
+>&lt;div class="h-interval-left-open">
+  &lt;time class="dt-lower" 
+    datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time>
+&lt;/div></pre>
+  </div>
+  <div id="ex7-turtle" style="display: none;">
+<pre class="example highlight turtle"
+>@prefix i: &lt;http://ns.jasnell.me/vocabs/interval#&gt; .
+
+_:c14n0 a i:LeftOpenInterval ;
+  i:lower "2015-01-02T12:34:56Z"^^http://www.w3.org/2001/XMLSchema#dateTime .</pre>
+  </div>
+</div>
+
+          </td>
+        </tr>
+        <tr>
+          <td>Microformats Class:</td>
+          <td><code>h-interval-left-open</code></td>
+        </tr>
+        <tr>
+          <td>Notes:</td>
+          <td>
+            <p>
+              A subclass of <code><a>Interval</a></code> with an "open" lower bound
+              no "upper" bound. That is, the Interval includes all values that are strictly greater than the boundary specified by the <code><a>lower</a></code> property.
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>Properties:</td>
+          <td> 
+            <code><a>lower</a></code> |
+            <code><a>step</a></code>
+          </td>
+        </tr>
+      </tbody>
+
+<tbody>
+        <tr>
+          <td rowspan="4" ><dfn>LeftClosedInterval</dfn></td>
+          <td  style="width: 10%">URI:</td>
+          <td ><code>http://ns.jasnell.me/vocabs/interval#LeftClosedInterval</code></td>
+          <td rowspan="4">
+
+<div class="nanotabs">
+  <ul>
+    <li><a href="#ex8-jsonld" class="selected">JSON-LD</a></li>
+    <li><a href="#ex8-microdata" class="selected">Microdata</a></li>
+    <li><a href="#ex8-rdfa" class="selected">RDFa</a></li>
+    <li><a href="#ex8-microformats" class="selected">Microformats</a></li>
+    <li><a href="#ex8-turtle" class="selected">Turtle</a></li>
+  </ul>
+  <div id="ex8-jsonld" style="display: block;">
+<pre class="example highlight json">{
+  "@context": "http://ns.jasnell.me/vocabs/interval#",
+  "@type": "LeftClosedInterval",
+  "lower": {
+    "@value": "2015-01-02T12:34:56Z",
+    "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+  }
+}</pre>
+  </div>
+  <div id="ex8-microdata" style="display: none;">
+<pre class="example highlight html"
+>&lt;div itemscope
+  itemtype="http://ns.jasnell.me/vocabs/interval#LeftClosedInterval">
+  &lt;time itemprop="lower" 
+    datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time>
+&lt;/div></pre>
+  </div>
+  <div id="ex8-rdfa" style="display: none;">
+<pre class="example highlight html"
+>&lt;div vocab="http://ns.jasnell.me/vocabs/interval#" typeof="LeftClosedInterval">
+  &lt;time property="lower" 
+    datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time>
+&lt;/div></pre>
+  </div>
+  <div id="ex8-microformats" style="display: none;">
+<pre class="example highlight html"
+>&lt;div class="h-interval-left-closed">
+  &lt;time class="dt-lower" 
+    datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time>
+&lt;/div></pre>
+  </div>
+  <div id="ex8-turtle" style="display: none;">
+<pre class="example highlight turtle"
+>@prefix i: &lt;http://ns.jasnell.me/vocabs/interval#&gt; .
+
+_:c14n0 a i:LeftClosedInterval ;
+  i:lower "2015-01-02T12:34:56Z"^^http://www.w3.org/2001/XMLSchema#dateTime .</pre>
+  </div>
+</div>
+
+          </td>
+        </tr>
+        <tr>
+          <td>Microformats Class:</td>
+          <td><code>h-interval-left-closed</code></td>
+        </tr>
+        <tr>
+          <td>Notes:</td>
+          <td>
+            <p>
+              A subclass of <code><a>Interval</a></code> with an "closed" lower bound
+              no "upper" bound. That is, the Interval includes all values that are strictly greater than or equal to the boundary specified by the <code><a>lower</a></code> property.
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>Properties:</td>
+          <td> 
+            <code><a>lower</a></code> |
+            <code><a>step</a></code>
+          </td>
+        </tr>
+      </tbody>
+
+<tbody>
+        <tr>
+          <td rowspan="4" ><dfn>RightOpenInterval</dfn></td>
+          <td  style="width: 10%">URI:</td>
+          <td ><code>http://ns.jasnell.me/vocabs/interval#RightOpenInterval</code></td>
+          <td rowspan="4">
+
+<div class="nanotabs">
+  <ul>
+    <li><a href="#ex9-jsonld" class="selected">JSON-LD</a></li>
+    <li><a href="#ex9-microdata" class="selected">Microdata</a></li>
+    <li><a href="#ex9-rdfa" class="selected">RDFa</a></li>
+    <li><a href="#ex9-microformats" class="selected">Microformats</a></li>
+    <li><a href="#ex9-turtle" class="selected">Turtle</a></li>
+  </ul>
+  <div id="ex9-jsonld" style="display: block;">
+<pre class="example highlight json">{
+  "@context": "http://ns.jasnell.me/vocabs/interval#",
+  "@type": "RightOpenInterval",
+  "upper": {
+    "@value": "2015-01-02T12:34:56Z",
+    "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+  }
+}</pre>
+  </div>
+  <div id="ex9-microdata" style="display: none;">
+<pre class="example highlight html"
+>&lt;div itemscope
+  itemtype="http://ns.jasnell.me/vocabs/interval#RightOpenInterval">
+  &lt;time itemprop="upper" 
+    datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time>
+&lt;/div></pre>
+  </div>
+  <div id="ex9-rdfa" style="display: none;">
+<pre class="example highlight html"
+>&lt;div vocab="http://ns.jasnell.me/vocabs/interval#" typeof="RightOpenInterval">
+  &lt;time property="upper" 
+    datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time>
+&lt;/div></pre>
+  </div>
+  <div id="ex9-microformats" style="display: none;">
+<pre class="example highlight html"
+>&lt;div class="h-interval-right-open">
+  &lt;time class="dt-upper" 
+    datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time>
+&lt;/div></pre>
+  </div>
+  <div id="ex9-turtle" style="display: none;">
+<pre class="example highlight turtle"
+>@prefix i: &lt;http://ns.jasnell.me/vocabs/interval#&gt; .
+
+_:c14n0 a i:RightOpenInterval ;
+  i:upper "2015-01-02T12:34:56Z"^^http://www.w3.org/2001/XMLSchema#dateTime .</pre>
+  </div>
+</div>
+
+          </td>
+        </tr>
+        <tr>
+          <td>Microformats Class:</td>
+          <td><code>h-interval-right-open</code></td>
+        </tr>
+        <tr>
+          <td>Notes:</td>
+          <td>
+            <p>
+              A subclass of <code><a>Interval</a></code> with an "open" upper bound
+              no "lower" bound. That is, the Interval includes all values that are strictly less than the boundary specified by the <code><a>upper</a></code> property.
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>Properties:</td>
+          <td> 
+            <code><a>upper</a></code> |
+            <code><a>step</a></code>
+          </td>
+        </tr>
+      </tbody>
+
+<tbody>
+        <tr>
+          <td rowspan="4" ><dfn>RightClosedInterval</dfn></td>
+          <td  style="width: 10%">URI:</td>
+          <td ><code>http://ns.jasnell.me/vocabs/interval#RightClosedInterval</code></td>
+          <td rowspan="4">
+
+<div class="nanotabs">
+  <ul>
+    <li><a href="#ex10-jsonld" class="selected">JSON-LD</a></li>
+    <li><a href="#ex10-microdata" class="selected">Microdata</a></li>
+    <li><a href="#ex10-rdfa" class="selected">RDFa</a></li>
+    <li><a href="#ex10-microformats" class="selected">Microformats</a></li>
+    <li><a href="#ex10-turtle" class="selected">Turtle</a></li>
+  </ul>
+  <div id="ex10-jsonld" style="display: block;">
+<pre class="example highlight json">{
+  "@context": "http://ns.jasnell.me/vocabs/interval#",
+  "@type": "RightClosedInterval",
+  "upper": {
+    "@value": "2015-01-02T12:34:56Z",
+    "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+  }
+}</pre>
+  </div>
+  <div id="ex10-microdata" style="display: none;">
+<pre class="example highlight html"
+>&lt;div itemscope
+  itemtype="http://ns.jasnell.me/vocabs/interval#RightClosedInterval">
+  &lt;time itemprop="upper" 
+    datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time>
+&lt;/div></pre>
+  </div>
+  <div id="ex10-rdfa" style="display: none;">
+<pre class="example highlight html"
+>&lt;div vocab="http://ns.jasnell.me/vocabs/interval#" typeof="RightClosedInterval">
+  &lt;time property="upper" 
+    datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time>
+&lt;/div></pre>
+  </div>
+  <div id="ex10-microformats" style="display: none;">
+<pre class="example highlight html"
+>&lt;div class="h-interval-right-closed">
+  &lt;time class="dt-upper" 
+    datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time>
+&lt;/div></pre>
+  </div>
+  <div id="ex10-turtle" style="display: none;">
+<pre class="example highlight turtle"
+>@prefix i: &lt;http://ns.jasnell.me/vocabs/interval#&gt; .
+
+_:c14n0 a i:RightClosedInterval ;
+  i:upper "2015-01-02T12:34:56Z"^^http://www.w3.org/2001/XMLSchema#dateTime .</pre>
+  </div>
+</div>
+
+          </td>
+        </tr>
+        <tr>
+          <td>Microformats Class:</td>
+          <td><code>h-interval-right-closed</code></td>
+        </tr>
+        <tr>
+          <td>Notes:</td>
+          <td>
+            <p>
+              A subclass of <code><a>Interval</a></code> with a "closed" upper bound
+              no "lower" bound. That is, the Interval includes all values that are strictly less than or equal to the boundary specified by the <code><a>upper</a></code> property.
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>Properties:</td>
+          <td> 
+            <code><a>upper</a></code> |
+            <code><a>step</a></code>
+          </td>
+        </tr>
+      </tbody>
+
+<tbody>
+        <tr>
+          <td rowspan="3" ><dfn>EmptyInterval</dfn></td>
+          <td  style="width: 10%">URI:</td>
+          <td ><code>http://ns.jasnell.me/vocabs/interval#EmptyInterval</code></td>
+          <td rowspan="3">
+          </td>
+        </tr>
+        <tr>
+          <td>Microformats Class:</td>
+          <td><code>h-interval-empty</code></td>
+        </tr>
+        <tr>
+          <td>Notes:</td>
+          <td>
+            <p>
+              An instance of <code><a>Interval</a></code> that represents an
+              empty, or zero-length interval.
+            </p>
+          </td>
+        </tr>
+      </tbody>
+
+<tbody>
+        <tr>
+          <td rowspan="3" ><dfn>UnboundedInterval</dfn></td>
+          <td  style="width: 10%">URI:</td>
+          <td ><code>http://ns.jasnell.me/vocabs/interval#UnboundedInterval</code></td>
+          <td rowspan="3">
+          </td>
+        </tr>
+        <tr>
+          <td>Microformats Class:</td>
+          <td><code>h-interval-unbounded</code></td>
+        </tr>
+        <tr>
+          <td>Notes:</td>
+          <td>
+            <p>
+              An instance of <code><a>Interval</a></code> that represents an
+              unbounded range (i.e. represents all possible values).
+            </p>
+          </td>
+        </tr>
+      </tbody>
+
+    </table>
+
+  </section>
+
+  <section id="properties">
+    <h2>Properties</h2>
+
+    <table>
+
+      <thead>
+        <tr>
+          <th style="width: 15%">Term</th>
+          <th colspan="2">Description</th>
+        </tr>
+      </thead>
+
+     <tbody>
+        <tr>
+          <td rowspan="6" ><dfn>upper</dfn></td>
+          <td style="width: 10%">URI:</td>
+          <td ><code>http://ns.jasnell.me/vocabs/interval#upper</code></td>
+        </tr>
+        <tr>
+          <td>Microformats Class:</td>
+          <td><code>{prefix}-upper</code> (e.g. <code>dt-upper</code>, <code>p-upper</code>, etc)</td>
+        </tr>
+        <tr>
+          <td>Notes:</td>
+          <td>
+            <p>Specifies the upper boundary of an <code><a>Interval</a></code>. Depending on the type
+            of Interval, the boundary can be "closed" or "open". A "closed" upper boundary
+            means that the Interval covers all values strictly less than or equal to the boundary.
+            An "open" upper boundary means that the Interval covers all values strictly less than
+            the boundary. The value type of the <code>upper</code> property MUST be identical to
+            the value type of the <code><a>lower</a></code> property. </p>
+          </td>
+        </tr>
+        <tr>
+          <td >Domain:</td>
+          <td ><code><a>Interval</a></code></td>
+        </tr>
+        <tr>
+          <td >Range:</td>
+          <td ><code>any</code></td>
+        </tr>
+        <tr>
+          <td >Functional:</td>
+          <td><code>True</code>
+        </tr>
+      </tbody>
+
+     <tbody>
+        <tr>
+          <td rowspan="6" ><dfn>lower</dfn></td>
+          <td style="width: 10%">URI:</td>
+          <td ><code>http://ns.jasnell.me/vocabs/interval#lower</code></td>
+        </tr>
+        <tr>
+          <td>Microformats Class:</td>
+          <td><code>{prefix}-lower</code> (e.g. <code>dt-lower</code>, <code>p-lower</code>, etc)</td>
+        </tr>
+        <tr>
+          <td>Notes:</td>
+          <td>
+            <p>Specifies the lower boundary of an <code><a>Interval</a></code>. Depending on the type
+            of Interval, the boundary can be "closed" or "open". A "closed" lower boundary
+            means that the Interval covers all values strictly greater than or equal to the boundary.
+            An "open" lower boundary means that the Interval covers all values strictly greater than
+            the boundary. The value type of the <code>lower</code> property MUST be identical to
+            the value type of the <code><a>upper</a></code> property.</p>
+          </td>
+        </tr>
+        <tr>
+          <td >Domain:</td>
+          <td ><code><a>Interval</a></code></td>
+        </tr>
+        <tr>
+          <td >Range:</td>
+          <td ><code>any</code></td>
+        </tr>
+        <tr>
+          <td >Functional:</td>
+          <td><code>True</code>
+        </tr>
+      </tbody>
+
+     <tbody>
+        <tr>
+          <td rowspan="6" ><dfn>step</dfn></td>
+          <td style="width: 10%">URI:</td>
+          <td ><code>http://ns.jasnell.me/vocabs/interval#step</code></td>
+        </tr>
+        <tr>
+          <td>Microformats Class:</td>
+          <td><code>{prefix}-step</code> (e.g. <code>p-step</code>, etc)</td>
+        </tr>
+        <tr>
+          <td>Notes:</td>
+          <td>
+            <p>By default, an <code><a>Interval</a></code> includes all possible
+            values that exist between the <code><a>lower</a></code> and <code><a>upper</a></code>
+            boundaries. The <code><a>step</a></code> property can be used to further refine
+            an interval by specifying a significant interval or skip between values within 
+            the specified range. For instance, a numeric closed interval with a <code>lower</code> 
+            boundary of <code>0</code>, an <code>upper</code> boundary of <code>10</code>, 
+            and a <code>step</code> of <code>1</code> would contain only the non-decimal integer
+            values [<code>0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10</code>].</p>
+            <p>The value of the <code>step</code> property MUST be consistent with the values
+            of the <code>upper</code> and <code>lower</code> properties. For instance, when 
+            the <code>upper</code> and <code>lower</code> boundaries specify number values, 
+            the <code>step</code>, if specified at all, MUST specify a non-negative numeric
+            value whose value space is consistent. Implementations MUST ignore the 
+            <code>step</code> property if it's value is not consistent with the values of the 
+            <code>upper</code> and <code>lower</code> boundaries.</p>
+          </td>
+        </tr>
+        <tr>
+          <td >Domain:</td>
+          <td ><code><a>Interval</a></code></td>
+        </tr>
+        <tr>
+          <td >Range:</td>
+          <td ><code>any</code></td>
+        </tr>
+        <tr>
+          <td >Functional:</td>
+          <td><code>True</code>
+        </tr>
+      </tbody>
+
+    </table>
+
+    <p>
+      The following table identifies the appropriate XML Schema data type values
+      for <code><a>step</a></code> for a selected range of Interval boundary types.
+      Wherever a specific data type is identified, all derived types MAY also be 
+      used.
+    </p>
+    <table>
+      <tr>
+        <th>upper/lower Boundary Type</th>
+        <th colspan="2">step Type</th>
+      </tr>
+      <tr>
+        <td><code>xsd:duration</code></td>
+        <td><code>xsd:duration</code></td>
+      </tr>
+      <tr>
+        <td rowspan="2"><code>xsd:dateTime</code></td>
+        <td><code>xsd:duration</code></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>xsd:nonNegativeInteger</code></td>
+        <td>Interpreted as number of seconds.</td>
+      </tr>
+      <tr>
+        <td rowspan="2"><code>xsd:time</code></td>
+        <td><code>xsd:duration</code></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>xsd:nonNegativeInteger</code></td>
+        <td>Interpreted as number of seconds.</td>
+      </tr>   
+      <tr>
+        <td rowspan="2"><code>xsd:date</code></td>
+        <td><code>xsd:duration</code></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>xsd:nonNegativeInteger</code></td>
+        <td>Interpreted as number of seconds.</td>
+      </tr> 
+      <tr>
+        <td rowspan="2"><code>xsd:gYearMonth</code></td>
+        <td><code>xsd:duration</code></td>
+        <td>Limited to durations of year and month only</td>
+      </tr>
+      <tr>
+        <td><code>xsd:nonNegativeInteger</code></td>
+        <td>Interpreted as number of months.</td>
+      </tr> 
+      <tr>
+        <td rowspan="2"><code>xsd:gYear</code></td>
+        <td><code>xsd:duration</code></td>
+        <td>Limited to durations of year only</td>
+      </tr>
+      <tr>
+        <td><code>xsd:nonNegativeInteger</code></td>
+        <td>Interpreted as number of years.</td>
+      </tr> 
+      <tr>
+        <td rowspan="2"><code>xsd:gMonthYear</code></td>
+        <td><code>xsd:duration</code></td>
+        <td>Limited to durations of year and month only</td>
+      </tr>
+      <tr>
+        <td><code>xsd:nonNegativeInteger</code></td>
+        <td>Interpreted as number of months.</td>
+      </tr> 
+      <tr>
+        <td rowspan="2"><code>xsd:gDay</code></td>
+        <td><code>xsd:duration</code></td>
+        <td>Limited to durations of days only</td>
+      </tr>
+      <tr>
+        <td><code>xsd:nonNegativeInteger</code></td>
+        <td>Interpreted as number of days.</td>
+      </tr> 
+      <tr>
+        <td rowspan="2"><code>xsd:gMonth</code></td>
+        <td><code>xsd:duration</code></td>
+        <td>Limited to durations of months only</td>
+      </tr>
+      <tr>
+        <td><code>xsd:nonNegativeInteger</code></td>
+        <td>Interpreted as number of months.</td>
+      </tr>
+      <tr>
+        <td rowspan="2"><code>xsd:float</code></td>
+        <td><code>xsd:float >= 0</code></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>xsd:nonNegativeInteger</code></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td rowspan="2"><code>xsd:double</code></td>
+        <td><code>xsd:double >= 0</code></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>xsd:nonNegativeInteger</code></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td rowspan="2"><code>xsd:decimal</code></td>
+        <td><code>xsd:decimal >= 0</code></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>xsd:nonNegativeInteger</code></td>
+        <td></td>
+      </tr>
+    </table>
+
+  </section>
+
+  <section id="owl" class="informative">
+<pre class="example highlight turtle">
+@prefix : &lt;http://ns.jasnell.me/vocabs/interval#> .
+@prefix r: &lt;http://ns.jasnell.me/vocabs/interval#> .
+@prefix owl: &lt;http://www.w3.org/2002/07/owl#> .
+@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: &lt;http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#> .
+@base &lt;http://ns.jasnell.me/vocabs/interval#> .
+
+&lt;http://ns.jasnell.me/vocabs/interval#> a owl:Ontology;
+  rdfs:comment "A vocabulary for representing intervals"@en .
+
+:lower a owl:DatatypeProperty, owl:FunctionalProperty ;       
+  rdfs:comment "The lower bound of an interval"@en;
+  rdfs:domain :Interval .
+
+:upper a owl:DatatypeProperty, owl:FunctionalProperty ;
+  rdfs:comment "The upper bound of an interval"@en;
+  rdfs:domain :Interval .
+
+:step a owl:DatatypeProperty, owl:FunctionalProperty ;
+  rdfs:comment "Specifies the significant step between values in the interval."@en;
+  rdfs:domain :Interval .
+
+:Interval a owl:Class ;
+  rdfs:comment "Represents an interval of values with optional upper and lower bounds"@en .
+
+:OpenInterval a owl:Class ;
+  rdfs:comment "An interval open at both ends"@en ;
+  rdfs:subClassOf :Interval .
+
+:ClosedInterval a owl:Class ;
+  rdfs:comment "An interval closed at both ends"@en ;
+  rdfs:subClassOf :Interval .
+
+:OpenClosedInterval a owl:Class ;
+  rdfs:comment "An interval open at the lower bound, closed at the upper "@en ;
+  rdfs:subClassOf :Interval .
+
+:ClosedOpenInterval a owl:Class ;
+  rdfs:comment "An interval open at the upper bound, closed at the lower "@en ;
+  rdfs:subClassOf :Interval.
+
+:LeftOpenInterval a owl:Class ;
+  rdfs:comment "An interval open on the lower bound, with no upper bound"@en ;
+  rdfs:subClassOf :Interval, 
+    [
+      a owl:Restriction ;
+        owl:onProperty :upper ;
+        owl:cardinality "0"^^xsd:nonNegativeInteger .
+    ] .
+
+:LeftClosedInterval a owl:Class ;
+  rdfs:comment "An interval closed on the lower bound, with no upper bound"@en ;
+  rdfs:subClassOf :Interval, 
+    [
+      a owl:Restriction ;
+        owl:onProperty :upper ;
+        owl:cardinality "0"^^xsd:nonNegativeInteger .
+    ] .
+
+:RightOpenInterval a owl:Class ;
+  rdfs:comment "An interval open on the upper bound, with no lower bound"@en ;
+  rdfs:subClassOf :Interval, 
+    [
+      a owl:Restriction ;
+        owl:onProperty :lower ;
+        owl:cardinality "0"^^xsd:nonNegativeInteger .
+    ] .
+
+:RightClosedInterval a owl:Class ;
+  rdfs:comment "An interval closed on the upper bound, with no lower bound"@en ;
+  rdfs:subClassOf :Interval, 
+    [
+      a owl:Restriction ;
+        owl:onProperty :lower ;
+        owl:cardinality "0"^^xsd:nonNegativeInteger .
+    ] .
+
+:EmptyInterval a :Interval ;
+  rdfs:comment "The empty interval" .
+
+:UnboundedInterval a :Interval ;
+  rdfs:comment "An interval that is unbound at either end (contains all possible values)" .
+
+:PositiveIntegers a :LeftOpenInterval ;
+  rdfs:comment "Represents all positive integers greater than zero" ;
+  :lower "0"^^xsd:nonNegativeInteger ;
+  :step "1"^^xsd:nonNegativeInteger .
+
+:NonNegativeIntegers a :LeftClosedInterval ;
+  rdfs:comment "Represents all non-negative integers greater than or equal to zero" ;
+  :lower "0"^^xsd:nonNegativeInteger ;
+  :step "1"^^xsd:nonNegativeInteger .
+
+:NegativeIntegers a :RightClosedInterval ;
+  rdfs:comment "Represents all negative integers" ;
+  :upper "0"^^xsd:nonPositiveInteger ;
+  :step "1"^^xsd:nonNegativeInteger .
+
+:PositiveFloats a :LeftOpenInterval ;
+  rdfs:comment "Represents all positive floating point numbers greater than zero" ;
+  :lower "0"^^xsd:float.
+
+:NonNegativeFloats a :LeftClosedInterval ;
+  rdfs:comment "Represents all positive floating point numbers greater than or equal to zero" ;
+  :lower "0"^^xsd:float .
+
+:NegativeFloats a :RightClosedInterval ;
+  rdfs:comment "Represents all negative floating point numbers" ;
+  :upper "0"^^xsd:float .
+
+:PositiveDoubles a :LeftOpenInterval ;
+  rdfs:comment "Represents all positive double precision numbers greater than zero" ;
+  :lower "0"^^xsd:double.
+
+:NonNegativeDoubles a :LeftClosedInterval ;
+  rdfs:comment "Represents all positive double precision numbers greater than or equal to zero" ;
+  :lower "0"^^xsd:double .
+
+:NegativeDoubles a :RightClosedInterval ;
+  rdfs:comment "Represents all negative double precision numbers" ;
+  :upper "0"^^xsd:double .
+
+:PositiveDecimals a :LeftOpenInterval ;
+  rdfs:comment "Represents all positive xsd:decimal numbers greater than zero" ;
+  :lower "0"^^xsd:decimal.
+
+:NonNegativeDecimals a :LeftClosedInterval ;
+  rdfs:comment "Represents all positive xsd:decimal numbers greater than or equal to zero" ;
+  :lower "0"^^xsd:decimal .
+
+:NegativeDecimals a :RightClosedInterval ;
+  rdfs:comment "Represents all negative xsd:decimal numbers" ;
+  :upper "0"^^xsd:decimal .
+</pre>
+  </section>
+
+<script type="text/javascript" src="nanotabs.js"></script>
+<script type="text/javascript">
+  nanotabs({c:"cell",e:"click",d:-1,f:function(){ return false; }});
+  nanotabs({c:"cell",e:"mouseover",s:"active"});
+</script>
+
+</body>
+</html>

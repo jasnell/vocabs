@@ -1,5 +1,13 @@
 {
   "@context": {
     "i": "http://www.w3.org/ns/interval#"
+    "ClosedInterval": "i:ClosedInterval",
+    "OpenInterval": "i:OpenInterval",
+    "OpenClosedInterval": "i:OpenClosedInterval",
+    "ClosedOpenInterval": "i:ClosedOpenInterval",
+    "LeftOpenInterval": "i:LeftOpenInterval",
+    "LeftClosedInterval": "i:LeftClosedInterval",
+    "RightOpenInterval": "i:RightOpenInterval",
+    "RightClosedInterval": "i:RightClosedInterval"
   }
 }
