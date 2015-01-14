@@ -103,7 +103,7 @@
     </p>
 
 <pre class="example highlight json">{
-  "@context": "http://ns.jasnell.me/vocabs/interval#",
+  "@context": "http://ns.jasnell.me/interval#",
   "@type": "ClosedInterval",
   "lower": 0,
   "upper": 10
@@ -112,7 +112,7 @@
     <p>and,</p>
 
 <pre class="example highlight json">{
-  "@context": "http://ns.jasnell.me/vocabs/interval#",
+  "@context": "http://ns.jasnell.me/interval#",
   "@type": "OpenInterval",
   "lower": 0,
   "upper": 10
@@ -148,7 +148,7 @@
   </ul>
   <div id="ex1-jsonld" style="display: block;">
 <pre class="example highlight json">{
-  "@context": "http://ns.jasnell.me/vocabs/interval#",
+  "@context": "http://ns.jasnell.me/interval#",
   "@type": "ClosedInterval",
   "lower": {
     "@value": "2015-01-02T12:34:56Z",
@@ -163,7 +163,7 @@
   <div id="ex1-microdata" style="display: none;">
 <pre class="example highlight html"
 >&lt;div itemscope
-  itemtype="http://ns.jasnell.me/vocabs/interval#ClosedInterval">
+  itemtype="http://ns.jasnell.me/interval#ClosedInterval">
   &lt;time itemprop="lower" 
     datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time> -
   &lt;time itemprop="upper"
@@ -172,7 +172,7 @@
   </div>
   <div id="ex1-rdfa" style="display: none;">
 <pre class="example highlight html"
->&lt;div vocab="http://ns.jasnell.me/vocabs/interval#" typeof="ClosedInterval">
+>&lt;div vocab="http://ns.jasnell.me/interval#" typeof="ClosedInterval">
   &lt;time property="lower" 
     datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time> -
   &lt;time property="upper"
@@ -190,7 +190,7 @@
   </div>
   <div id="ex1-turtle" style="display: none;">
 <pre class="example highlight turtle"
->@prefix i: &lt;http://ns.jasnell.me/vocabs/interval#&gt; .
+>@prefix i: &lt;http://ns.jasnell.me/interval#&gt; .
 
 _:c14n0 a i:ClosedInterval ;
   i:lower "2015-01-02T12:34:56Z"^^http://www.w3.org/2001/XMLSchema#dateTime ;
@@ -217,7 +217,7 @@ _:c14n0 a i:ClosedInterval ;
   </ul>
   <div id="ex11-jsonld" style="display: block;">
 <pre class="example highlight json">{
-  "@context": "http://ns.jasnell.me/vocabs/interval#",
+  "@context": "http://ns.jasnell.me/interval#",
   "@type": "OpenInterval",
   "lower": 0,
   "upper": 10,
@@ -227,7 +227,7 @@ _:c14n0 a i:ClosedInterval ;
   <div id="ex11-microdata" style="display: none;">
 <pre class="example highlight html"
 >&lt;input type="range" itemscope
-  itemtype="http://ns.jasnell.me/vocabs/interval#OpenInterval">
+  itemtype="http://ns.jasnell.me/interval#OpenInterval">
   &lt;var itemprop="lower">0&lt;/var> -
   &lt;var itemprop="upper">10&lt;/var>,
   &lt;var itemprop="step">1&lt;/var>
@@ -235,7 +235,7 @@ _:c14n0 a i:ClosedInterval ;
   </div>
   <div id="ex11-rdfa" style="display: none;">
 <pre class="example highlight html"
->&lt;div vocab="http://ns.jasnell.me/vocabs/interval#" typeof="OpenInterval">
+>&lt;div vocab="http://ns.jasnell.me/interval#" typeof="OpenInterval">
   &lt;var property="lower">0&lt;/var> -
   &lt;var property="upper">10&lt;/var>,
   &lt;var property="step">1&lt;/var>
@@ -251,7 +251,7 @@ _:c14n0 a i:ClosedInterval ;
   </div>
   <div id="ex11-turtle" style="display: none;">
 <pre class="example highlight turtle"
->@prefix i: &lt;http://ns.jasnell.me/vocabs/interval#&gt; .
+>@prefix i: &lt;http://ns.jasnell.me/interval#&gt; .
 
 _:c14n0 a i:OpenInterval ;
   i:lower "0"^^http://www.w3.org/2001/XMLSchema#Integer ;
@@ -281,7 +281,7 @@ _:c14n0 a i:OpenInterval ;
         <tr>
           <td rowspan="4" ><dfn>Interval</dfn></td>
           <td  style="width: 10%">URI:</td>
-          <td ><code>http://ns.jasnell.me/vocabs/interval#Interval</code></td>
+          <td ><code>http://ns.jasnell.me/interval#Interval</code></td>
           <td rowspan="4">
 
 <div class="nanotabs">
@@ -294,7 +294,7 @@ _:c14n0 a i:OpenInterval ;
   </ul>
   <div id="ex2-jsonld" style="display: block;">
 <pre class="example highlight json">{
-  "@context": "http://ns.jasnell.me/vocabs/interval#",
+  "@context": "http://ns.jasnell.me/interval#",
   "@type": "ClosedInterval",
   "lower": {
     "@value": "2015-01-02T12:34:56Z",
@@ -309,7 +309,7 @@ _:c14n0 a i:OpenInterval ;
   <div id="ex2-microdata" style="display: none;">
 <pre class="example highlight html"
 >&lt;div itemscope
-  itemtype="http://ns.jasnell.me/vocabs/interval#ClosedInterval">
+  itemtype="http://ns.jasnell.me/interval#ClosedInterval">
   &lt;time itemprop="lower" 
     datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time> -
   &lt;time itemprop="upper"
@@ -318,7 +318,7 @@ _:c14n0 a i:OpenInterval ;
   </div>
   <div id="ex2-rdfa" style="display: none;">
 <pre class="example highlight html"
->&lt;div vocab="http://ns.jasnell.me/vocabs/interval#" typeof="ClosedInterval">
+>&lt;div vocab="http://ns.jasnell.me/interval#" typeof="ClosedInterval">
   &lt;time property="lower" 
     datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time> -
   &lt;time property="upper"
@@ -336,7 +336,7 @@ _:c14n0 a i:OpenInterval ;
   </div>
   <div id="ex2-turtle" style="display: none;">
 <pre class="example highlight turtle"
->@prefix i: &lt;http://ns.jasnell.me/vocabs/interval#&gt; .
+>@prefix i: &lt;http://ns.jasnell.me/interval#&gt; .
 
 _:c14n0 a i:ClosedInterval ;
   i:lower "2015-01-02T12:34:56Z"^^http://www.w3.org/2001/XMLSchema#dateTime ;
@@ -386,7 +386,7 @@ _:c14n0 a i:ClosedInterval ;
         <tr>
           <td rowspan="4" ><dfn>OpenInterval</dfn></td>
           <td  style="width: 10%">URI:</td>
-          <td ><code>http://ns.jasnell.me/vocabs/interval#OpenInterval</code></td>
+          <td ><code>http://ns.jasnell.me/interval#OpenInterval</code></td>
           <td rowspan="4">
 
 <div class="nanotabs">
@@ -399,7 +399,7 @@ _:c14n0 a i:ClosedInterval ;
   </ul>
   <div id="ex3-jsonld" style="display: block;">
 <pre class="example highlight json">{
-  "@context": "http://ns.jasnell.me/vocabs/interval#",
+  "@context": "http://ns.jasnell.me/interval#",
   "@type": "OpenInterval",
   "lower": {
     "@value": "2015-01-02T12:34:56Z",
@@ -414,7 +414,7 @@ _:c14n0 a i:ClosedInterval ;
   <div id="ex3-microdata" style="display: none;">
 <pre class="example highlight html"
 >&lt;div itemscope
-  itemtype="http://ns.jasnell.me/vocabs/interval#OpenInterval">
+  itemtype="http://ns.jasnell.me/interval#OpenInterval">
   &lt;time itemprop="lower" 
     datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time> -
   &lt;time itemprop="upper"
@@ -423,7 +423,7 @@ _:c14n0 a i:ClosedInterval ;
   </div>
   <div id="ex3-rdfa" style="display: none;">
 <pre class="example highlight html"
->&lt;div vocab="http://ns.jasnell.me/vocabs/interval#" typeof="OpenInterval">
+>&lt;div vocab="http://ns.jasnell.me/interval#" typeof="OpenInterval">
   &lt;time property="lower" 
     datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time> -
   &lt;time property="upper"
@@ -441,7 +441,7 @@ _:c14n0 a i:ClosedInterval ;
   </div>
   <div id="ex3-turtle" style="display: none;">
 <pre class="example highlight turtle"
->@prefix i: &lt;http://ns.jasnell.me/vocabs/interval#&gt; .
+>@prefix i: &lt;http://ns.jasnell.me/interval#&gt; .
 
 _:c14n0 a i:OpenInterval ;
   i:lower "2015-01-02T12:34:56Z"^^http://www.w3.org/2001/XMLSchema#dateTime ;
@@ -482,7 +482,7 @@ _:c14n0 a i:OpenInterval ;
         <tr>
           <td rowspan="4" ><dfn>ClosedInterval</dfn></td>
           <td  style="width: 10%">URI:</td>
-          <td ><code>http://ns.jasnell.me/vocabs/interval#ClosedInterval</code></td>
+          <td ><code>http://ns.jasnell.me/interval#ClosedInterval</code></td>
           <td rowspan="4">
 
 <div class="nanotabs">
@@ -495,7 +495,7 @@ _:c14n0 a i:OpenInterval ;
   </ul>
   <div id="ex4-jsonld" style="display: block;">
 <pre class="example highlight json">{
-  "@context": "http://ns.jasnell.me/vocabs/interval#",
+  "@context": "http://ns.jasnell.me/interval#",
   "@type": "ClosedInterval",
   "lower": {
     "@value": "2015-01-02T12:34:56Z",
@@ -510,7 +510,7 @@ _:c14n0 a i:OpenInterval ;
   <div id="ex4-microdata" style="display: none;">
 <pre class="example highlight html"
 >&lt;div itemscope
-  itemtype="http://ns.jasnell.me/vocabs/interval#ClosedInterval">
+  itemtype="http://ns.jasnell.me/interval#ClosedInterval">
   &lt;time itemprop="lower" 
     datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time> -
   &lt;time itemprop="upper"
@@ -519,7 +519,7 @@ _:c14n0 a i:OpenInterval ;
   </div>
   <div id="ex4-rdfa" style="display: none;">
 <pre class="example highlight html"
->&lt;div vocab="http://ns.jasnell.me/vocabs/interval#" typeof="ClosedInterval">
+>&lt;div vocab="http://ns.jasnell.me/interval#" typeof="ClosedInterval">
   &lt;time property="lower" 
     datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time> -
   &lt;time property="upper"
@@ -537,7 +537,7 @@ _:c14n0 a i:OpenInterval ;
   </div>
   <div id="ex4-turtle" style="display: none;">
 <pre class="example highlight turtle"
->@prefix i: &lt;http://ns.jasnell.me/vocabs/interval#&gt; .
+>@prefix i: &lt;http://ns.jasnell.me/interval#&gt; .
 
 _:c14n0 a i:ClosedInterval ;
   i:lower "2015-01-02T12:34:56Z"^^http://www.w3.org/2001/XMLSchema#dateTime ;
@@ -578,7 +578,7 @@ _:c14n0 a i:ClosedInterval ;
         <tr>
           <td rowspan="4" ><dfn>OpenClosedInterval</dfn></td>
           <td  style="width: 10%">URI:</td>
-          <td ><code>http://ns.jasnell.me/vocabs/interval#OpenClosedInterval</code></td>
+          <td ><code>http://ns.jasnell.me/interval#OpenClosedInterval</code></td>
           <td rowspan="4">
 
 <div class="nanotabs">
@@ -591,7 +591,7 @@ _:c14n0 a i:ClosedInterval ;
   </ul>
   <div id="ex5-jsonld" style="display: block;">
 <pre class="example highlight json">{
-  "@context": "http://ns.jasnell.me/vocabs/interval#",
+  "@context": "http://ns.jasnell.me/interval#",
   "@type": "OpenClosedInterval",
   "lower": {
     "@value": "2015-01-02T12:34:56Z",
@@ -606,7 +606,7 @@ _:c14n0 a i:ClosedInterval ;
   <div id="ex5-microdata" style="display: none;">
 <pre class="example highlight html"
 >&lt;div itemscope
-  itemtype="http://ns.jasnell.me/vocabs/interval#OpenClosedInterval">
+  itemtype="http://ns.jasnell.me/interval#OpenClosedInterval">
   &lt;time itemprop="lower" 
     datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time> -
   &lt;time itemprop="upper"
@@ -615,7 +615,7 @@ _:c14n0 a i:ClosedInterval ;
   </div>
   <div id="ex5-rdfa" style="display: none;">
 <pre class="example highlight html"
->&lt;div vocab="http://ns.jasnell.me/vocabs/interval#" typeof="OpenClosedInterval">
+>&lt;div vocab="http://ns.jasnell.me/interval#" typeof="OpenClosedInterval">
   &lt;time property="lower" 
     datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time> -
   &lt;time property="upper"
@@ -633,7 +633,7 @@ _:c14n0 a i:ClosedInterval ;
   </div>
   <div id="ex5-turtle" style="display: none;">
 <pre class="example highlight turtle"
->@prefix i: &lt;http://ns.jasnell.me/vocabs/interval#&gt; .
+>@prefix i: &lt;http://ns.jasnell.me/interval#&gt; .
 
 _:c14n0 a i:OpenClosedInterval ;
   i:lower "2015-01-02T12:34:56Z"^^http://www.w3.org/2001/XMLSchema#dateTime ;
@@ -674,7 +674,7 @@ _:c14n0 a i:OpenClosedInterval ;
         <tr>
           <td rowspan="4" ><dfn>ClosedOpenInterval</dfn></td>
           <td  style="width: 10%">URI:</td>
-          <td ><code>http://ns.jasnell.me/vocabs/interval#ClosedOpenInterval</code></td>
+          <td ><code>http://ns.jasnell.me/interval#ClosedOpenInterval</code></td>
           <td rowspan="4">
 
 <div class="nanotabs">
@@ -687,7 +687,7 @@ _:c14n0 a i:OpenClosedInterval ;
   </ul>
   <div id="ex6-jsonld" style="display: block;">
 <pre class="example highlight json">{
-  "@context": "http://ns.jasnell.me/vocabs/interval#",
+  "@context": "http://ns.jasnell.me/interval#",
   "@type": "ClosedOpenInterval",
   "lower": {
     "@value": "2015-01-02T12:34:56Z",
@@ -702,7 +702,7 @@ _:c14n0 a i:OpenClosedInterval ;
   <div id="ex6-microdata" style="display: none;">
 <pre class="example highlight html"
 >&lt;div itemscope
-  itemtype="http://ns.jasnell.me/vocabs/interval#ClosedOpenInterval">
+  itemtype="http://ns.jasnell.me/interval#ClosedOpenInterval">
   &lt;time itemprop="lower" 
     datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time> -
   &lt;time itemprop="upper"
@@ -711,7 +711,7 @@ _:c14n0 a i:OpenClosedInterval ;
   </div>
   <div id="ex6-rdfa" style="display: none;">
 <pre class="example highlight html"
->&lt;div vocab="http://ns.jasnell.me/vocabs/interval#" typeof="ClosedOpenInterval">
+>&lt;div vocab="http://ns.jasnell.me/interval#" typeof="ClosedOpenInterval">
   &lt;time property="lower" 
     datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time> -
   &lt;time property="upper"
@@ -729,7 +729,7 @@ _:c14n0 a i:OpenClosedInterval ;
   </div>
   <div id="ex6-turtle" style="display: none;">
 <pre class="example highlight turtle"
->@prefix i: &lt;http://ns.jasnell.me/vocabs/interval#&gt; .
+>@prefix i: &lt;http://ns.jasnell.me/interval#&gt; .
 
 _:c14n0 a i:ClosedOpenInterval ;
   i:lower "2015-01-02T12:34:56Z"^^http://www.w3.org/2001/XMLSchema#dateTime ;
@@ -770,7 +770,7 @@ _:c14n0 a i:ClosedOpenInterval ;
         <tr>
           <td rowspan="4" ><dfn>LeftOpenInterval</dfn></td>
           <td  style="width: 10%">URI:</td>
-          <td ><code>http://ns.jasnell.me/vocabs/interval#LeftOpenInterval</code></td>
+          <td ><code>http://ns.jasnell.me/interval#LeftOpenInterval</code></td>
           <td rowspan="4">
 
 <div class="nanotabs">
@@ -783,7 +783,7 @@ _:c14n0 a i:ClosedOpenInterval ;
   </ul>
   <div id="ex7-jsonld" style="display: block;">
 <pre class="example highlight json">{
-  "@context": "http://ns.jasnell.me/vocabs/interval#",
+  "@context": "http://ns.jasnell.me/interval#",
   "@type": "LeftOpenInterval",
   "lower": {
     "@value": "2015-01-02T12:34:56Z",
@@ -794,14 +794,14 @@ _:c14n0 a i:ClosedOpenInterval ;
   <div id="ex7-microdata" style="display: none;">
 <pre class="example highlight html"
 >&lt;div itemscope
-  itemtype="http://ns.jasnell.me/vocabs/interval#LeftOpenInterval">
+  itemtype="http://ns.jasnell.me/interval#LeftOpenInterval">
   &lt;time itemprop="lower" 
     datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time>
 &lt;/div></pre>
   </div>
   <div id="ex7-rdfa" style="display: none;">
 <pre class="example highlight html"
->&lt;div vocab="http://ns.jasnell.me/vocabs/interval#" typeof="LeftOpenInterval">
+>&lt;div vocab="http://ns.jasnell.me/interval#" typeof="LeftOpenInterval">
   &lt;time property="lower" 
     datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time>
 &lt;/div></pre>
@@ -815,7 +815,7 @@ _:c14n0 a i:ClosedOpenInterval ;
   </div>
   <div id="ex7-turtle" style="display: none;">
 <pre class="example highlight turtle"
->@prefix i: &lt;http://ns.jasnell.me/vocabs/interval#&gt; .
+>@prefix i: &lt;http://ns.jasnell.me/interval#&gt; .
 
 _:c14n0 a i:LeftOpenInterval ;
   i:lower "2015-01-02T12:34:56Z"^^http://www.w3.org/2001/XMLSchema#dateTime .</pre>
@@ -850,7 +850,7 @@ _:c14n0 a i:LeftOpenInterval ;
         <tr>
           <td rowspan="4" ><dfn>LeftClosedInterval</dfn></td>
           <td  style="width: 10%">URI:</td>
-          <td ><code>http://ns.jasnell.me/vocabs/interval#LeftClosedInterval</code></td>
+          <td ><code>http://ns.jasnell.me/interval#LeftClosedInterval</code></td>
           <td rowspan="4">
 
 <div class="nanotabs">
@@ -863,7 +863,7 @@ _:c14n0 a i:LeftOpenInterval ;
   </ul>
   <div id="ex8-jsonld" style="display: block;">
 <pre class="example highlight json">{
-  "@context": "http://ns.jasnell.me/vocabs/interval#",
+  "@context": "http://ns.jasnell.me/interval#",
   "@type": "LeftClosedInterval",
   "lower": {
     "@value": "2015-01-02T12:34:56Z",
@@ -874,14 +874,14 @@ _:c14n0 a i:LeftOpenInterval ;
   <div id="ex8-microdata" style="display: none;">
 <pre class="example highlight html"
 >&lt;div itemscope
-  itemtype="http://ns.jasnell.me/vocabs/interval#LeftClosedInterval">
+  itemtype="http://ns.jasnell.me/interval#LeftClosedInterval">
   &lt;time itemprop="lower" 
     datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time>
 &lt;/div></pre>
   </div>
   <div id="ex8-rdfa" style="display: none;">
 <pre class="example highlight html"
->&lt;div vocab="http://ns.jasnell.me/vocabs/interval#" typeof="LeftClosedInterval">
+>&lt;div vocab="http://ns.jasnell.me/interval#" typeof="LeftClosedInterval">
   &lt;time property="lower" 
     datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time>
 &lt;/div></pre>
@@ -895,7 +895,7 @@ _:c14n0 a i:LeftOpenInterval ;
   </div>
   <div id="ex8-turtle" style="display: none;">
 <pre class="example highlight turtle"
->@prefix i: &lt;http://ns.jasnell.me/vocabs/interval#&gt; .
+>@prefix i: &lt;http://ns.jasnell.me/interval#&gt; .
 
 _:c14n0 a i:LeftClosedInterval ;
   i:lower "2015-01-02T12:34:56Z"^^http://www.w3.org/2001/XMLSchema#dateTime .</pre>
@@ -930,7 +930,7 @@ _:c14n0 a i:LeftClosedInterval ;
         <tr>
           <td rowspan="4" ><dfn>RightOpenInterval</dfn></td>
           <td  style="width: 10%">URI:</td>
-          <td ><code>http://ns.jasnell.me/vocabs/interval#RightOpenInterval</code></td>
+          <td ><code>http://ns.jasnell.me/interval#RightOpenInterval</code></td>
           <td rowspan="4">
 
 <div class="nanotabs">
@@ -943,7 +943,7 @@ _:c14n0 a i:LeftClosedInterval ;
   </ul>
   <div id="ex9-jsonld" style="display: block;">
 <pre class="example highlight json">{
-  "@context": "http://ns.jasnell.me/vocabs/interval#",
+  "@context": "http://ns.jasnell.me/interval#",
   "@type": "RightOpenInterval",
   "upper": {
     "@value": "2015-01-02T12:34:56Z",
@@ -954,14 +954,14 @@ _:c14n0 a i:LeftClosedInterval ;
   <div id="ex9-microdata" style="display: none;">
 <pre class="example highlight html"
 >&lt;div itemscope
-  itemtype="http://ns.jasnell.me/vocabs/interval#RightOpenInterval">
+  itemtype="http://ns.jasnell.me/interval#RightOpenInterval">
   &lt;time itemprop="upper" 
     datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time>
 &lt;/div></pre>
   </div>
   <div id="ex9-rdfa" style="display: none;">
 <pre class="example highlight html"
->&lt;div vocab="http://ns.jasnell.me/vocabs/interval#" typeof="RightOpenInterval">
+>&lt;div vocab="http://ns.jasnell.me/interval#" typeof="RightOpenInterval">
   &lt;time property="upper" 
     datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time>
 &lt;/div></pre>
@@ -975,7 +975,7 @@ _:c14n0 a i:LeftClosedInterval ;
   </div>
   <div id="ex9-turtle" style="display: none;">
 <pre class="example highlight turtle"
->@prefix i: &lt;http://ns.jasnell.me/vocabs/interval#&gt; .
+>@prefix i: &lt;http://ns.jasnell.me/interval#&gt; .
 
 _:c14n0 a i:RightOpenInterval ;
   i:upper "2015-01-02T12:34:56Z"^^http://www.w3.org/2001/XMLSchema#dateTime .</pre>
@@ -1010,7 +1010,7 @@ _:c14n0 a i:RightOpenInterval ;
         <tr>
           <td rowspan="4" ><dfn>RightClosedInterval</dfn></td>
           <td  style="width: 10%">URI:</td>
-          <td ><code>http://ns.jasnell.me/vocabs/interval#RightClosedInterval</code></td>
+          <td ><code>http://ns.jasnell.me/interval#RightClosedInterval</code></td>
           <td rowspan="4">
 
 <div class="nanotabs">
@@ -1023,7 +1023,7 @@ _:c14n0 a i:RightOpenInterval ;
   </ul>
   <div id="ex10-jsonld" style="display: block;">
 <pre class="example highlight json">{
-  "@context": "http://ns.jasnell.me/vocabs/interval#",
+  "@context": "http://ns.jasnell.me/interval#",
   "@type": "RightClosedInterval",
   "upper": {
     "@value": "2015-01-02T12:34:56Z",
@@ -1034,14 +1034,14 @@ _:c14n0 a i:RightOpenInterval ;
   <div id="ex10-microdata" style="display: none;">
 <pre class="example highlight html"
 >&lt;div itemscope
-  itemtype="http://ns.jasnell.me/vocabs/interval#RightClosedInterval">
+  itemtype="http://ns.jasnell.me/interval#RightClosedInterval">
   &lt;time itemprop="upper" 
     datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time>
 &lt;/div></pre>
   </div>
   <div id="ex10-rdfa" style="display: none;">
 <pre class="example highlight html"
->&lt;div vocab="http://ns.jasnell.me/vocabs/interval#" typeof="RightClosedInterval">
+>&lt;div vocab="http://ns.jasnell.me/interval#" typeof="RightClosedInterval">
   &lt;time property="upper" 
     datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time>
 &lt;/div></pre>
@@ -1055,7 +1055,7 @@ _:c14n0 a i:RightOpenInterval ;
   </div>
   <div id="ex10-turtle" style="display: none;">
 <pre class="example highlight turtle"
->@prefix i: &lt;http://ns.jasnell.me/vocabs/interval#&gt; .
+>@prefix i: &lt;http://ns.jasnell.me/interval#&gt; .
 
 _:c14n0 a i:RightClosedInterval ;
   i:upper "2015-01-02T12:34:56Z"^^http://www.w3.org/2001/XMLSchema#dateTime .</pre>
@@ -1090,7 +1090,7 @@ _:c14n0 a i:RightClosedInterval ;
         <tr>
           <td rowspan="3" ><dfn>EmptyInterval</dfn></td>
           <td  style="width: 10%">URI:</td>
-          <td ><code>http://ns.jasnell.me/vocabs/interval#EmptyInterval</code></td>
+          <td ><code>http://ns.jasnell.me/interval#EmptyInterval</code></td>
           <td rowspan="3">
           </td>
         </tr>
@@ -1113,7 +1113,7 @@ _:c14n0 a i:RightClosedInterval ;
         <tr>
           <td rowspan="3" ><dfn>UnboundedInterval</dfn></td>
           <td  style="width: 10%">URI:</td>
-          <td ><code>http://ns.jasnell.me/vocabs/interval#UnboundedInterval</code></td>
+          <td ><code>http://ns.jasnell.me/interval#UnboundedInterval</code></td>
           <td rowspan="3">
           </td>
         </tr>
@@ -1152,7 +1152,7 @@ _:c14n0 a i:RightClosedInterval ;
         <tr>
           <td rowspan="6" ><dfn>upper</dfn></td>
           <td style="width: 10%">URI:</td>
-          <td ><code>http://ns.jasnell.me/vocabs/interval#upper</code></td>
+          <td ><code>http://ns.jasnell.me/interval#upper</code></td>
         </tr>
         <tr>
           <td>Microformats Class:</td>
@@ -1187,7 +1187,7 @@ _:c14n0 a i:RightClosedInterval ;
         <tr>
           <td rowspan="6" ><dfn>lower</dfn></td>
           <td style="width: 10%">URI:</td>
-          <td ><code>http://ns.jasnell.me/vocabs/interval#lower</code></td>
+          <td ><code>http://ns.jasnell.me/interval#lower</code></td>
         </tr>
         <tr>
           <td>Microformats Class:</td>
@@ -1222,7 +1222,7 @@ _:c14n0 a i:RightClosedInterval ;
         <tr>
           <td rowspan="6" ><dfn>step</dfn></td>
           <td style="width: 10%">URI:</td>
-          <td ><code>http://ns.jasnell.me/vocabs/interval#step</code></td>
+          <td ><code>http://ns.jasnell.me/interval#step</code></td>
         </tr>
         <tr>
           <td>Microformats Class:</td>
@@ -1384,16 +1384,16 @@ _:c14n0 a i:RightClosedInterval ;
 
   <section id="owl" class="informative">
 <pre class="example highlight turtle">
-@prefix : &lt;http://ns.jasnell.me/vocabs/interval#> .
-@prefix r: &lt;http://ns.jasnell.me/vocabs/interval#> .
+@prefix : &lt;http://ns.jasnell.me/interval#> .
+@prefix r: &lt;http://ns.jasnell.me/interval#> .
 @prefix owl: &lt;http://www.w3.org/2002/07/owl#> .
 @prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xml: &lt;http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#> .
-@base &lt;http://ns.jasnell.me/vocabs/interval#> .
+@base &lt;http://ns.jasnell.me/interval#> .
 
-&lt;http://ns.jasnell.me/vocabs/interval#> a owl:Ontology;
+&lt;http://ns.jasnell.me/interval#> a owl:Ontology;
   rdfs:comment "A vocabulary for representing intervals"@en .
 
 :lower a owl:DatatypeProperty, owl:FunctionalProperty ;       
