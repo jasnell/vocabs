@@ -1,6 +1,6 @@
 {
   "@context": {
-    "i": "http://www.w3.org/ns/interval#"
+    "i": "http://www.w3.org/ns/interval#",
     "ClosedInterval": "i:ClosedInterval",
     "OpenInterval": "i:OpenInterval",
     "OpenClosedInterval": "i:OpenClosedInterval",
@@ -8,6 +8,23 @@
     "LeftOpenInterval": "i:LeftOpenInterval",
     "LeftClosedInterval": "i:LeftClosedInterval",
     "RightOpenInterval": "i:RightOpenInterval",
-    "RightClosedInterval": "i:RightClosedInterval"
+    "RightClosedInterval": "i:RightClosedInterval",
+    "upper": "i:upper",
+    "lower": "i:lower",
+    "step": "i:step",
+    "EmptyInterval": "i:EmptyInterval",
+    "UnboundedInterval": "i:UnboundedInterval",
+    "PositiveIntegers": "i:PositiveIntegers",
+    "NonNegativeIntegers": "i:NonNegativeIntegers",
+    "NegativeIntegers": "i:NegativeIntegers",
+    "PositiveFloats": "i:PositiveFloats",
+    "NonNegativeFloats": "i:NonNegativeFloats",
+    "NegativeFloats": "i:NegativeFloats",
+    "PositiveDoubles": "i:PositiveDoubles",
+    "NonNegativeDoubles": "i:NonNegativeDoubles",
+    "NegativeDoubles": "i:NegativeDoubles",
+    "PositiveDecimals": "i:PositiveDecimals",
+    "NonNegativeDecimals": "i:NonNegativeDecimals",
+    "NegativeDecimals": "i:NegativeDecimals"
   }
 }
