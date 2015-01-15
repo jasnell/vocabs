@@ -1,5 +1,9 @@
 The Interval vocabulary is primarily motivated by Activity Streams Collection uses cases and Object validity cases. The vocabulary allows the description of various kinds of intervals. 
 
+* Spec is here: http://ns.jasnell.me/interval
+* JSON-LD context is here: http://ns.jasnell.me/interval/interval.jsonld
+* OWL is here: http://ns.jasnell.me/interval/interval.owl
+
 For instance, to represent a Closed Interval (lower and upper inclusive bounds), we can use:
 
 ```json
@@ -90,14 +94,14 @@ Or a price range ...
 ```
 
 ```html
-<div itemscope itemtype="http://www.w3.org/ns/interval#ClosedInterval">
+<div itemscope itemtype="http://ns.jasnell.me/interval#ClosedInterval">
   <time itemprop="lower" datetime="2015-01-14T12:12:12Z">12:12:12Z on January 14, 2015</time> - 
   <time itemprop="upper" datetime="2015-01-15T12:12:12Z">12:12:12Z on January 15, 2015</time>
 </div>
 ```
 
 ```html
-<div vocab="http://www.w3.org/ns/interval#" typeof="ClosedInterval">
+<div vocab="http://ns.jasnell.me/interval#" typeof="ClosedInterval">
   <time property="lower" datetime="2015-01-14T12:12:12Z">12:12:12Z on January 14, 2015</time> - 
   <time property="upper" datetime="2015-01-15T12:12:12Z">12:12:12Z on January 15, 2015</time>
 </div>
