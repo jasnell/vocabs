@@ -13,13 +13,13 @@ Assuming that "http://www.w3.org/ns/social" points to the JSON-LD context docume
   "@context": {
     "s": "http://www.w3.org/ns/social#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
-    "s:hasDimension": {
+    "s:havingDimension": {
       "@type": "@id"
     },
-    "s:hasRelationship": {
+    "s:havingRelationship": {
       "@type": "@id"
     },
-    "s:hasRole": {
+    "s:havingRole": {
       "@type": "@id"
     },
     "s:confidence": {
@@ -54,12 +54,9 @@ The vocabulary defines a top level Population class that is itself a subclass of
 * Public (Subset visible to the context and that have a publicly visible relationship with the context)
 * Private (Subset visible to the context but have publicly invisible relationship with the context)
 * Direct (Subset visible to the context and directly connected to the context)
-* Extended (Subset visisble to the context and directly/indirectly connected to the context)
 * Common (Subset visible to the context and that shares one or more common interests with the context)
 * Interested (Subset visible to the context and that has expressed an interest in the context, e.g. followers)
 * Self (the context itself)
-* EveryoneWithRole (Subset visible to the context and that has been assigned one or more specific roles)
-* EveryoneRelated (Subset visible to the context and that has one or more specific relationships with the context)
 
 Most of these can be used directly without any qualification. For instance:
 
@@ -81,20 +78,42 @@ Most of these can be used directly without any qualification. For instance:
 }
 ```
 
-Several, however, can be qualified with a distance, confidence or other parameters. To do so, you would essentially create a new object with it's type set appropriate. For instance:
+They can, however, be qualified with a distance, confidence or other parameters. To do so, you would essentially create a new object with it's type set appropriate. For instance:
+
+Everyone who is a sibling of the context and connected within 10 degrees of separation (which doesn't make much practical sense but it is just an example...):
 
 ```json
 {
   "to": {
-    "@type": "s:Extended",
+    "@type": "s:Everyone",
+    "s:havingRelationship": "http://purl.org/vocab/relationship/siblingOf",
+    "s:distance": 10
+  }
+}
+```
+
+Everyone who has the role of 'http://example.org/Moderator':
+
+```json
+{
+  "to": {
+    "@type": "s:Everyone",
+    "s:havingRole": "http://example.org/Moderator"
+  }
+}
+```
+
+The extended network out to the 9th degree of separation:
+```json
+{
+  "to": {
+    "@type": "s:Everyone",
     "s:distance": 9 
   }
 }
 ```
 
-Which represents: The extended network out to the 9th degree of separation.
-
-Or
+The subset of the population who share common interests along dimensions "http://.../arbitrary1" and "http://.../arbitrary2" with a 99% confidence level:
 
 ```json
 {
@@ -108,8 +127,6 @@ Or
   }
 }
 ```
-
-Which represents: The subset of the population who share common interests along dimensions "http://.../arbitrary1" and "http://.../arbitrary2" with a 99% confidence level.
 
 Typically, the "context" will be determined implicitly by use. For instance, in an authenticated API request the "context" will be the authenticated user. In other cases tho, we might need to specify the context explicitly. If we're using the proposed AS 2.0 vocabulary, that would be done like:
 
@@ -172,7 +189,7 @@ Not yet certain how common this will be, but we can support n-ary populations...
 {
   "to": {
     "@type": "s:All",
-    "member": [
+    "s:member": [
       "s:Private", "s:Direct"
     ]
   }
@@ -187,7 +204,7 @@ Or
 {
   "to": {
     "@type": "s:Any",
-    "member": [
+    "s:member": [
       "s:Private", "s:Direct"
     ]
   }
@@ -202,7 +219,7 @@ Or
 {
   "to": {
     "@type": "s:None",
-    "member": [
+    "s:member": [
       "s:Private", "s:Direct"
     ]
   }

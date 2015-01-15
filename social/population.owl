@@ -1,5 +1,5 @@
-@prefix : <http://www.w3.org/ns/social#> .
-@prefix s: <http://www.w3.org/ns/social#> .
+@prefix : <http://ns.jasnell.me/social#> .
+@prefix s: <http://ns.jasnell.me/social#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
@@ -7,7 +7,7 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @base <http://www.w3.org/ns/activitystreams> .
 
-<http://www.w3.org/ns/social#> a owl:Ontology ;
+<http://ns.jasnell.me/social#> a owl:Ontology ;
   rdfs:comment "Social Artifacts"@en ;
   rdfs:label "Social Artifacts"@en .
 
@@ -31,10 +31,6 @@
   rdfs:label "Direct"@en ;
   rdfs:comment "Represents the subset of a total population that is both visible to the context and directly connected to the context"@en .
 
-:Extended a :Population ;
-  rdfs:label "Extended"@en ;
-  rdfs:comment "Represents the subset of a total population that is both visible to and connected either directly or indirectly to the context"@en .
-
 :Common a :Population ;
   rdfs:label "Common"@en ;
   rdfs:comment "Represents the subset of a total population that is both visible to the context and is determined to share common attributes with the context"@en .
@@ -47,69 +43,52 @@
   rdfs:label "Self"@en ;
   rdfs:comment "Represents the context resource itself as a member of the total population"@en .
 
-:EveryoneWithRole a :Population ;
-  rdfs:label "EveryoneWithRole"@en ;
-  rdfs:comment "Represents the subset of a total population that is both visible to the context and has been assigned to each of the individual roles identified"@en .
-
-:EveryoneRelated a :Population ;
-  rdfs:label "EveryoneRelated"@en ;
-  rdfs:comment "Represents the subset of a total population that is both visible to the context and fulfills at least one of the individual roles identified"@en .
-
-:All a :Population ;
+:All a :CompoundPopulation ;
   rdfs:label "All"@en;
   rdfs:comment "Represents the subset represented by the intersection of multiple subsets (that is, members must belong to all specified subsets"@en .
 
-:Any a :Population ;
+:Any a :CompoundPopulation ;
   rdfs:label "Any"@en;
   rdfs:comment "Represents the subset represented by the union of multiple subsets (that is, members must belong to any of the specified subsets"@en .
 
-:None a :Population ;
+:None a :CompoundPopulation ;
   rdfs:label "None"@en;
   rdfs:comment "Represents the subset represented by the complement of multiple subsets (that is, members must not belong to any of the specified subsets"@en .
 
-:member a owl:ObjectProperty ;
+:CompoundPopulation a owl:Class ;
+  rdfs:label "CompoundPopulation"@en ;
+  rdfs:comment "A population composed of multiple sub-populations."@en ;
+  rdfs:subClassOf rdf:Bag, :Population .
+
+:member a owl:ObjectProperty, rdfs:ContainerMembershipProperty ;
   rdfs:label "member"@en;
-  rdfs:domain [
-    a owl:Class ;
-      owl:unionOf (
-        :All :Any :None
-      )
-  ] ;
+  rdfs:subPropertyOf rdfs:member ;
+  rdfs:domain :CompoundPopulation ;
   rdfs:range :Population ;
 
-:hasDimension a owl:ObjectProperty ;
-  rdfs:label "hasDimension"@en ;
+:havingDimension a owl:ObjectProperty ;
+  rdfs:label "havingDimension"@en ;
   rdfs:comment "Specifies a dimension used to evaluate common attributes"@en;
   rdfs:domain :Common ;
   rdfs:range owl:Thing .
 
-:hasRole a owl:ObjectProperty ;
-  rdfs:label "hasRole"@en ;
+:havingRole a owl:ObjectProperty ;
+  rdfs:label "havingRole"@en ;
   rdfs:comment "Specifies a role"@en ;
-  rdfs:domain :EveryoneWithRole ;
+  rdfs:domain :Everyone ;
   rdfs:range owl:Thing .
 
-:hasRelationship a owl:ObjectProperty ;
-  rdfs:label "hasRelationship"@en ;
+:havingRelationship a owl:ObjectProperty ;
+  rdfs:label "havingRelationship"@en ;
   rdfs:comment "Specifies a type of relationship"@en ;
-  rdfs:domain :EveryoneRelated ;
+  rdfs:domain :Everyone ;
   rdfs:range owl:Thing .
 
 :distance a owl:DatatypeProperty ;
   rdfs:label "distance"@en ;
   rdfs:comment "Specifies a relative 'degree of separation' from the context"@en ;
-  rdfs:domain [
-    a owl:Class;
-      owl:unionOf ( :Extended :EveryoneRelated ) 
-  ] ;
-  rdfs:range [ 
-    a rdfs:Datatype ;
-    owl:onDatatype xsd:nonNegativeInteger ;
-    owl:withRestrictions ( 
-      [ xsd:minInclusive "0"^^xsd:nonNegativeInteger ]
-      [ xsd:maxInclusive "9"^^xsd:nonNegativeInteger ]
-    )
-  ] .
+  rdfs:domain :Population ;
+  rdfs:range xsd:nonNegativeInteger .
 
 :confidence a owl:DatatypeProperty ;
   rdfs:label "confidence"@en ;
@@ -122,7 +101,6 @@
     a rdfs:Datatype ;
     owl:onDatatype xsd:nonNegativeInteger ;
     owl:withRestrictions ( 
-      [ xsd:minInclusive "0"^^xsd:nonNegativeInteger ]
       [ xsd:maxInclusive "100"^^xsd:nonNegativeInteger ]
     )
   ] .

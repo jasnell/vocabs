@@ -1,14 +1,14 @@
 {
   "@context": {
-    "s": "http://www.w3.org/ns/social#",
+    "s": "http://ns.jasnell.me/social#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
-    "s:hasDimension": {
+    "s:havingDimension": {
       "@type": "@id"
     },
-    "s:hasRelationship": {
+    "s:havingRelationship": {
       "@type": "@id"
     },
-    "s:hasRole": {
+    "s:havingRole": {
       "@type": "@id"
     },
     "s:confidence": {
