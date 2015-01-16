@@ -15,16 +15,9 @@ The normalized output would be:
 
 The challenge, however, is that we need to have a deterministic way of canonicalizing. Will address that problem later. For now, let's assume that magic is involved (or perhaps something like this: http://json-ld.org/spec/latest/rdf-graph-normalization/ ). There is some overlap here with https://web-payments.org/specs/source/secure-messaging/ that would need to be worked out.
 
-{"kty":"EC",
-      "crv":"P-256",
-      "x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU",
-      "y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0",
-      "kid":"Public key used in JWS A.3 example"
-     }
-
 ```
 # JSON Web Key ... 
-@prefix wa: <http://ns.jasnell.me/wa#> ;
+@prefix wa: <http://ns.jasnell.me/jwa#> ;
 
 <urn:Signature> a :Signature ;
   :resource [
@@ -51,7 +44,7 @@ signing a transformed view of `urn:thing`. In the transform, `alg` identifies th
 
 We can nest the thing being verified:
 ```
-@prefix wa: <http://ns.jasnell.me/wa#> ;
+@prefix wa: <http://ns.jasnell.me/jwa#> ;
 <urn:Signature2> a :Signature ;
   :resource [
     a :Transform ;
@@ -87,7 +80,7 @@ We would use an RFD mapping of JSON Web Keys to represent keys
 (see webkey.jsonld)
 
 ```
-@prefix wa: <http://ns.jasnell.me/wa#> ;
+@prefix wa: <http://ns.jasnell.me/jwa#> ;
 @prefix wk: <http://ns.jasnell.me/wk#> ;
 <urn:myeckey> a wa:EC ;
   wa:crv "P-256" ;
