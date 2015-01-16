@@ -1,19 +1,22 @@
 {
   "@context": {
     "ldsec": "http://www.w3.org/ns/ldsec#",
-    "ldsec:verifies": {
+    "ldsec:resource": {
       "@type": "@id"
     },
-    "ldsec:verifiedBy": {
-      "@type": "@id"
-    },
-    "ldsec:transform": {
+    "ldsec:signature": {
       "@type": "@id"
     },
     "ldsec:alg": {
       "@type": "@id"
     },
     "ldsec:key": {
+      "@type": "@id"
+    },
+    "ldsec:select": {
+      "@type": "@id"
+    },
+    "ldsec:property": {
       "@type": "@id"
     },
     "ldsec:jsonEncryptedKey": {
