@@ -15,7 +15,17 @@ The normalized output would be:
 
 The challenge, however, is that we need to have a deterministic way of canonicalizing. Will address that problem later. For now, let's assume that magic is involved (or perhaps something like this: http://json-ld.org/spec/latest/rdf-graph-normalization/ ). There is some overlap here with https://web-payments.org/specs/source/secure-messaging/ that would need to be worked out.
 
+{"kty":"EC",
+      "crv":"P-256",
+      "x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU",
+      "y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0",
+      "kid":"Public key used in JWS A.3 example"
+     }
+
 ```
+# JSON Web Key ... 
+@prefix wa: <http://ns.jasnell.me/wa#> ;
+
 <urn:Signature> a :Signature ;
   :resource [
     a :Transform ;
@@ -24,15 +34,15 @@ The challenge, however, is that we need to have a deterministic way of canonical
   ]  ;
   :alg <http://www.w3.org/2001/04/xmldsig-more#rsa-sha256> ;
   :key [ 
-    a :RSAKey ;
-      :n "{base64 data}"^^xsd:base64Binary ;
-      :e "{base64 data}"^^xsd:base64Binary ;
-      :d "{base64 data}"^^xsd:base64Binary ;
-      :p "{base64 data}"^^xsd:base64Binary ;
-      :q "{base64 data}"^^xsd:base64Binary ;
-      :dp "{base64 data}"^^xsd:base64Binary ;
-      :dq "{base64 data}"^^xsd:base64Binary ;
-      :qi "{base64 data}"^^xsd:base64Binary .
+    a wa:RSA ;
+      wa:n "{base64 data}"^^xsd:base64Binary ;
+      wa:e "{base64 data}"^^xsd:base64Binary ;
+      wa:d "{base64 data}"^^xsd:base64Binary ;
+      wa:p "{base64 data}"^^xsd:base64Binary ;
+      wa:q "{base64 data}"^^xsd:base64Binary ;
+      wa:dp "{base64 data}"^^xsd:base64Binary ;
+      wa:dq "{base64 data}"^^xsd:base64Binary ;
+      wa:qi "{base64 data}"^^xsd:base64Binary .
   ];
   :sig "{base64 signature}"^^xsd:base64Binary .
 ```
@@ -41,6 +51,7 @@ signing a transformed view of `urn:thing`. In the transform, `alg` identifies th
 
 We can nest the thing being verified:
 ```
+@prefix wa: <http://ns.jasnell.me/wa#> ;
 <urn:Signature2> a :Signature ;
   :resource [
     a :Transform ;
@@ -52,11 +63,11 @@ We can nest the thing being verified:
   ]  ;
   :alg <http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha512> ;
   :key [
-    a :ECKey ;
-      :crv "P-256" ;
-      :x "{base64 data}"^^xsd:base64Binary ;
-      :y "{base64 data}"^^xsd:base64Binary ;
-      :d "{base64 data}"^^xsd:base64Binary ;
+    a wa:EC ;
+      wa:crv "P-256" ;
+      wa:x "{base64 data}"^^xsd:base64Binary ;
+      wa:y "{base64 data}"^^xsd:base64Binary ;
+      wa:d "{base64 data}"^^xsd:base64Binary ;
   ] ;
   :sig "{base64 signature}"^^xsd:base64Binary .
 ```
@@ -66,30 +77,24 @@ We can specify the key in a number of ways, and there's no reason we can't use t
 <urn:Signature3> a :Signature ;
   :resource <http://example.com/some-other-kind-of-thing>;
   :alg <http://www...> ;
-  :x509 "{base64-encoded cert}"^^xsd:base64Binary
+  :key [
+    wk:x5c ( "{base64 signature}"^^xsd:base64Binary ) 
+  ], 
   :sig "{base64 signature}"^^xsd:base64Binary .
 ```
 
-We can represent Keys too
+We would use an RFD mapping of JSON Web Keys to represent keys 
+(see webkey.jsonld)
 
 ```
-<urn:myeckey> a :ECPublicKey ;
-  :crv "P-256" ;
-  :x "{base64 data}"^^xsd:base64Binary ;
-  :y "{base64 data}"^^xsd:base64Binary ;
-  :use :Signature ;
-  :kid "1" .
-
-<urn:myrsakey> a :RSAPublicKey ;
-  :n "{base64 data}"^^xsd:base64Binary ;
-  :e "{base64 data}"^^xsd:base64Binary ;
-  :alg <http://www.w3.org/2001/04/xmldsig-more#rsa-sha256> ;
-  :use :Signature ;
-  :kid "2" .
-
-<urn:mykeyset> a :KeySet ;
-  :hasKey <urn:myeckey> ;
-  :hasKey <urn:myrsakey> .
+@prefix wa: <http://ns.jasnell.me/wa#> ;
+@prefix wk: <http://ns.jasnell.me/wk#> ;
+<urn:myeckey> a wa:EC ;
+  wa:crv "P-256" ;
+  wa:x "{base64 data}"^^xsd:base64Binary ;
+  wa:y "{base64 data}"^^xsd:base64Binary ;
+  wk:use "sig" ;
+  wk:kid "1" .
 ```
 
 It's possible that we'd only want to sign a subset of the properties available for a resource. We'd need a way of selecting which bits to sign, or which bits to exclude.
@@ -107,17 +112,7 @@ To cherry pick which properties to sign, we'd use an InclusionTransform.
       ).
   ]  ;
   :alg <http://www.w3.org/2001/04/xmldsig-more#rsa-sha256> ;
-  :key [ 
-    a :RSAKey ;
-      :n "{base64 data}"^^xsd:base64Binary ;
-      :e "{base64 data}"^^xsd:base64Binary ;
-      :d "{base64 data}"^^xsd:base64Binary ;
-      :p "{base64 data}"^^xsd:base64Binary ;
-      :q "{base64 data}"^^xsd:base64Binary ;
-      :dp "{base64 data}"^^xsd:base64Binary ;
-      :dq "{base64 data}"^^xsd:base64Binary ;
-      :qi "{base64 data}"^^xsd:base64Binary .
-  ];
+  :key <urn:mykey>;
   :sig "{base64 signature}"^^xsd:base64Binary .
 ```
 
@@ -136,17 +131,7 @@ To pick which properties to exclude, we'd use an ExclusionTransform.
       ).
   ]  ;
   :alg <http://www.w3.org/2001/04/xmldsig-more#rsa-sha256> ;
-  :key [ 
-    a :RSAKey ;
-      :n "{base64 data}"^^xsd:base64Binary ;
-      :e "{base64 data}"^^xsd:base64Binary ;
-      :d "{base64 data}"^^xsd:base64Binary ;
-      :p "{base64 data}"^^xsd:base64Binary ;
-      :q "{base64 data}"^^xsd:base64Binary ;
-      :dp "{base64 data}"^^xsd:base64Binary ;
-      :dq "{base64 data}"^^xsd:base64Binary ;
-      :qi "{base64 data}"^^xsd:base64Binary .
-  ];
+  :key <urn:mykey>;
   :sig "{base64 signature}"^^xsd:base64Binary .
 ```
 
@@ -168,17 +153,7 @@ Suppose we have a more complex type of object, with nested objects, etc and we w
       ).
   ]  ;
   :alg <http://www.w3.org/2001/04/xmldsig-more#rsa-sha256> ;
-  :key [ 
-    a :RSAKey ;
-      :n "{base64 data}"^^xsd:base64Binary ;
-      :e "{base64 data}"^^xsd:base64Binary ;
-      :d "{base64 data}"^^xsd:base64Binary ;
-      :p "{base64 data}"^^xsd:base64Binary ;
-      :q "{base64 data}"^^xsd:base64Binary ;
-      :dp "{base64 data}"^^xsd:base64Binary ;
-      :dq "{base64 data}"^^xsd:base64Binary ;
-      :qi "{base64 data}"^^xsd:base64Binary .
-  ];
+  :key <urn:mykey>;
   :sig "{base64 signature}"^^xsd:base64Binary .
 ```
 
@@ -200,17 +175,7 @@ _:c14n0 a :Selection ;
       :select _:c14n0 .
   ]  ;
   :alg <http://www.w3.org/2001/04/xmldsig-more#rsa-sha256> ;
-  :key [ 
-    a :RSAKey ;
-      :n "{base64 data}"^^xsd:base64Binary ;
-      :e "{base64 data}"^^xsd:base64Binary ;
-      :d "{base64 data}"^^xsd:base64Binary ;
-      :p "{base64 data}"^^xsd:base64Binary ;
-      :q "{base64 data}"^^xsd:base64Binary ;
-      :dp "{base64 data}"^^xsd:base64Binary ;
-      :dq "{base64 data}"^^xsd:base64Binary ;
-      :qi "{base64 data}"^^xsd:base64Binary .
-  ];
+  :key <urn:mykey>;
   :sig "{base64 signature}"^^xsd:base64Binary .
 ```
 
@@ -228,17 +193,7 @@ Suppose we have multiple separate objects that we want sign all at once. We can 
       ).
   ]  ;
   :alg <http://www.w3.org/2001/04/xmldsig-more#rsa-sha256> ;
-  :key [ 
-    a :RSAKey ;
-      :n "{base64 data}"^^xsd:base64Binary ;
-      :e "{base64 data}"^^xsd:base64Binary ;
-      :d "{base64 data}"^^xsd:base64Binary ;
-      :p "{base64 data}"^^xsd:base64Binary ;
-      :q "{base64 data}"^^xsd:base64Binary ;
-      :dp "{base64 data}"^^xsd:base64Binary ;
-      :dq "{base64 data}"^^xsd:base64Binary ;
-      :qi "{base64 data}"^^xsd:base64Binary .
-  ];
+  :key <urn:mykey>;
   :sig "{base64 signature}"^^xsd:base64Binary .
 ```
 
@@ -265,17 +220,7 @@ And you want to generate the signature on the blank node object value of `http:/
       :property <http://example.org/property> .
   ]  ;
   :alg <http://www.w3.org/2001/04/xmldsig-more#rsa-sha256> ;
-  :key [ 
-    a :RSAKey ;
-      :n "{base64 data}"^^xsd:base64Binary ;
-      :e "{base64 data}"^^xsd:base64Binary ;
-      :d "{base64 data}"^^xsd:base64Binary ;
-      :p "{base64 data}"^^xsd:base64Binary ;
-      :q "{base64 data}"^^xsd:base64Binary ;
-      :dp "{base64 data}"^^xsd:base64Binary ;
-      :dq "{base64 data}"^^xsd:base64Binary ;
-      :qi "{base64 data}"^^xsd:base64Binary .
-  ];
+  :key <urn:mykey>;
   :sig "{base64 signature}"^^xsd:base64Binary .
 ```
 

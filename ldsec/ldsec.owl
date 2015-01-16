@@ -7,7 +7,7 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @base <http://www.w3.org/ns/ldsec#> .
 
-<http://www.w3.org/ns/ldsec#> a owl:Ontology;
+<http://ns.jasnell.me/lds#> a owl:Ontology;
   rdfs:comment "A signature/encryption vocabulary"@en .
 
 :JSONWebSignature a rdfs:Datatype ;
@@ -44,23 +44,12 @@
   rdfs:comment "Identifies one or more keys used to generate the Signature." ;
   rdfs:range [
     a owl:Class ;
-    owl:unionOf ( owl:Thing :Key :KeySet :EncryptedKey :CipherObject ) .
+    owl:unionOf ( owl:Thing :EncryptedKey :CipherObject ) .
   ] ;
   rdfs:domain [
     a owl:Class ;
       owl:unionOf ( :Signature :CipherObject ) .
   ] .
-
-:x509 a owl:DatatypeProperty ;
-  rdfs:comment "Identifies one or more x.509 Certificates." ;
-  rdfs:range [
-    a owl:Class ;
-      owl:unionOf ( rdf:List :Thumbprint xsd:base64Binary xsd:anyURI ) .
-  ] ;
-  rdfs:domain [
-    a owl:Class ;
-      owl:unionOf ( :Signature :Key :CipherObject )
-  ] ;
 
 :sig a owl:DatatypeProperty, owl:FunctionalProperty ;
   rdfs:comment "Specifies the Signature signature" ;
@@ -98,47 +87,6 @@
   rdfs:range owl:ObjectProperty ;
   rdfs:domain :Selection ;
 
-## Thumbprints
-
-:Thumbprint a rdfs:Dataype ;
-  owl:onDatatype xsd:base64Binary .
-:SHA1Thumbprint a rdfs:Dataype ;
-  rdfs:subClassOf :Thumbprint .
-:SHA256Thumbprint a rdfs:Datatype ;
-  rdfs:subClassOf :Thumbprint .
-
-## Key
-
-:KeySet a owl:Class ;
-  rdfs:comment "An unordered set of keys" .
-
-:hasKey a owl:ObjectProperty ;
-  rdfs:range :Key,
-  rdfs:domain :KeySet .
-
-:Key a owl:Class ;
-  rdfs:comment "A cryptographic key" .
-
-:PublicKey a owl:Class ;
-  rdfs:comment "A Public Key" ;
-  rdfs:subClassOf :Key .
-
-:PrivateKey a owl:Class ;
-  rdfs:comment "A Private Key" ;
-  rdfs:subClassOf :Key .
-
-:kid a owl:DatatypeProperty, owl:FunctionalProperty ;
-  rdfs:comment "A free-form key identifier. Should we just use rdf:label or prefLabel?" ;
-  rdfs:range xsd:string ;
-  rdfs:domain [
-    a owl:Class ;
-      owl:unionOf ( :Key :Signature :CipherObject ) .
-  ] .
-
-:use a owl:ObjectProperty ;
-  rdfs:comment "Identifies the intended usage of a key" ;
-  rdfs:domain :Key ;
-  rdfs:range :Usage .
 
 ## Encrypted Key
 
@@ -146,150 +94,6 @@
 :JSONEncryptedKey a rdfs:Datatype ;
   rdfs:subClassOf :EncryptedKey, :JSONWebEncryption ;
   rdfs:comment "An Encrypted JSON Web Key" .
-
-## A Key Pair
-
-:KeyPair a owl:Class ;
-  rdfs:comment "A cryptographic key pair" .
-
-:hasPublicKey a owl:ObjectProperty, owl:FunctionalProperty ;
-  rdfs:comment "The public key component of a key pair" ;
-  rdfs:range :PublicKey ;
-  rdfs:domain :KeyPair .
-:hasPrivateKey a owl:ObjectProperty, owl:FunctionalProperty ;
-  rdfs:comment "The private key component of a key pair" ;
-  rdfs:range :PrivateKey ;
-  rdfs:domain :KeyPair .
-
-## Elliptic Curve Keys
-
-:ECKey a owl:Class ;
-  rdfs:comment "An Elliptic Curve Key" ;
-  rdfs:subClassOf :Key .
-
-:ECKeyPair a owl:Class ;
-  rdfs:comment "An Elliptic Curve Key Pair" ;
-  rdfs:subClassOf :KeyPair .
-
-:ECPublicKey a owl:Class ;
-  rdfs:comment "An Elliptic Curve Public Key" ;
-  rdfs:subClassOf :ECKey, :PublicKey .
-
-:ECPrivateKey a owl:Class ;
-  rdfs:comment "An Elliptic Curve Private Key" ;
-  rdfs:subClassOf :ECKey, :PrivateKey .
-
-:crv a owl:DatatypeProperty, owl:FunctionalProperty ;
-  rdfs:comment "A Elliptic Curve Identifier" ;
-  rdfs:domain :ECKey ;
-  rdfs:range xsd:base64Binary .
-
-:x a owl:DatatypeProperty, owl:FunctionalProperty ;
-  rdfs:comment "X-Coordinate" ;
-  rdfs:domain :ECKey ;
-  rdfs:range xsd:base64Binary .
-
-:y a owl:DatatypeProperty, owl:FunctionalProperty ;
-  rdfs:comment "Y-Coordinate" ;
-  rdfs:domain :ECKey ;
-  rdfs:range xsd:base64Binary .
-
-:d a owl:DatatypeProperty, owl:FunctionalProperty ;
-  rdfs:comment "d-Parameter" ;
-  rdfs:domain [
-    a owl:Class ;
-      owl:unionOf ( :ECPrivateKey :RSAPrivateKey ) ;
-  rdfs:range xsd:base64Binary .
-
-## RSA Keys
-
-:RSAKey a owl:Class ;
-  rdfs:comment "An RSA Key" ;
-  rdfs:subClassOf :Key .
-
-:RSAKeyPair a owl:Class ;
-  rdfs:comment "An RSA Key Pair" ;
-  rdfs:subClassOf :KeyPair .
-
-:RSAPublicKey a owl:Class ;
-  rdfs:comment "An RSA Public Key" ;
-  rdfs:subClassOf :RSAKey, :PublicKey .
-
-:RSAPrivateKey a owl:Class ;
-  rdfs:comment "An RSA Private Key" ;
-  rdfs:subClassOf :RSAKey, :PrivateKey .
-
-:n a owl:DatatypeProperty, owl:FunctionalProperty ;
-  rdfs:comment "Modulus" ;
-  rdfs:domain :RSAKey ;
-  rdfs:range xsd:base64Binary .
-
-:e a owl:DatatypeProperty, owl:FunctionalProperty ;
-  rdfs:comment "Exponent" ;
-  rdfs:domain :RSAKey ;
-  rdfs:range xsd:base64Binary .
-
-:p a owl:DatatypeProperty, owl:FunctionalProperty ;
-  rdfs:comment "Private Exponent" ;
-  rdfs:domain :RSAPrivateKey ;
-  rdfs:range xsd:base64Binary .
-
-:q a owl:DatatypeProperty, owl:FunctionalProperty ;
-  rdfs:comment "Second Prime Factor" ;
-  rdfs:domain :RSAPrivateKey ;
-  rdfs:range xsd:base64Binary .
-
-:dp a owl:DatatypeProperty, owl:FunctionalProperty ;
-  rdfs:comment "First Factor CRT Exponent" ;
-  rdfs:domain :RSAPrivateKey ;
-  rdfs:range xsd:base64Binary .
-
-:dq a owl:DatatypeProperty, owl:FunctionalProperty ;
-  rdfs:comment "Second Factor CRT Exponent" ;
-  rdfs:domain :RSAPrivateKey ;
-  rdfs:range xsd:base64Binary .
-
-:qi a owl:DatatypeProperty, owl:FunctionalProperty ;
-  rdfs:comment "First CRT Coefficient" ;
-  rdfs:domain :RSAPrivateKey ;
-  rdfs:range xsd:base64Binary .
-
-:oth a owl:DatatypeProperty, owl:FunctionalProperty ;
-  rdfs:comment "Other Primes Info" ;
-  rdfs:domain :RSAPrivateKey ;
-  rdfs:range xsd:base64Binary .
-
-:r a owl:DatatypeProperty, owl:FunctionalProperty ;
-  rdfs:comment "Prime Factor" ;
-  rdfs:domain :RSAPrivateKey ;
-  rdfs:range xsd:base64Binary .
-
-:t a owl:DatatypeProperty, owl:FunctionalProperty ;
-  rdfs:comment "Factor CRT Coefficient" ;
-  rdfs:domain :RSAPrivateKey ;
-  rdfs:range xsd:base64Binary .
-
-## Symmetric Keys
-
-:SymmetricKey a owl:Class ;
-  rdfs:subClassOf :Key .
-
-:k a owl:DatatypeProperty, owl:FunctionalProperty ;
-  rdfs:comment "The key data" ;
-  rdfs:domain :SymmetricKey ;
-  rdfs:range xsd:base64Binary .
-
-## Key Usage and Operations
-
-:Usage a owl:Class ;
-  rdfs:subClassOf owl:Class ;
-  rdfs:comment "Describes how a key is used" .
-:Signature a :Usage ;
-:Sign a :Usage ;
-  rdfs:subClassOf :Signature .
-:Verify a :Usage ;
-  rdfs:subClassOf :Signature .
-
 
 ## CipherObject
 
