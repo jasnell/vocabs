@@ -16,9 +16,12 @@ The normalized output would be:
 The challenge, however, is that we need to have a deterministic way of canonicalizing. Will address that problem later. For now, let's assume that magic is involved (or perhaps something like this: http://json-ld.org/spec/latest/rdf-graph-normalization/ ). There is some overlap here with https://web-payments.org/specs/source/secure-messaging/ that would need to be worked out.
 
 ```
-<urn:verification> a :Verification ;
-  :verifies <urn:thing> ;
-  :transform <http://example.org/ld-c14n> ;
+<urn:Signature> a :Signature ;
+  :resource [
+    a :Transform ;
+      :resource <urn:thing> ;
+      :alg <http://example.org/ld-c14n> .
+  ]  ;
   :alg <http://www.w3.org/2001/04/xmldsig-more#rsa-sha256> ;
   :key [ 
     a :RSAKey ;
@@ -33,16 +36,20 @@ The challenge, however, is that we need to have a deterministic way of canonical
   ];
   :sig "{base64 signature}"^^xsd:base64Binary .
 ```
-This ought to be simple enough. `verifies` identifies the thing to be verified. `transform` identifes the transform/c14n algorithm used (if any... in some cases it may not be necessary to transform). `alg` identifies the signature algorithm used. `key` identifies the key used for signing. `sig` contains the actual signature value. 
+This ought to be simple enough. `resource` identifies the thing to be verified. In this case, we're 
+signing a transformed view of `urn:thing`. In the transform, `alg` identifies the canonicalization algorithm being applied. We can have several types of transformations (see below). In the signature object, `alg` identifies the signature algorithm used. `key` identifies the key used for signing. `sig` contains the actual signature value. 
 
 We can nest the thing being verified:
 ```
-<urn:verification2> a :Verification ;
-  :verifies [
-    a owl:Thing ;
-      rdfs:label "Test"
-  ];
-  :transform <http://example.org/ld-c14n> ;
+<urn:Signature2> a :Signature ;
+  :resource [
+    a :Transform ;
+      :resource [
+        a owl:Thing ;
+          rdfs:label "Test" .
+      ] ;
+      :alg <http://example.org/ld-c14n> .
+  ]  ;
   :alg <http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha512> ;
   :key [
     a :ECKey ;
@@ -54,13 +61,16 @@ We can nest the thing being verified:
   :sig "{base64 signature}"^^xsd:base64Binary .
 ```
 
-Or include the verification inline in the thing being verified. In this case, the c14n algorithm would be required to take the nesting into consideration and omit the :verifiedBy triple from the canonicalized input. 
+Or include the verification inline in the thing being verified. In this case, the c14n algorithm would be required to take the nesting into consideration and omit the :signature triple from the canonicalized input. 
 ```
 <urn:thing> a owl:Thing;
   rdfs:label "A Thing";
-  :verifiedBy [
-    a :Verification ;
-      :transform <http://example.org/ld-c14n> ;
+  :signature [
+    a :Signature ;
+      :transform [
+        a :Transform ;
+          :alg <http://example.org/ld-c14n> .
+      ] ;
       :alg <http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha512> ;
       :key [
         a :ECKey ;
@@ -73,11 +83,10 @@ Or include the verification inline in the thing being verified. In this case, th
   ] .
 ```
 
-We can specify the key in a number of ways, and there's no reason we can use the mechanism to verify non-RDF resources...
+We can specify the key in a number of ways, and there's no reason we can't use the mechanism to verify non-RDF resources...
 ```
-<urn:verification3> a :Verification ;
-  :verifies <http://example.com/some-other-kind-of-thing>;
-  :transform <:something-that-means-get-the-raw-bits> ;
+<urn:Signature3> a :Signature ;
+  :resource <http://example.com/some-other-kind-of-thing>;
   :alg <http://www...> ;
   :x509 "{base64-encoded cert}"^^xsd:base64Binary
   :sig "{base64 signature}"^^xsd:base64Binary .
@@ -105,7 +114,198 @@ We can represent Keys too
   :hasKey <urn:myrsakey> .
 ```
 
-Encrypted Content also ...
+It's possible that we'd only want to sign a subset of the properties available for a resource. We'd need a way of selecting which bits to sign, or which bits to exclude.
+
+To cherry pick which properties to sign, we'd use an InclusionTransform.
+
+```
+<urn:Signature> a :Signature ;
+  :resource [
+    a :InclusionTransform ;
+      :resource <urn:thing> ;
+      :alg <http://example.org/ld-c14n> :
+      :select (
+        <http://www.w3.org/2000/01/rdf-schema#label>
+      ).
+  ]  ;
+  :alg <http://www.w3.org/2001/04/xmldsig-more#rsa-sha256> ;
+  :key [ 
+    a :RSAKey ;
+      :n "{base64 data}"^^xsd:base64Binary ;
+      :e "{base64 data}"^^xsd:base64Binary ;
+      :d "{base64 data}"^^xsd:base64Binary ;
+      :p "{base64 data}"^^xsd:base64Binary ;
+      :q "{base64 data}"^^xsd:base64Binary ;
+      :dp "{base64 data}"^^xsd:base64Binary ;
+      :dq "{base64 data}"^^xsd:base64Binary ;
+      :qi "{base64 data}"^^xsd:base64Binary .
+  ];
+  :sig "{base64 signature}"^^xsd:base64Binary .
+```
+
+The InclusionTransform is the best way to ensure that a signature does not become invalidated by the introduction of new triples but it's not foolproof. For instance, if a new triple adds a new value for an existing property already covered by the signature, the InclusionTransform will not filter out the new value, causing the signature to become invalidated.
+
+To pick which properties to exclude, we'd use an ExclusionTransform.
+
+```
+<urn:Signature> a :Signature ;
+  :resource [
+    a :ExclusionTransform ;
+      :resource <urn:thing> ;
+      :alg <http://example.org/ld-c14n> :
+      :select (
+        <http://www.w3.org/2000/01/rdf-schema#label>
+      ).
+  ]  ;
+  :alg <http://www.w3.org/2001/04/xmldsig-more#rsa-sha256> ;
+  :key [ 
+    a :RSAKey ;
+      :n "{base64 data}"^^xsd:base64Binary ;
+      :e "{base64 data}"^^xsd:base64Binary ;
+      :d "{base64 data}"^^xsd:base64Binary ;
+      :p "{base64 data}"^^xsd:base64Binary ;
+      :q "{base64 data}"^^xsd:base64Binary ;
+      :dp "{base64 data}"^^xsd:base64Binary ;
+      :dq "{base64 data}"^^xsd:base64Binary ;
+      :qi "{base64 data}"^^xsd:base64Binary .
+  ];
+  :sig "{base64 signature}"^^xsd:base64Binary .
+```
+
+Suppose we have a more complex type of object, with nested objects, etc and we want to make sure we only sign a particular subset. We can use a Selection.
+
+```
+<urn:Signature> a :Signature ;
+  :resource [
+    a :ExclusionTransform ;
+      :resource <urn:thing> ;
+      :alg <http://example.org/ld-c14n> :
+      :select (
+        <http://www.w3.org/2000/01/rdf-schema#label>
+        [
+          a :Selection ;
+            :property <http://example.org/foo> ;
+            :select <http://www.w3.org/2000/01/rdf-schema#label>
+        ]
+      ).
+  ]  ;
+  :alg <http://www.w3.org/2001/04/xmldsig-more#rsa-sha256> ;
+  :key [ 
+    a :RSAKey ;
+      :n "{base64 data}"^^xsd:base64Binary ;
+      :e "{base64 data}"^^xsd:base64Binary ;
+      :d "{base64 data}"^^xsd:base64Binary ;
+      :p "{base64 data}"^^xsd:base64Binary ;
+      :q "{base64 data}"^^xsd:base64Binary ;
+      :dp "{base64 data}"^^xsd:base64Binary ;
+      :dq "{base64 data}"^^xsd:base64Binary ;
+      :qi "{base64 data}"^^xsd:base64Binary .
+  ];
+  :sig "{base64 signature}"^^xsd:base64Binary .
+```
+
+The above basically states, Transform the resource `urn:thing` by first excluding the objects `http://www.w3.org/2000/01/rdf-schema#label` property, then selecting all values of the `http://example.org/foo` object property and excluding the selected objects `http://www.w3.org/2000/01/rdf-schema#label` property. By omitting the `:property` on the selection, you can select all object properties on the selection. We 
+can then recursively exclude all rdf:labels from our signature by using circular references:
+
+```
+_:c14n0 a :Selection ;
+  :select (
+    <http://www.w3.org/2000/01/rdf-schema#label>,
+    _:c14n0
+  ) .
+
+<urn:Signature> a :Signature ;
+  :resource [
+    a :ExclusionTransform ;
+      :resource <urn:thing> ;
+      :alg <http://example.org/ld-c14n> :
+      :select _:c14n0 .
+  ]  ;
+  :alg <http://www.w3.org/2001/04/xmldsig-more#rsa-sha256> ;
+  :key [ 
+    a :RSAKey ;
+      :n "{base64 data}"^^xsd:base64Binary ;
+      :e "{base64 data}"^^xsd:base64Binary ;
+      :d "{base64 data}"^^xsd:base64Binary ;
+      :p "{base64 data}"^^xsd:base64Binary ;
+      :q "{base64 data}"^^xsd:base64Binary ;
+      :dp "{base64 data}"^^xsd:base64Binary ;
+      :dq "{base64 data}"^^xsd:base64Binary ;
+      :qi "{base64 data}"^^xsd:base64Binary .
+  ];
+  :sig "{base64 signature}"^^xsd:base64Binary .
+```
+
+Suppose we have multiple separate objects that we want sign all at once. We can accomplish that using the `MergeTransform`
+
+```
+<urn:Signature> a :Signature ;
+  :resource [
+    a :MergeTransform ;
+      :resource <urn:thing> ;
+      :alg <http://example.org/ld-c14n> :
+      :select (
+        <urn:thing2>
+        <urn:thing3>
+      ).
+  ]  ;
+  :alg <http://www.w3.org/2001/04/xmldsig-more#rsa-sha256> ;
+  :key [ 
+    a :RSAKey ;
+      :n "{base64 data}"^^xsd:base64Binary ;
+      :e "{base64 data}"^^xsd:base64Binary ;
+      :d "{base64 data}"^^xsd:base64Binary ;
+      :p "{base64 data}"^^xsd:base64Binary ;
+      :q "{base64 data}"^^xsd:base64Binary ;
+      :dp "{base64 data}"^^xsd:base64Binary ;
+      :dq "{base64 data}"^^xsd:base64Binary ;
+      :qi "{base64 data}"^^xsd:base64Binary .
+  ];
+  :sig "{base64 signature}"^^xsd:base64Binary .
+```
+
+This will merge the triples from `urn:thing2` and `urn:thing3` in with the triples of `urn:thing` so that they are all signed together.
+
+Suppose you have an object such as:
+
+```
+<urn:thing> a owl:Thing ;
+  <http://example.org/property> [
+    a owl:Thing ;
+      rdf:label "A random object"
+  ] .
+```
+
+And you want to generate the signature on the blank node object value of `http://example.org/property` rather than on the `urn:thing` itself. You can use a :Selection to do so:
+
+```
+<urn:Signature> a :Signature ;
+  :resource [
+    a :Selection ;
+      :resource <urn:thing> ;
+      :alg <http://example.org/ld-c14n> :
+      :property <http://example.org/property> .
+  ]  ;
+  :alg <http://www.w3.org/2001/04/xmldsig-more#rsa-sha256> ;
+  :key [ 
+    a :RSAKey ;
+      :n "{base64 data}"^^xsd:base64Binary ;
+      :e "{base64 data}"^^xsd:base64Binary ;
+      :d "{base64 data}"^^xsd:base64Binary ;
+      :p "{base64 data}"^^xsd:base64Binary ;
+      :q "{base64 data}"^^xsd:base64Binary ;
+      :dp "{base64 data}"^^xsd:base64Binary ;
+      :dq "{base64 data}"^^xsd:base64Binary ;
+      :qi "{base64 data}"^^xsd:base64Binary .
+  ];
+  :sig "{base64 signature}"^^xsd:base64Binary .
+```
+
+Note, however, that if `url:thing` happened to have multiple values for `http://example.org/property`, all of the values would be included in the selection and the signature would be generated based on complete graph. 
+
+--------
+
+We can handle Encrypted Content also ...
 
 ```
 <urn:myencrypteddata> a :CipherObject ;

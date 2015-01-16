@@ -14,43 +14,41 @@
   rdfs:comment "A JSON Web Signature in Compact Form";
   owl:onDataype xsd:base64Binary .
 
-:Verification a owl:Class ;
-  rdfs:comment "Provides cryptographic verification for a subject" .
+:Signature a owl:Class ;
+  rdfs:comment "Provides cryptographic Signature for a subject" .
 
-:verifies a owl:ObjectProperty, owl:FunctionalProperty ;
-  rdfs:comment "The Subject verified by a Verification" ;
+:resource a owl:ObjectProperty, owl:FunctionalProperty ;
+  rdfs:comment "The Subject on which the Signature is generated." ;
   rdfs:range owl:Thing ;
-  rdfs:domain :Verification;
-  owl:inverseOf :verifiedBy .
+  rdfs:domain [
+    a owl:Class ;
+      owl:unionOf ( :Signature :Transform :Selection ) .
+  ];
+  owl:inverseOf :signature .
 
-:verifiedBy a owl:ObjectProperty, owl:FunctionalProperty ;
-  rdfs:comment "Specifies a Verification that verifies the Subject" ;
-  rdfs:range :Verification ;
+:signature a owl:ObjectProperty, owl:FunctionalProperty ;
+  rdfs:comment "Specifies a Signature that verifies the Subject" ;
+  rdfs:range :Signature ;
   rdfs:domain owl:Thing;
-  owl:inverseOf :verifies .
-
-:transform a owl:ObjectProperty, owl:FunctionalProperty ;
-  rdfs:comment "Identifies the transformation/c14n algorithm used to prepare the Subject data for verification generation" ;
-  rdfs:range :Algorithm ;
-  rdfs:domain :Verification .
+  owl:inverseOf :resource .
 
 :alg a owl:ObjectProperty, owl:FunctionalProperty ;
-  rdfs:comment "Identifies a cryptographic algorithm used to generate a verification." ;
+  rdfs:comment "Identifies an algorithm." ;
   rdfs:range :Algorithm ;
   rdfs:domain [
     a owl:Class ;
-      owl:unionOf ( :Verification :Key :CipherObject ) .
+      owl:unionOf ( :Signature :Key :CipherObject :Transform ) .
   ] .
 
 :key a owl:ObjectProperty ;
-  rdfs:comment "Identifies one or more keys used to generate the verification." ;
+  rdfs:comment "Identifies one or more keys used to generate the Signature." ;
   rdfs:range [
     a owl:Class ;
     owl:unionOf ( owl:Thing :Key :KeySet :EncryptedKey :CipherObject ) .
   ] ;
   rdfs:domain [
     a owl:Class ;
-      owl:unionOf ( :Verification :CipherObject ) .
+      owl:unionOf ( :Signature :CipherObject ) .
   ] .
 
 :x509 a owl:DatatypeProperty ;
@@ -61,13 +59,44 @@
   ] ;
   rdfs:domain [
     a owl:Class ;
-      owl:unionOf ( :Verification :Key :CipherObject )
+      owl:unionOf ( :Signature :Key :CipherObject )
   ] ;
 
 :sig a owl:DatatypeProperty, owl:FunctionalProperty ;
-  rdfs:comment "Specifies the verification signature" ;
+  rdfs:comment "Specifies the Signature signature" ;
   rdfs:range xsd:base64Binary ;
-  rdfs:domain :Verification .
+  rdfs:domain :Signature .
+
+## Transform and Selection
+
+:Transform a owl:Class ;
+  rdfs:comment "Describes a qualified transformation of a resource" .
+
+:ExclusionTransform a owl:Class ;
+  rdfs:subClassOf :Transform ;
+  rdfs:comment "Modifies a resource by removing one or more selected predicates"@en .
+
+:InclusionTransform a owl:Class ;
+  rdfs:subClassOf :Transform ;
+  rdfs:comment "Modifies a resource by selectively including one or more predicates"@en .
+
+:MergeTransform a owl:Class ;
+  rdfs:subClassOf :Transform ;
+  rdfs:comment "Merges the graphs of multiple selected objects."@en .
+
+:select a owl:ObjectProperty ;
+  rdfs:range owl:Thing ;
+  rdfs:domain [
+    a owl:Class ;
+      owl:unionOf ( :ExclusionTransform :InclusionTransform :Selection )
+  ] .
+
+:Selection a owl:Class .
+
+:property a owl:ObjectProperty ;
+  rdfs:comment "An object property to select"@en ;
+  rdfs:range owl:ObjectProperty ;
+  rdfs:domain :Selection ;
 
 ## Thumbprints
 
@@ -103,7 +132,7 @@
   rdfs:range xsd:string ;
   rdfs:domain [
     a owl:Class ;
-      owl:unionOf ( :Key :Verification :CipherObject ) .
+      owl:unionOf ( :Key :Signature :CipherObject ) .
   ] .
 
 :use a owl:ObjectProperty ;
