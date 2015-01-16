@@ -61,28 +61,6 @@ We can nest the thing being verified:
   :sig "{base64 signature}"^^xsd:base64Binary .
 ```
 
-Or include the verification inline in the thing being verified. In this case, the c14n algorithm would be required to take the nesting into consideration and omit the :signature triple from the canonicalized input. 
-```
-<urn:thing> a owl:Thing;
-  rdfs:label "A Thing";
-  :signature [
-    a :Signature ;
-      :resource [
-        a :Transform ;
-          :alg <http://example.org/ld-c14n> .
-      ] ;
-      :alg <http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha512> ;
-      :key [
-        a :ECKey ;
-          :crv "P-256" ;
-          :x "{base64 data}"^^xsd:base64Binary ;
-          :y "{base64 data}"^^xsd:base64Binary ;
-          :d "{base64 data}"^^xsd:base64Binary ;
-      ] ;
-      :sig "{base64 signature}"^^xsd:base64Binary .
-  ] .
-```
-
 We can specify the key in a number of ways, and there's no reason we can't use the mechanism to verify non-RDF resources...
 ```
 <urn:Signature3> a :Signature ;
