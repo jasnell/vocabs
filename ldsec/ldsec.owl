@@ -109,7 +109,7 @@
   ## the :key might be an encrypted key, but if it is, it'll have it's own details...
 
 :zip a owl:ObjectProperty, owl:FunctionalProperty ;
-  rdfs:comment "The compression algorithm" ;
+  rdfs:comment "The compression algorithm optionally applied to the data prior to encryption" ;
   rdfs:domain :CipherObject .
 
 :iv a owl:DatatypeProperty, owl:FunctionalProperty ;
