@@ -67,7 +67,7 @@ Or include the verification inline in the thing being verified. In this case, th
   rdfs:label "A Thing";
   :signature [
     a :Signature ;
-      :transform [
+      :resource [
         a :Transform ;
           :alg <http://example.org/ld-c14n> .
       ] ;
