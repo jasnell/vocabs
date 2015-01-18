@@ -1,6 +1,6 @@
 {
   "@context": {
-    "i": "http://www.w3.org/ns/interval#",
+    "i": "http://ns.jasnell.me/interval#",
     "ClosedInterval": "i:ClosedInterval",
     "OpenInterval": "i:OpenInterval",
     "OpenClosedInterval": "i:OpenClosedInterval",

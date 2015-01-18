@@ -1,13 +1,13 @@
-@prefix : <http://www.w3.org/ns/interval#> .
-@prefix r: <http://www.w3.org/ns/interval#> .
+@prefix : <http://ns.jasnell.me/interval#> .
+@prefix r: <http://ns.jasnell.me/interval#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@base <http://www.w3.org/ns/interval#> .
+@base <http://ns.jasnell.me/interval#> .
 
-<http://www.w3.org/ns/interval#> a owl:Ontology;
+<http://ns.jasnell.me/interval#> a owl:Ontology;
   rdfs:comment "A vocabulary for representing intervals"@en .
 
 :lower a owl:DatatypeProperty, owl:FunctionalProperty ;       
@@ -83,54 +83,54 @@
 :UnboundedInterval a :Interval ;
   rdfs:comment "An interval that is unbound at either end (contains all possible values)" .
 
-:PositiveIntegers a :LeftOpenRange ;
+:PositiveIntegers a :LeftOpenInterval ;
   rdfs:comment "Represents all positive integers greater than zero" ;
   :lower "0"^^xsd:nonNegativeInteger ;
   :step "1"^^xsd:nonNegativeInteger .
 
-:NonNegativeIntegers a :LeftClosedRange ;
+:NonNegativeIntegers a :LeftClosedInterval ;
   rdfs:comment "Represents all non-negative integers greater than or equal to zero" ;
   :lower "0"^^xsd:nonNegativeInteger ;
   :step "1"^^xsd:nonNegativeInteger .
 
-:NegativeIntegers a :RightClosedRange ;
+:NegativeIntegers a :RightClosedInterval ;
   rdfs:comment "Represents all negative integers" ;
   :upper "0"^^xsd:nonPositiveInteger ;
   :step "1"^^xsd:nonNegativeInteger .
 
-:PositiveFloats a :LeftOpenRange ;
+:PositiveFloats a :LeftOpenInterval ;
   rdfs:comment "Represents all positive floating point numbers greater than zero" ;
   :lower "0"^^xsd:float.
 
-:NonNegativeFloats a :LeftClosedRange ;
+:NonNegativeFloats a :LeftClosedInterval ;
   rdfs:comment "Represents all positive floating point numbers greater than or equal to zero" ;
   :lower "0"^^xsd:float .
 
-:NegativeFloats a :RightClosedRange ;
+:NegativeFloats a :RightClosedInterval ;
   rdfs:comment "Represents all negative floating point numbers" ;
   :upper "0"^^xsd:float .
 
-:PositiveDoubles a :LeftOpenRange ;
+:PositiveDoubles a :LeftOpenInterval ;
   rdfs:comment "Represents all positive double precision numbers greater than zero" ;
   :lower "0"^^xsd:double.
 
-:NonNegativeDoubles a :LeftClosedRange ;
+:NonNegativeDoubles a :LeftClosedInterval ;
   rdfs:comment "Represents all positive double precision numbers greater than or equal to zero" ;
   :lower "0"^^xsd:double .
 
-:NegativeDoubles a :RightClosedRange ;
+:NegativeDoubles a :RightClosedInterval ;
   rdfs:comment "Represents all negative double precision numbers" ;
   :upper "0"^^xsd:double .
 
-:PositiveDecimals a :LeftOpenRange ;
+:PositiveDecimals a :LeftOpenInterval ;
   rdfs:comment "Represents all positive xsd:decimal numbers greater than zero" ;
   :lower "0"^^xsd:decimal.
 
-:NonNegativeDecimals a :LeftClosedRange ;
+:NonNegativeDecimals a :LeftClosedInterval ;
   rdfs:comment "Represents all positive xsd:decimal numbers greater than or equal to zero" ;
   :lower "0"^^xsd:decimal .
 
-:NegativeDecimals a :RightClosedRange ;
+:NegativeDecimals a :RightClosedInterval ;
   rdfs:comment "Represents all negative xsd:decimal numbers" ;
   :upper "0"^^xsd:decimal .
 
