@@ -1,0 +1,16 @@
+{
+  "@context": {
+    "p": "http://ns.jasnell.me/problem#",
+    "type": "@type",
+    "title": "p:title",
+    "status": {
+      "@id": "p:status",
+      "@type": "xsd:nonNegativeInteger"
+    },
+    "detail": "p:detail",
+    "instance": {
+      "@id": "p:instance",
+      "@type": "@id"
+    }
+  }
+}
