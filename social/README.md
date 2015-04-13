@@ -4,7 +4,7 @@ The Social Vocabulary is an evolution of the work I initially worked on here:
 
 It is recast as a vocabulary rather than a URN. It is primarily motivated by the need for reliable and consistent audience targets when using the Activity Streams 2.0 audience targeting feature. This is purely experimental at this point.
 
-For instance, 
+For instance,
 
 Assuming that "http://www.w3.org/ns/social" points to the JSON-LD context document:
 
@@ -27,6 +27,15 @@ Assuming that "http://www.w3.org/ns/social" points to the JSON-LD context docume
     },
     "s:distance": {
       "@type": "xsd:nonNegativeInteger"
+    },
+    "s:a": {
+      "@type": "@id"
+    },
+    "s:b": {
+      "@type": "@id"
+    },
+    "s:relationship": {
+      "@type": "@id"
     }
   }
 }
@@ -108,7 +117,7 @@ The extended network out to the 9th degree of separation:
 {
   "to": {
     "@type": "s:Everyone",
-    "s:distance": 9 
+    "s:distance": 9
   }
 }
 ```
@@ -165,7 +174,7 @@ Note that these can also be used with the AS2 "scope" property. "scope" differs 
 }
 ```
 
-The key relationship between "scope" and audience targeting is that "scope" defines the population to which the object is visible while to/bto/cc/bcc define specific subsets within that scoped population to direct targeted notifications or special attention. 
+The key relationship between "scope" and audience targeting is that "scope" defines the population to which the object is visible while to/bto/cc/bcc define specific subsets within that scoped population to direct targeted notifications or special attention.
 
 For instance:
 
@@ -228,3 +237,32 @@ Or
 
 "to the subset that is not private and not directly connected to the context"
 
+## Modeling Connections
+
+Connections between Individuals are essentially Reified statements. For instance, to say that "John knows Sally" we can simply use:
+
+```json
+{
+  "@type": "s:Connection",
+  "s:a": "http://john.example.org",
+  "s:relationship": "http://xmlns.com/foaf/0.1/knows",
+  "s:b": "http://sally.example.org"
+}
+```
+
+This allows us to model Activities that occur against the Connection itself
+
+```json
+{
+  "actor": "acct:mary@example.org",
+  "@type": "Like",
+  "object": {
+    "@type": "s:Connection",
+    "s:a": "http://john.example.org",
+    "s:relationship": "http://xmlns.com/foaf/0.1/knows",
+    "s:b": "http://sally.example.org"
+  }
+}
+```
+
+Here, "Mary" indicate that she "likes" the connection itself, as opposed to liking either John or Sally.

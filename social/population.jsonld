@@ -19,6 +19,15 @@
     },
     "s:member": {
       "@type": "@id"
+    },
+    "s:a": {
+      "@type": "@id"
+    },
+    "s:b": {
+      "@type": "@id"
+    },
+    "s:relationship": {
+      "@type": "@id"
     }
   }
 }

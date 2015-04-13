@@ -29,11 +29,11 @@
         {
           value: 'Github',
           href: 'https://github.com/jasnell/vocabs'
-        }, 
+        },
         {
           value: 'Issues',
           href: 'https://github.com/jasnell/vocabs/issues'
-        }, 
+        },
         {
           value: 'Commits',
           href: 'https://github.com/jasnell/vocabs/commits/master'
@@ -52,9 +52,9 @@
     }
     table, td, th { border: 1px solid gray }
     table { width: 100% ;}
-    td { 
+    td {
       vertical-align: top;
-      padding: 5px; 
+      padding: 5px;
     }
 
 .nanotabs > ul li { float:left; list-style:none; }
@@ -68,7 +68,7 @@
 
   <section id="abstract">
     <p>
-      This specification details a model for representing social networking populations.
+      This specification details a model for representing social networking populations and connections.
     </p>
   </section>
 
@@ -124,7 +124,7 @@
 <pre class="example highlight html"
 >&lt;div itemscope
   itemtype="http://ns.jasnell.me/interval#ClosedInterval">
-  &lt;time itemprop="lower" 
+  &lt;time itemprop="lower"
     datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time> -
   &lt;time itemprop="upper"
     datetime="2015-01-03T12:34:56Z">January 3, 2015 @ 12:34:56Z&lt;/time>
@@ -133,7 +133,7 @@
   <div id="ex1-rdfa" style="display: none;">
 <pre class="example highlight html"
 >&lt;div vocab="http://ns.jasnell.me/interval#" typeof="ClosedInterval">
-  &lt;time property="lower" 
+  &lt;time property="lower"
     datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time> -
   &lt;time property="upper"
     datetime="2015-01-03T12:34:56Z">January 3, 2015 @ 12:34:56Z&lt;/time>
@@ -142,7 +142,7 @@
   <div id="ex1-microformats" style="display: none;">
 <pre class="example highlight html"
 >&lt;div class="h-interval-closed">
-  &lt;time class="dt-lower" 
+  &lt;time class="dt-lower"
     datetime="2015-01-02T12:34:56Z">January 2, 2015 @ 12:34:56Z&lt;/time> -
   &lt;time class="dt-upper"
     datetime="2015-01-03T12:34:56Z">January 3, 2015 @ 12:34:56Z&lt;/time>
@@ -173,6 +173,36 @@ _:c14n0 a i:ClosedInterval ;
           <th style="width: 40%">Example</th>
         </tr>
       </thead>
+
+      <tbody>
+        <tr>
+          <td rowspan="4"><dfn>Connection</dfn></td>
+          <td style="width: 10%">URI:</td>
+          <td><code>http://ns.jasnell.me/social#Connection</code></td>
+          <td rowspan="4">
+          </td>
+        </tr>
+        <tr>
+          <td>Microformats Class:</td>
+          <td><code>h-connection</code></td>
+        </tr>
+        <tr>
+          <td>Notes:</td>
+          <td>
+            <p>A <code>Connection</code> describes a relationship between
+            two Individuals. The <code>Connection</code> class is essentially
+            just a form of reified statement.
+          </td>
+        </tr>
+        <tr>
+          <td>Properties:</td>
+          <td>
+            <code><a>a</a></code> |
+            <code><a>relationship</a></code> |
+            <code><a>b</a></code>
+          </td>
+        </tr>
+      </tbody>
 
       <tbody>
         <tr>
@@ -218,7 +248,7 @@ _:c14n0 a i:ClosedInterval ;
         <tr>
           <td>Notes:</td>
           <td>
-            A <code>CompoundPopulation</code> is a population composed of 
+            A <code>CompoundPopulation</code> is a population composed of
             multiple sub-Populations. The <code>CompoundPopulation</code>
             class is abstract and is not intended to be directly used by
             implementations.
@@ -444,7 +474,7 @@ _:c14n0 a i:ClosedInterval ;
         <tr>
           <td>Notes:</td>
           <td>
-          Represents the subset of a total population that is both visible to the context and is determined to share common attributes with the context. The 
+          Represents the subset of a total population that is both visible to the context and is determined to share common attributes with the context. The
           <code><a>havingDimension</a></code> property identifies one or more dimensions on
           which the commonality is determined. The <code><a>confidence</a></code> property
           specifies a degree of confidence, expressed as an integer value between 0-100.
@@ -459,7 +489,7 @@ _:c14n0 a i:ClosedInterval ;
           <td>
             <p>
               <code><a>confidence</a></code> |
-              <code><a>havingDimension</a></code> 
+              <code><a>havingDimension</a></code>
             </p>
             <p>Inherits all properties of <code><a>Population</a></code>.</p>
           </td>
@@ -491,7 +521,7 @@ _:c14n0 a i:ClosedInterval ;
         <tr>
           <td>Notes:</td>
           <td>
-          Represents the subset of a total population that is both visible to the context 
+          Represents the subset of a total population that is both visible to the context
           and has an express interest in the context.
           </td>
         </tr>
@@ -713,6 +743,102 @@ _:c14n0 a i:ClosedInterval ;
         </tr>
       </thead>
 
+      <tbody>
+         <tr>
+           <td rowspan="6" ><dfn>a</dfn></td>
+           <td style="width: 10%">URI:</td>
+           <td ><code>http://ns.jasnell.me/social#a</code></td>
+         </tr>
+         <tr>
+           <td>Microformats Class:</td>
+           <td><code>p-a</code></td>
+         </tr>
+         <tr>
+           <td>Notes:</td>
+           <td>
+             Within a <code><a>Connection</a></code> statement, specifies the
+             <i>subject</i>. That is, in the statement, "John is friends with
+             Sally", <code>a</code> is "John".
+           </td>
+         </tr>
+         <tr>
+           <td >Domain:</td>
+           <td ><code><a>Connection</a></code></td>
+         </tr>
+         <tr>
+           <td >Range:</td>
+           <td ><code>xsd:any</code></td>
+         </tr>
+         <tr>
+           <td >Functional:</td>
+           <td><code>True</code>
+         </tr>
+       </tbody>
+
+       <tbody>
+          <tr>
+            <td rowspan="6" ><dfn>b</dfn></td>
+            <td style="width: 10%">URI:</td>
+            <td ><code>http://ns.jasnell.me/social#b</code></td>
+          </tr>
+          <tr>
+            <td>Microformats Class:</td>
+            <td><code>p-b</code></td>
+          </tr>
+          <tr>
+            <td>Notes:</td>
+            <td>
+              Within a <code><a>Connection</a></code> statement, specifies the
+              <i>object</i>. That is, in the statement, "John is friends with
+              Sally", <code>b</code> is "Sally".
+            </td>
+          </tr>
+          <tr>
+            <td >Domain:</td>
+            <td ><code><a>Connection</a></code></td>
+          </tr>
+          <tr>
+            <td >Range:</td>
+            <td ><code>xsd:any</code></td>
+          </tr>
+          <tr>
+            <td >Functional:</td>
+            <td><code>True</code>
+          </tr>
+        </tbody>
+
+        <tbody>
+           <tr>
+             <td rowspan="6" ><dfn>relationship</dfn></td>
+             <td style="width: 10%">URI:</td>
+             <td ><code>http://ns.jasnell.me/social#relationship</code></td>
+           </tr>
+           <tr>
+             <td>Microformats Class:</td>
+             <td><code>p-relationship</code></td>
+           </tr>
+           <tr>
+             <td>Notes:</td>
+             <td>
+               Within a <code><a>Connection</a></code> statement, specifies the
+               <i>predicate</i>. That is, in the statement, "John is friends
+               with Sally", <code>relationship</code> is "is friends".
+             </td>
+           </tr>
+           <tr>
+             <td >Domain:</td>
+             <td ><code><a>Connection</a></code></td>
+           </tr>
+           <tr>
+             <td >Range:</td>
+             <td ><code>xsd:any</code></td>
+           </tr>
+           <tr>
+             <td >Functional:</td>
+             <td><code>True</code>
+           </tr>
+         </tbody>
+
      <tbody>
         <tr>
           <td rowspan="6" ><dfn>confidence</dfn></td>
@@ -786,7 +912,7 @@ _:c14n0 a i:ClosedInterval ;
         <tr>
           <td>Notes:</td>
           <td>
-            Specifies a dimension on which an implementation ought to determine 
+            Specifies a dimension on which an implementation ought to determine
             commonality with the context.
           </td>
         </tr>
@@ -883,112 +1009,126 @@ _:c14n0 a i:ClosedInterval ;
 
   <section id="owl" class="informative">
 <pre class="example highlight turtle">
-@prefix : &lt;http://ns.jasnell.me/social#> .
-@prefix s: &lt;http://ns.jasnell.me/social#> .
-@prefix owl: &lt;http://www.w3.org/2002/07/owl#> .
-@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix xml: &lt;http://www.w3.org/XML/1998/namespace> .
-@prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#> .
-@prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#> .
-@base &lt;http://www.w3.org/ns/activitystreams> .
+  @prefix : &lt;http://ns.jasnell.me/social#> .
+  @prefix s: &lt;http://ns.jasnell.me/social#> .
+  @prefix owl: &lt;http://www.w3.org/2002/07/owl#> .
+  @prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+  @prefix xml: &lt;http://www.w3.org/XML/1998/namespace> .
+  @prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#> .
+  @prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#> .
+  @base &lt;http://www.w3.org/ns/activitystreams> .
 
-&lt;http://ns.jasnell.me/social#> a owl:Ontology ;
-  rdfs:comment "Social Artifacts"@en ;
-  rdfs:label "Social Artifacts"@en .
+  &lt;http://ns.jasnell.me/social#> a owl:Ontology ;
+    rdfs:comment "Social Artifacts"@en ;
+    rdfs:label "Social Artifacts"@en .
 
-:Population a owl:Class ;
-  rdfs:label "Population"@en ;
-  rdfs:subClassOf owl:Class .
+  :Connection a owl:Class;
+    rdfs:label "A Connection between a subject and an object."@en ;
+    rdfs:subClassOf rdf:Statement .
 
-:Everyone a :Population ;
-  rdfs:label "Everyone"@en ;
-  rdfs:comment "Represents the subset of a total population that is visible to the context."@en .
+  :relationship a owl:ObjectProperty, owl:FunctionalProperty;
+    rdfs:subPropertyOf rdf:predicate ;
+    rdfs:domain :Connection .
+  :a a owl:ObjectProperty, owl:FunctionalProperty;
+    rdfs:subPropertyOf rdf:subject ;
+    rdfs:domain :Connection .
+  :b a owl:ObjectProperty, owl:FunctionalProperty;
+    rdfs:subPropertyOf rdf:object ;
+    rdfs:domain :Connection .
 
-:Public a :Population ;
-  rdfs:label "Public"@en ;
-  rdfs:comment "Represents the subset of a total population that is both visible to the context and shares a publicly known or visible relationship with the context"@en .
+  :Population a owl:Class ;
+    rdfs:label "Population"@en ;
+    rdfs:subClassOf owl:Class .
 
-:Private a :Population ;
-  rdfs:label "Private"@en ;
-  rdfs:comment "Represents the subset of a total population that is both visible to the context and shares a private or publicly invisible relationship with the context"@en .
+  :Everyone a :Population ;
+    rdfs:label "Everyone"@en ;
+    rdfs:comment "Represents the subset of a total population that is visible to the context."@en .
 
-:Direct a :Population ;
-  rdfs:label "Direct"@en ;
-  rdfs:comment "Represents the subset of a total population that is both visible to the context and directly connected to the context"@en .
+  :Public a :Population ;
+    rdfs:label "Public"@en ;
+    rdfs:comment "Represents the subset of a total population that is both visible to the context and shares a publicly known or visible relationship with the context"@en .
 
-:Common a :Population ;
-  rdfs:label "Common"@en ;
-  rdfs:comment "Represents the subset of a total population that is both visible to the context and is determined to share common attributes with the context"@en .
+  :Private a :Population ;
+    rdfs:label "Private"@en ;
+    rdfs:comment "Represents the subset of a total population that is both visible to the context and shares a private or publicly invisible relationship with the context"@en .
 
-:Interested a :Population ;
-  rdfs:label "Interested"@en ;
-  rdfs:comment "Represnts the subset of a total population that is both visible to the context and has an express interest in the context"@en .
+  :Direct a :Population ;
+    rdfs:label "Direct"@en ;
+    rdfs:comment "Represents the subset of a total population that is both visible to the context and directly connected to the context"@en .
 
-:Self a :Population ;
-  rdfs:label "Self"@en ;
-  rdfs:comment "Represents the context resource itself as a member of the total population"@en .
+  :Common a :Population ;
+    rdfs:label "Common"@en ;
+    rdfs:comment "Represents the subset of a total population that is both visible to the context and is determined to share common attributes with the context"@en .
 
-:All a :CompoundPopulation ;
-  rdfs:label "All"@en;
-  rdfs:comment "Represents the subset represented by the intersection of multiple subsets (that is, members must belong to all specified subsets"@en .
+  :Interested a :Population ;
+    rdfs:label "Interested"@en ;
+    rdfs:comment "Represnts the subset of a total population that is both visible to the context and has an express interest in the context"@en .
 
-:Any a :CompoundPopulation ;
-  rdfs:label "Any"@en;
-  rdfs:comment "Represents the subset represented by the union of multiple subsets (that is, members must belong to any of the specified subsets"@en .
+  :Self a :Population ;
+    rdfs:label "Self"@en ;
+    rdfs:comment "Represents the context resource itself as a member of the total population"@en .
 
-:None a :CompoundPopulation ;
-  rdfs:label "None"@en;
-  rdfs:comment "Represents the subset represented by the complement of multiple subsets (that is, members must not belong to any of the specified subsets"@en .
+  :All a :CompoundPopulation ;
+    rdfs:label "All"@en;
+    rdfs:comment "Represents the subset represented by the intersection of multiple subsets (that is, members must belong to all specified subsets"@en .
 
-:CompoundPopulation a owl:Class ;
-  rdfs:label "CompoundPopulation"@en ;
-  rdfs:comment "A population composed of multiple sub-populations."@en ;
-  rdfs:subClassOf rdf:Bag, :Population .
+  :Any a :CompoundPopulation ;
+    rdfs:label "Any"@en;
+    rdfs:comment "Represents the subset represented by the union of multiple subsets (that is, members must belong to any of the specified subsets"@en .
 
-:member a owl:ObjectProperty, rdfs:ContainerMembershipProperty ;
-  rdfs:label "member"@en;
-  rdfs:subPropertyOf rdfs:member ;
-  rdfs:domain :CompoundPopulation ;
-  rdfs:range :Population ;
+  :None a :CompoundPopulation ;
+    rdfs:label "None"@en;
+    rdfs:comment "Represents the subset represented by the complement of multiple subsets (that is, members must not belong to any of the specified subsets"@en .
 
-:havingDimension a owl:ObjectProperty ;
-  rdfs:label "havingDimension"@en ;
-  rdfs:comment "Specifies a dimension used to evaluate common attributes"@en;
-  rdfs:domain :Common ;
-  rdfs:range owl:Thing .
+  :CompoundPopulation a owl:Class ;
+    rdfs:label "CompoundPopulation"@en ;
+    rdfs:comment "A population composed of multiple sub-populations."@en ;
+    rdfs:subClassOf rdf:Bag, :Population .
 
-:havingRole a owl:ObjectProperty ;
-  rdfs:label "havingRole"@en ;
-  rdfs:comment "Specifies a role"@en ;
-  rdfs:domain :Everyone ;
-  rdfs:range owl:Thing .
+  :member a owl:ObjectProperty, rdfs:ContainerMembershipProperty ;
+    rdfs:label "member"@en;
+    rdfs:subPropertyOf rdfs:member ;
+    rdfs:domain :CompoundPopulation ;
+    rdfs:range :Population ;
 
-:havingRelationship a owl:ObjectProperty ;
-  rdfs:label "havingRelationship"@en ;
-  rdfs:comment "Specifies a type of relationship"@en ;
-  rdfs:domain :Everyone ;
-  rdfs:range owl:Thing .
+  :havingDimension a owl:ObjectProperty ;
+    rdfs:label "havingDimension"@en ;
+    rdfs:comment "Specifies a dimension used to evaluate common attributes"@en;
+    rdfs:domain :Common ;
+    rdfs:range owl:Thing .
 
-:distance a owl:DatatypeProperty ;
-  rdfs:label "distance"@en ;
-  rdfs:comment "Specifies a relative 'degree of separation' from the context"@en ;
-  rdfs:domain :Population ;
-  rdfs:range xsd:nonNegativeInteger .
+  :havingRole a owl:ObjectProperty ;
+    rdfs:label "havingRole"@en ;
+    rdfs:comment "Specifies a role"@en ;
+    rdfs:domain :Everyone ;
+    rdfs:range owl:Thing .
 
-:confidence a owl:DatatypeProperty ;
-  rdfs:label "confidence"@en ;
-  rdfs:comment "Specifies a relative confidence level"@en ;
-  rdfs:domain [
-    a owl:Class;
-      owl:unionOf ( :Common :Interested ) 
-  ];
-  rdfs:range [ 
-    a rdfs:Datatype ;
-    owl:onDatatype xsd:nonNegativeInteger ;
-    owl:withRestrictions ( 
-      [ xsd:maxInclusive "100"^^xsd:nonNegativeInteger ]
-    )
-  ] .
+  :havingRelationship a owl:ObjectProperty ;
+    rdfs:label "havingRelationship"@en ;
+    rdfs:comment "Specifies a type of relationship"@en ;
+    rdfs:domain :Everyone ;
+    rdfs:range owl:Thing .
+
+  :distance a owl:DatatypeProperty ;
+    rdfs:label "distance"@en ;
+    rdfs:comment "Specifies a relative 'degree of separation' from the context"@en ;
+    rdfs:domain :Population ;
+    rdfs:range xsd:nonNegativeInteger .
+
+  :confidence a owl:DatatypeProperty ;
+    rdfs:label "confidence"@en ;
+    rdfs:comment "Specifies a relative confidence level"@en ;
+    rdfs:domain [
+      a owl:Class;
+        owl:unionOf ( :Common :Interested )
+    ];
+    rdfs:range [
+      a rdfs:Datatype ;
+      owl:onDatatype xsd:nonNegativeInteger ;
+      owl:withRestrictions (
+        [ xsd:maxInclusive "100"^^xsd:nonNegativeInteger ]
+      )
+    ] .
 </pre>
   </section>
 

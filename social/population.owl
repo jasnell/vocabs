@@ -11,6 +11,20 @@
   rdfs:comment "Social Artifacts"@en ;
   rdfs:label "Social Artifacts"@en .
 
+:Connection a owl:Class;
+  rdfs:label "A Connection between a subject and an object."@en ;
+  rdfs:subClassOf rdf:Statement .
+
+:relationship a owl:ObjectProperty, owl:FunctionalProperty;
+  rdfs:subPropertyOf rdf:predicate ;
+  rdfs:domain :Connection .
+:a a owl:ObjectProperty, owl:FunctionalProperty;
+  rdfs:subPropertyOf rdf:subject ;
+  rdfs:domain :Connection .
+:b a owl:ObjectProperty, owl:FunctionalProperty;
+  rdfs:subPropertyOf rdf:object ;
+  rdfs:domain :Connection .
+
 :Population a owl:Class ;
   rdfs:label "Population"@en ;
   rdfs:subClassOf owl:Class .
@@ -95,12 +109,12 @@
   rdfs:comment "Specifies a relative confidence level"@en ;
   rdfs:domain [
     a owl:Class;
-      owl:unionOf ( :Common :Interested ) 
+      owl:unionOf ( :Common :Interested )
   ];
-  rdfs:range [ 
+  rdfs:range [
     a rdfs:Datatype ;
     owl:onDatatype xsd:nonNegativeInteger ;
-    owl:withRestrictions ( 
+    owl:withRestrictions (
       [ xsd:maxInclusive "100"^^xsd:nonNegativeInteger ]
     )
   ] .
