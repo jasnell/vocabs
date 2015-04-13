@@ -10,7 +10,7 @@
 <http://ns.jasnell.me/interval#> a owl:Ontology;
   rdfs:comment "A vocabulary for representing intervals"@en .
 
-:lower a owl:DatatypeProperty, owl:FunctionalProperty ;       
+:lower a owl:DatatypeProperty, owl:FunctionalProperty ;
   rdfs:comment "The lower bound of an interval"@en;
   rdfs:domain :Interval .
 
@@ -43,7 +43,7 @@
 
 :LeftOpenInterval a owl:Class ;
   rdfs:comment "An interval open on the lower bound, with no upper bound"@en ;
-  rdfs:subClassOf :Interval, 
+  rdfs:subClassOf :Interval,
     [
       a owl:Restriction ;
         owl:onProperty :upper ;
@@ -52,7 +52,7 @@
 
 :LeftClosedInterval a owl:Class ;
   rdfs:comment "An interval closed on the lower bound, with no upper bound"@en ;
-  rdfs:subClassOf :Interval, 
+  rdfs:subClassOf :Interval,
     [
       a owl:Restriction ;
         owl:onProperty :upper ;
@@ -61,7 +61,7 @@
 
 :RightOpenInterval a owl:Class ;
   rdfs:comment "An interval open on the upper bound, with no lower bound"@en ;
-  rdfs:subClassOf :Interval, 
+  rdfs:subClassOf :Interval,
     [
       a owl:Restriction ;
         owl:onProperty :lower ;
@@ -70,7 +70,7 @@
 
 :RightClosedInterval a owl:Class ;
   rdfs:comment "An interval closed on the upper bound, with no lower bound"@en ;
-  rdfs:subClassOf :Interval, 
+  rdfs:subClassOf :Interval,
     [
       a owl:Restriction ;
         owl:onProperty :lower ;
@@ -78,10 +78,12 @@
     ] .
 
 :EmptyInterval a :Interval ;
-  rdfs:comment "The empty interval" .
+  rdfs:comment "The empty interval (contains no values)" .
 
 :UnboundedInterval a :Interval ;
   rdfs:comment "An interval that is unbound at either end (contains all possible values)" .
+
+## Example Instances
 
 :PositiveIntegers a :LeftOpenInterval ;
   rdfs:comment "Represents all positive integers greater than zero" ;
@@ -133,4 +135,3 @@
 :NegativeDecimals a :RightClosedInterval ;
   rdfs:comment "Represents all negative xsd:decimal numbers" ;
   :upper "0"^^xsd:decimal .
-
