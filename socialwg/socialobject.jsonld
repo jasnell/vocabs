@@ -1,0 +1,14 @@
+{
+  "@context": [
+    {
+      "so": "http://ns.jasnell.me/socialobjects#",
+      "Blog": "so:Blog",
+      "Folder": "so:Folder",
+      "Album": "so:Album",
+      "Story": "so:Story",
+      "Wiki": "so:Wiki",
+      "Forum": "so:Forum"
+    },
+    "http://www.w3.org/ns/activitystreams#"
+  ]
+}

@@ -1,0 +1,35 @@
+@prefix : <http://ns.jasnell.me/socialobjects#> .
+@prefix s: <http://ns.jasnell.me/socialobjects#> .
+@prefix as: <http://www.w3.org/ns/activitystreams#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://www.w3.org/ns/activitystreams#> .
+
+<http://ns.jasnell.me/socialobjects#> a owl:Ontology ;
+  rdfs:comment "Social Objects"@en ;
+  rdfs:label "Social Objects"@en .
+
+:Folder a owl:Class ;
+  rdfs:label "A Folder"@en ;
+  rdfs:subClassOf as:Collection .
+
+:Album a owl:Class ;
+  rdfs:label "An Album"@en ;
+  rdfs:subClassOf as:Collection .
+
+:Wiki a owl:Class ;
+  rdfs:label "A Wiki"@en ;
+  rdfs:subClassOf as:Collection .
+
+:Blog a owl:Class ;
+  rdfs:label "A Weblog"@en ;
+  rdfs:subClassOf as:OrderedCollection .
+
+:Story a owl:Class ;
+  rdfs:label "A Folder"@en ;
+  rdfs:subClassOf as:OrderedCollection .
+
+:Forum a owl:Class ;
+  rdfs:label "A Discussion Forum"@en ;
+  rdfs:subClassOf as:OrderedCollection .
